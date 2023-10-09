@@ -32,7 +32,7 @@ front of it which means that it is showed up as a parent directory. This file is
 quite small as of now so don't make too many files and directories in the 
 buildimage.sh file. 
  
-To build:
+**To build**:
 
 You can build this OS only in a Linux environment.
 Go to the build folder where the build_kernel.sh file resides, open it, and
