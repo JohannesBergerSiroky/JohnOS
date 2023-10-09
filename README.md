@@ -1,7 +1,5 @@
 Welcome to JohannOS.
 
-
-
 This single task kernel will run an Enhanced Host Controller which often handles USB 2.0.
 It will also go through a FAT16 file system to look for files and folders. You can change the
 names and the contents of the files in the buildimage.sh file. Sometimes the USB stack
@@ -22,9 +20,17 @@ it won't work much. The EHCI driver is the only USB driver that worked on real h
 I think that the computer which was used was from 2006-2008, and I guess it was a 
 Lenovo or a HP computer.
 Moreover, my testing of the kernel heap is almost finished and there is a multitasking
-stub which might work in it's own ways. However those two files will be changed later.
+stub which might work but not as a fully functional multitasking part of the kernel.
+However those two files will be changed later.
 The ehci linked list file is finished and can be tested after the function kmem_allocate
 has been fully tested. 
+
+This kernel has an array which is a substitute of a tree where all the files and
+directories are listed. A directory in there can show up two times. One time it is
+showed up as a child of a parent directory, and the other time it has a % mark in
+front of it which means that it is showed up as a parent directory. This file is
+quite small as of now so don't make too many files and directories in the 
+buildimage.sh file. 
  
 To build:
 
@@ -76,8 +82,10 @@ and type 'ls', and figure out what the value of the x in msdosx should be for th
 Type 'c', in the grub-menu to enter the grub command shell.
 
 You could also type, in the command shell:
-set root=(hd0,msdosx) or set root=(hd0, 1)
+ls
+
+After this you will see some indications of what the forthcoming x and y values might be.
+Go ahead and type:
+set root=(hdx,msdosy) or set root=(hdx, y)
 multiboot /boot/kernel.bin
 boot
-Note: It is likely that x = 1. So hd0,msdos1.
-
