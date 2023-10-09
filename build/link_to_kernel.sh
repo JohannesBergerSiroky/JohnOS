@@ -1,0 +1,2 @@
+ld -m elf_i386 -T link.ld -o boot/kernel.bin start_assorted.o kernel.o system.o screen.o string.o device.o kb.o util.o gdt.o idt.o isr.o irq.o timer.o pci.o mem.o ehci.o usb_hubs.o usb.o usb_mass_storage.o fat16.o usb_uhci.o usb_ohci.o  using_ethernet.o multitasking.o using_acpi.o check_enable_acpi.o check_shutdown_acpi.o usb_xhci_prints.o usb_xhci.o ahci.o ahci_prints.o kernel_heap_alloc_nopaging.o test_kernel_heap.o ehci_ll.o
+
