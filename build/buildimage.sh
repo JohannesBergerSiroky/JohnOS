@@ -1,11 +1,11 @@
 # Create the actual disk image - 21MB
-sudo dd if=/dev/zero of=/home/johannes/Documents/jkghkj/build/johannos_kernel_usb.img bs=512 count=64260
+sudo dd if=/dev/zero of=/home/johannes/Documents/jkghkj/build/johnos_kernel_usb.img bs=512 count=64260
 
 # Make the partition table, partition and set it bootable.
-sudo parted --script /home/johannes/Documents/jkghkj/build/johannos_kernel_usb.img mklabel msdos mkpart p fat16 1 20 set 1 boot on
+sudo parted --script /home/johannes/Documents/jkghkj/build/johnos_kernel_usb.img mklabel msdos mkpart p fat16 1 20 set 1 boot on
 
 # Map the partitions from the image file
-sudo kpartx -a /home/johannes/Documents/jkghkj/build/johannos_kernel_usb.img
+sudo kpartx -a /home/johannes/Documents/jkghkj/build/johnos_kernel_usb.img
  
 # sleep a sec, wait for kpartx to create the device nodes
 sleep 1
@@ -31,7 +31,7 @@ sudo cp /home/johannes/Documents/jkghkj/build/boot/grub/grub.cfg /mnt/boot/grub
 #   * Include the basic set of modules we need in the Grub image.
 #   * Install grub into the filesystem at our loopback mountpoint.
 #   * Install the MBR to the loopback device itself.
-sudo grub-install --no-floppy --root-directory=/mnt --modules="normal part_msdos fat multiboot usb usbms" /home/johannes/Documents/jkghkj/build/johannos_kernel_usb.img
+sudo grub-install --no-floppy --root-directory=/mnt --modules="normal part_msdos fat multiboot usb usbms" /home/johannes/Documents/jkghkj/build/johnos_kernel_usb.img
 
 #Makes some files. You can change these files to anything less
 #than 512 bytes. Also, only ASCII characters are supported.

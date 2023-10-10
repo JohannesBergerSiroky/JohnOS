@@ -1,4 +1,4 @@
-**Welcome to JohannOS.**
+**Welcome to JohnOS**
 
 This single task kernel will run an Enhanced Host Controller which often handles USB 2.0.
 It will also go through a FAT16 file system to look for files and folders. You can change the
