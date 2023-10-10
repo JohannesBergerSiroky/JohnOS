@@ -71,7 +71,7 @@ After you are finished with qemu and the operating system, please type
 This makes sure that files and loops associated with it are deleted.
 You may want to have the terminal opened and type ./runimageonqemu.sh again to 
 run the OS again, before typing ./cleanimage.sh. 
-clean.sh is used to clean up and quit.
+cleanimage.sh is used to clean up and quit.
 To run the OS again: simply repeat the abovementioned process.
 
 
@@ -97,7 +97,7 @@ build all over again. But if you encounter an error, it is recommended to enter 
 and type 'ls', and figure out what the value of the x in msdosx should be for the OS.
 Type 'c', in the grub-menu to enter the grub command shell.
 
-In the command shell you can also type
+In the command shell you can type
 
 `ls`
 
