@@ -1,14 +1,14 @@
-Welcome to JohannOS.
+**Welcome to JohannOS.**
 
 This single task kernel will run an Enhanced Host Controller which often handles USB 2.0.
 It will also go through a FAT16 file system to look for files and folders. You can change the
 names and the contents of the files in the buildimage.sh file. Sometimes the USB stack
 will crash and display an error message. If this happens a lot then go to the device folder
-and then the usb folder. Look for the usb_mass_storage.c file and look for the set_addr
+and then the usb folder. Look for the usb\_mass\_storage.c file and look for the set_addr
 function. Here you can change the parameter of the kernel_delay function. You can set
 the parameter to 10, for example. The same goes for the set_config function. You can also
 change the parameters in the 3 instances of the kernel_delay function in the 
-ehci_transfer_bulkstorage_data function. Here you can change the values to higher values.
+ehci\_transfer\_bulkstorage_data function. Here you can change the values to higher values.
 You can double the values, for example. In the confim_data function you can look for the 
 timer_ticks function and also set the parameter to a higher value.
 
@@ -32,13 +32,16 @@ front of it which means that it is showed up as a parent directory. This file is
 quite small as of now so don't make too many files and directories in the 
 buildimage.sh file. 
  
-**To build**:
+**To build**
 
 You can build this OS only in a Linux environment.
 Go to the build folder where the build_kernel.sh file resides, open it, and
 make the folders fit your computer setup.
-Have the terminal running in that folder and type ./build_kernel.sh.
-After this, run link_to_kernel.sh to activate the linker.
+Have the terminal running in that folder and type 
+`sudo ./build_kernel.sh.`
+After this, type 
+`sudo link_to_kernel.sh` 
+This activates the linker.
 
 
 To build and to emulate a USB flash memory with the OS on it in qemu, 
@@ -47,15 +50,16 @@ do this:
 Go to the folder where buildimage.sh resides
 Open it and change the folders so that they fit your computer setup.
 Also open cleanimage.sh and runimageonqemu.sh so that they fit your setup.
-Type sudo -s or log in as superuser somehow
-Type ./buildimage.sh in the terminal and wait a few seconds
-Type ./runimageonqemu.sh
+Type 
+`sudo ./buildimage.sh`
+`sudo ./runimageonqemu.sh`
 Note: you may want to change some parameters in the runimageonqemu.sh file,
 such as the -m option which defines how many megabytes of memory
 the qemu should emulate.
 
 After you are finished with qemu and the operating system, please type
-./cleanimage.sh to make sure to delete all files and loops associated with it.
+`sudo ./cleanimage.sh` 
+This makes sure that files and loops associated with it are deleted.
 You may want to have the terminal opened and type ./runimageonqemu.sh again to 
 run the OS again, before typing ./cleanimage.sh. 
 clean.sh is used to clean up and quit.
@@ -70,8 +74,9 @@ sdc on your system.
 Log in as superuser.
 Insert a USB flash drive.
 Delete the partition(s) and the partition table. Formatting is not needed.
-Type ./buildimageonrealusb.sh and wait.
-The USB flash drive should be ready to use by now.
+Type 
+`sudo ./buildimageonrealusb.sh` 
+The USB flash drive should be ready to use in a few seconds.
 Note: the file system is FAT16 and this should not be changed. So far the OS only suppors FAT16.
 
 If booting does not work you could change some parameters in the grub.cfg-file at /boot/grub
@@ -81,11 +86,12 @@ build all over again. But if you encounter an error, it is recommended to enter 
 and type 'ls', and figure out what the value of the x in msdosx should be for the OS.
 Type 'c', in the grub-menu to enter the grub command shell.
 
-You could also type, in the command shell:
-ls
+In the command shell you can also type
+`ls`
 
 After this you will see some indications of what the forthcoming x and y values might be.
-Go ahead and type:
+Go ahead and type
 set root=(hdx,msdosy) or set root=(hdx, y)
-multiboot /boot/kernel.bin
-boot
+`multiboot /boot/kernel.bin`
+`boot`
+
