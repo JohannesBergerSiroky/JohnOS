@@ -38,9 +38,13 @@ You can build this OS only in a Linux environment.
 Go to the build folder where the build_kernel.sh file resides, open it, and
 make the folders fit your computer setup.
 Have the terminal running in that folder and type 
+
 `sudo ./build_kernel.sh.`
+
 After this, type 
+
 `sudo link_to_kernel.sh` 
+
 This activates the linker.
 
 
@@ -51,14 +55,19 @@ Go to the folder where buildimage.sh resides
 Open it and change the folders so that they fit your computer setup.
 Also open cleanimage.sh and runimageonqemu.sh so that they fit your setup.
 Type 
+
 `sudo ./buildimage.sh`
+
 `sudo ./runimageonqemu.sh`
+
 Note: you may want to change some parameters in the runimageonqemu.sh file,
 such as the -m option which defines how many megabytes of memory
 the qemu should emulate.
 
 After you are finished with qemu and the operating system, please type
+
 `sudo ./cleanimage.sh` 
+
 This makes sure that files and loops associated with it are deleted.
 You may want to have the terminal opened and type ./runimageonqemu.sh again to 
 run the OS again, before typing ./cleanimage.sh. 
@@ -75,7 +84,9 @@ Log in as superuser.
 Insert a USB flash drive.
 Delete the partition(s) and the partition table. Formatting is not needed.
 Type 
+
 `sudo ./buildimageonrealusb.sh` 
+
 The USB flash drive should be ready to use in a few seconds.
 Note: the file system is FAT16 and this should not be changed. So far the OS only suppors FAT16.
 
@@ -87,11 +98,21 @@ and type 'ls', and figure out what the value of the x in msdosx should be for th
 Type 'c', in the grub-menu to enter the grub command shell.
 
 In the command shell you can also type
+
 `ls`
 
 After this you will see some indications of what the forthcoming x and y values might be.
-Go ahead and type
-set root=(hdx,msdosy) or set root=(hdx, y)
+By that I mean hdx and msdosy, or hdx, y.
+Go ahead and type for example
+
+`set root=(hd0,msdos1)` 
+
+or 
+
+`set root=(hd0, 1)`
+
 `multiboot /boot/kernel.bin`
+
 `boot`
 
+Thank you for reading this file.
