@@ -603,20 +603,31 @@ volatile uint8_t* prepare_usb_storage_bulk_transfer(uint8_t transfer_type, uint8
                         usd->extra_data[3] = 0x00;
 
                 }
+                else {
+                        print("\nUSB Mass Storage: unexpected value of transfer_type. Halting.");
+                        stop_ehci();
+                        asm("hlt");
+                }
 
         }
-        if(hci_in_use == HCI_XHCI) {
-
-                print("no relevant code for xhci yet, halting..");
-                stop_xhci();
+        else {
+                print("\nUSB Mass Storage: unexpected value of usd_extra_data[0]. Halting.");
+                stop_ehci();
                 asm("hlt");
-        }
-        else if(hci_in_use == HCI_EHCI) {
+            }
+
+        if(hci_in_use == HCI_EHCI) {
 
                 d_area = ehci_transfer_bulkstorage_data(usd);
                 free_mem_uint((uint32_t)usd);
                 return d_area;
         }
+        else {
+
+                print("\nUSB Mass Storage:\nno relevant code for other host controllers than an EHC yet, halting.");
+                asm("hlt");
+        }
+        
                 
         d_area = (volatile uint8_t*)0;
         free_mem_uint((uint32_t)usd);
