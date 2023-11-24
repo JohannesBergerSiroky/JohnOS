@@ -18,24 +18,24 @@ MBOOT_CHECKSUM      equ -(MBOOT_HEADER_MAGIC + MBOOT_HEADER_FLAGS)
 [EXTERN end]
 
 mboot:
-	    dd  MBOOT_HEADER_MAGIC
-	    dd  MBOOT_HEADER_FLAGS
-	    dd  MBOOT_CHECKSUM
-	    dd  mboot
-	    dd  code
-	    dd  bss
-	    dd  end
-	    dd  start
+        dd  MBOOT_HEADER_MAGIC
+        dd  MBOOT_HEADER_FLAGS
+        dd  MBOOT_CHECKSUM
+        dd  mboot
+        dd  code
+        dd  bss
+        dd  end
+        dd  start
 
 [GLOBAL start]
 [EXTERN main]
 
 ;Calls the main function
 start:
-	    push    ebx
-	    cli
-	    call main
-	    jmp $
+        push    ebx
+        cli
+        call main
+        jmp $
 
 global intflag
 global gps_flag; getportstatusflag
@@ -229,28 +229,28 @@ extern fault_handler
 ; up for kernel mode segments, calls the C-level fault handler,
 ; and finally restores the stack frame.
 isr_common_stub:
-    pusha
-    push ds
-    push es
-    push fs
-    push gs
-    mov ax, 0x10   ; Load the Kernel Data Segment descriptor!
-    mov ds, ax
-    mov es, ax
-    mov fs, ax
-    mov gs, ax
-    mov eax, esp   ; Push us the stack
-    push eax
-    mov eax, fault_handler
-    call eax       ; A special call, preserves the 'eip' register
-    pop eax
-    pop gs
-    pop fs
-    pop es
-    pop ds
-    popa
-    add esp, 8     ; Cleans up the pushed error code and pushed ISR number
-    iret           ; pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP!
+        pusha
+        push ds
+        push es
+        push fs
+        push gs
+        mov ax, 0x10   ; Load the Kernel Data Segment descriptor!
+        mov ds, ax
+        mov es, ax
+        mov fs, ax
+        mov gs, ax
+        mov eax, esp   ; Push us the stack
+        push eax
+        mov eax, fault_handler
+        call eax       ; A special call, preserves the 'eip' register
+        pop eax
+        pop gs
+        pop fs
+        pop es
+        pop ds
+        popa
+        add esp, 8     ; Cleans up the pushed error code and pushed ISR number
+        iret           ; pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP!
 
 ;Adding IRQs below.
 
@@ -273,46 +273,46 @@ global irq15
 
 ; 32: IRQ0
 irq0:
-    cli
-    push byte 0    ; Note that these don't push an error code on the stack:
-                   ; We need to push a dummy error code
-    push byte 32
-    jmp irq_common_stub
+        cli
+        push byte 0    ; Note that these don't push an error code on the stack:
+                       ; We need to push a dummy error code
+        push byte 32
+        jmp irq_common_stub
 
 ; 33: IRQ1
 irq1:
-    cli
-    push byte 0    
-    push byte 33
-    jmp irq_common_stub
+        cli
+        push byte 0    
+        push byte 33
+        jmp irq_common_stub
 
 ; 34: IRQ2
 irq2:
-    cli
-    push byte 0    
-    push byte 34
-    jmp irq_common_stub
+        cli
+        push byte 0    
+        push byte 34
+        jmp irq_common_stub
 
 ; 35: IRQ3
 irq3:
-    cli
-    push byte 0    
-    push byte 35
-    jmp irq_common_stub
+        cli
+        push byte 0    
+        push byte 35
+        jmp irq_common_stub
 
 ; 36: IRQ4
 irq4:
-    cli
-    push byte 0    
-    push byte 36
-    jmp irq_common_stub
+        cli
+        push byte 0    
+        push byte 36
+        jmp irq_common_stub
 
 ; 37: IRQ5
 irq5:
-    cli
-    push byte 0    
-    push byte 37
-    jmp irq_common_stub
+        cli
+        push byte 0    
+        push byte 37
+        jmp irq_common_stub
 
 ; 38: IRQ1
 irq6:
@@ -323,94 +323,94 @@ irq6:
 
 ; 39: IRQ2
 irq7:
-    cli
-    push byte 0    
-    push byte 39
-    jmp irq_common_stub
+        cli
+        push byte 0    
+        push byte 39
+        jmp irq_common_stub
 
 ; 40: IRQ3
 irq8:
-    cli
-    push byte 0    
-    push byte 40
-    jmp irq_common_stub
+        cli
+        push byte 0    
+        push byte 40
+        jmp irq_common_stub
 
 ; 41: IRQ4
 irq9:
-    cli
-    push byte 0    
-    push byte 41
-    jmp irq_common_stub
+        cli
+        push byte 0    
+        push byte 41
+        jmp irq_common_stub
 
 ; 42: IRQ5
 irq10:
-    cli
-    push byte 0    
-    push byte 42
-    jmp irq_common_stub
+        cli
+        push byte 0    
+        push byte 42
+        jmp irq_common_stub
 
 ; 43: IRQ1
 irq11:
-    cli
-    push byte 0    
-    push byte 43
-    jmp irq_common_stub
+        cli
+        push byte 0    
+        push byte 43
+        jmp irq_common_stub
 
 ; 44: IRQ2
 irq12:
-    cli
-    push byte 0    
-    push byte 44
-    jmp irq_common_stub
+        cli
+        push byte 0    
+        push byte 44
+        jmp irq_common_stub
 
 ; 45: IRQ3
 irq13:
-    cli
-    push byte 0    
-    push byte 45
-    jmp irq_common_stub
+        cli
+        push byte 0    
+        push byte 45
+        jmp irq_common_stub
 
 ; 46: IRQ4
 irq14:
-    cli
-    push byte 0    
-    push byte 46
-    jmp irq_common_stub
+        cli
+        push byte 0    
+        push byte 46
+        jmp irq_common_stub
 
 ; 47: IRQ5
 irq15:
-    cli
-    push byte 0    
-    push byte 47
-    jmp irq_common_stub
+        cli
+        push byte 0    
+        push byte 47
+        jmp irq_common_stub
 
 extern irq_handler
 
 ; This is a stub that we have created for IRQ based ISRs. This calls
 ; '_irq_handler' in our C code. We need to create this in an 'irq.c'
 irq_common_stub:
-    pusha
-    push ds
-    push es
-    push fs
-    push gs
-    mov ax, 0x10
-    mov ds, ax
-    mov es, ax
-    mov fs, ax
-    mov gs, ax
-    mov eax, esp ; esp is at what it is now. original - 44. for the handler to use
-    push eax
-    mov eax, irq_handler
-    call eax
-    pop eax ; in multitasking the esp will point to the other stack. return value of the handler. the pointer should be stored, of course before jumping to the other stack.
-    pop gs
-    pop fs
-    pop es
-    pop ds
-    popa
-    add esp, 8
-    iret
+        pusha
+        push ds
+        push es
+        push fs
+        push gs
+        mov ax, 0x10
+        mov ds, ax
+        mov es, ax
+        mov fs, ax
+        mov gs, ax
+        mov eax, esp ; esp is at what it is now. original - 44. for the handler to use
+        push eax
+        mov eax, irq_handler
+        call eax
+        pop eax ; in multitasking the esp will point to the other stack. return value of the handler. the pointer should be stored, of course before jumping to the other stack.
+        pop gs
+        pop fs
+        pop es
+        pop ds
+        popa
+        add esp, 8
+        iret
 
 
 old_return_address:
