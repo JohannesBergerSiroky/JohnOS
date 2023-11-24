@@ -37,7 +37,7 @@ uint8_t strEql(int8_t* ch1, int8_t* ch2)
 {
         uint8_t result = 1;
         uint8_t size = strlength(ch1);
-	    uint8_t size2 = strlength(ch2);
+        uint8_t size2 = strlength(ch2);
         if(size != size2) {
                 result = 0;
         }
@@ -45,7 +45,7 @@ uint8_t strEql(int8_t* ch1, int8_t* ch2)
                 uint8_t f = 0;
                 for(;f<=size;f++) {
                         if(ch1[f] != ch2[f]) {
-			                    result = 0;		
+                                result = 0;		
                                 break;
                         }
                 }
@@ -65,7 +65,7 @@ uint8_t strEql2(int8_t* ch1,int8_t* ch2)
         uint8_t f = 0;
         for(;f < size;f++) {
                 if(ch1[f] != ch2[f]) 
-			            result = 0;		
+                        result = 0;		
 
         }
 
@@ -78,17 +78,17 @@ uint8_t strEql2(int8_t* ch1,int8_t* ch2)
 uint8_t strEql3(int8_t* ch1,int8_t* ch2)                 
 {
 
-		int8_t temp3[12] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'};
-		uint32_t strcmp_count = 0;
-		uint8_t result;
+        int8_t temp3[12] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'};
+        uint32_t strcmp_count = 0;
+        uint8_t result;
         result = 1;
 
         uint16_t size = strlength(ch1);
-		uint16_t size2 = strlength(ch2);
+        uint16_t size2 = strlength(ch2);
         /* Makes sure the strings have the same length. */
         if(size != size2) {
-				result = 0;
-				return result;
+                result = 0;
+                return result;
 		}
 
 
@@ -96,28 +96,28 @@ uint8_t strEql3(int8_t* ch1,int8_t* ch2)
 		print("\n");
    		for(;f<=size;f++) {
 
-				int8_t temp1;
-				int8_t temp2;
+                int8_t temp1;
+                int8_t temp2;
 
-				if((*(ch1 + f)) != '\0') {
-						temp1 = (int8_t)((*(ch1 + f))- 0x20); 
-						temp3[f] = temp1;
+                if((*(ch1 + f)) != '\0') {
+                        temp1 = (int8_t)((*(ch1 + f))- 0x20); 
+                        temp3[f] = temp1;
 
-				}
+                }
 
-				else {
-						temp1 = (int8_t)(*(ch1 + f));
-						temp3[f] = '\0';
-				}
+                else {
+                        temp1 = (int8_t)(*(ch1 + f));
+                        temp3[f] = '\0';
+                }
 
 
-				temp2 = (int8_t)(*(ch2 + f));
-            	if(temp1 != temp2) {
+                temp2 = (int8_t)(*(ch2 + f));
+                if(temp1 != temp2) {
 
-						result = 0;	
+                        result = 0;	
 				}	
 
-		}
+        }
 
 		if (result == 1) {
 
