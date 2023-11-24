@@ -166,65 +166,65 @@ void zero_usbms_mem_1 (volatile uint8_t* ms_buffer_ptr0, volatile uint8_t* ms_bu
 /* Zeroes four page regions */
 void zero_usbms_mem_2 (volatile uint32_t ms_buffer_ptr1, volatile uint32_t ms_buffer_ptr2, volatile uint32_t ms_buffer_ptr3, volatile uint32_t ms_buffer_ptr4)
 {
-	    uint32_t counter1;
-	    uint32_t counter2;
-	    volatile uint8_t* ms_pointr;
-	    volatile uint32_t ms_ptr1 = ms_buffer_ptr1;
-	    volatile uint32_t ms_ptr2 = ms_buffer_ptr2;
-	    volatile uint32_t ms_ptr3 = ms_buffer_ptr3;
-	    volatile uint32_t ms_ptr4 = ms_buffer_ptr4;
+        uint32_t counter1;
+        uint32_t counter2;
+        volatile uint8_t* ms_pointr;
+        volatile uint32_t ms_ptr1 = ms_buffer_ptr1;
+        volatile uint32_t ms_ptr2 = ms_buffer_ptr2;
+        volatile uint32_t ms_ptr3 = ms_buffer_ptr3;
+        volatile uint32_t ms_ptr4 = ms_buffer_ptr4;
 
-	    for(counter1 = 1; counter1 < 5; counter1++) {
+        for(counter1 = 1; counter1 < 5; counter1++) {
 
-			    if(counter1 == 1)
-				        ms_pointr = (volatile uint8_t*)ms_ptr1;
-			    else if(counter1 == 2)
-				        ms_pointr = (volatile uint8_t*)ms_ptr2;
-			    else if(counter1 == 3)
-				        ms_pointr = (volatile uint8_t*)ms_ptr3;
-			    else if(counter1 == 4)
-				        ms_pointr = (volatile uint8_t*)ms_ptr4;
-			    for(counter2 = 0; counter2 < 4096; counter2++)
-				        *(ms_pointr + counter2) = 0x00;
-	    }
+                if(counter1 == 1)
+                        ms_pointr = (volatile uint8_t*)ms_ptr1;
+                else if(counter1 == 2)
+                        ms_pointr = (volatile uint8_t*)ms_ptr2;
+                else if(counter1 == 3)
+                        ms_pointr = (volatile uint8_t*)ms_ptr3;
+                else if(counter1 == 4)
+                        ms_pointr = (volatile uint8_t*)ms_ptr4;
+                for(counter2 = 0; counter2 < 4096; counter2++)
+                        *(ms_pointr + counter2) = 0x00;
+        }
 }
 /* Zeroes five page regions. This function behaves almost as zero_usbms_mem_1 */
 void zero_usbms_mem_3 (volatile uint32_t ms_buffer_ptr0, volatile uint8_t* ms_buffer_ptr1, volatile uint32_t ms_buffer_ptr2, volatile uint32_t ms_buffer_ptr3, volatile uint32_t ms_buffer_ptr4)
 {
-	    uint32_t counter1;
-	    uint32_t counter2;
-	    volatile uint8_t* ms_pointr;
-	    volatile uint32_t ms_ptr0 = ms_buffer_ptr0;
-	    volatile uint8_t* ms_ptr1 = ms_buffer_ptr1;
-	    volatile uint32_t ms_ptr2 = ms_buffer_ptr2;
-	    volatile uint32_t ms_ptr3 = ms_buffer_ptr3;
-	    volatile uint32_t ms_ptr4 = ms_buffer_ptr4;
+        uint32_t counter1;
+        uint32_t counter2;
+        volatile uint8_t* ms_pointr;
+        volatile uint32_t ms_ptr0 = ms_buffer_ptr0;
+        volatile uint8_t* ms_ptr1 = ms_buffer_ptr1;
+        volatile uint32_t ms_ptr2 = ms_buffer_ptr2;
+        volatile uint32_t ms_ptr3 = ms_buffer_ptr3;
+        volatile uint32_t ms_ptr4 = ms_buffer_ptr4;
 
 
-	    for(counter1 = 0; counter1 < 5; counter1++) {
+        for(counter1 = 0; counter1 < 5; counter1++) {
 
-			    if(counter1 == 0)
-				        ms_pointr = (volatile uint8_t*)ms_ptr0;
-			    if(counter1 == 1)
-				        ms_pointr = ms_ptr1;
-			    else if(counter1 == 2)
-				        ms_pointr = (volatile uint8_t*)ms_ptr2; 
-			    else if(counter1 == 3)
-				        ms_pointr = (volatile uint8_t*)ms_ptr3;
-			    else if(counter1 == 4)
-				        ms_pointr = (volatile uint8_t*)ms_ptr4;
-			    for(counter2 = 0; counter2 < 4096; counter2++)
-				        *(ms_pointr + counter2) = 0x00; 
-	    }
+                if(counter1 == 0)
+                        ms_pointr = (volatile uint8_t*)ms_ptr0;
+                if(counter1 == 1)
+                        ms_pointr = ms_ptr1;
+                else if(counter1 == 2)
+                        ms_pointr = (volatile uint8_t*)ms_ptr2; 
+                else if(counter1 == 3)
+                        ms_pointr = (volatile uint8_t*)ms_ptr3;
+                else if(counter1 == 4)
+                        ms_pointr = (volatile uint8_t*)ms_ptr4;
+                for(counter2 = 0; counter2 < 4096; counter2++)
+                        *(ms_pointr + counter2) = 0x00; 
+        }
 }
 
 /* Behaves almost as memsetbyte but it zeroes a page */
 void zero_usbms_mem_4(volatile uint8_t* ms_buffer_ptr)
 {
-	    uint32_t counter;
-	    volatile uint8_t* ms_pointr = ms_buffer_ptr;
-	    for(counter = 0; counter < 4096; counter++)
-		    *(ms_pointr + counter) = 0x00;
+        uint32_t counter;
+        volatile uint8_t* ms_pointr = ms_buffer_ptr;
+        for(counter = 0; counter < 4096; counter++)
+                *(ms_pointr + counter) = 0x00;
 }
 
 /* Behaves almost as zero_usbms_mem_4 but it omits the
@@ -232,10 +232,10 @@ void zero_usbms_mem_4(volatile uint8_t* ms_buffer_ptr)
  */
 void zero_usbms_mem_5(uint8_t* ms_buffer_ptr)
 {
-	    uint32_t counter;
-	    uint8_t* ms_pointr = ms_buffer_ptr;
-	    for(counter = 0; counter < 4096; counter++)
-		        *(ms_pointr + counter) = 0x00;
+        uint32_t counter;
+        uint8_t* ms_pointr = ms_buffer_ptr;
+        for(counter = 0; counter < 4096; counter++)
+                *(ms_pointr + counter) = 0x00;
 }
 
 /* This function behaves almost the same as memsetint
@@ -243,19 +243,19 @@ void zero_usbms_mem_5(uint8_t* ms_buffer_ptr)
  */ 
 void zero_usbms_mem_6(uint32_t* ms_buffer_ptr)
 {
-	    uint32_t counter;
-	    uint32_t* ms_pointr = ms_buffer_ptr;
-				    for(counter = 0; counter < 1024; counter++)
-					    *(ms_pointr + counter) = 0x00000000;
+        uint32_t counter;
+        uint32_t* ms_pointr = ms_buffer_ptr;
+        for(counter = 0; counter < 1024; counter++)
+                *(ms_pointr + counter) = 0x00000000;
 }
 
 /* Zeroes a page with the \0 notation. */
 void zero_usbms_mem_7(int8_t* ms_buffer_ptr)
 {
-	uint32_t counter;
-	    int8_t* ms_pointr = ms_buffer_ptr;
-	    for(counter = 0; counter < 4096; counter++)
-		        *(ms_pointr + counter) = '\0';
+        uint32_t counter;
+        int8_t* ms_pointr = ms_buffer_ptr;
+        for(counter = 0; counter < 4096; counter++)
+                *(ms_pointr + counter) = '\0';
 }
 
 
@@ -267,44 +267,44 @@ void zero_usbms_mem_7(int8_t* ms_buffer_ptr)
 void show_memmap(uint8_t explaination)
 {
 
-		uint8_t* memorymap2 = (uint8_t*) memorymap_addr;
-		if (explaination == 1) {
-		        print("\n\n");
-		        print("Memory map. Shows buffers about 6 different memory regions. In this order:\n");     
-		        print("\nSize of this buffer (minus 4, the info about the buffer itself) in bytes,\nMemory field address start low bits (in bytes),\nMemory field address start high bits (in bytes)");
-         		print(",\nMemory field lenght low bits (in bytes),\n");
-		        print("Memory field lenght high bits (in bytes),\n");
-		        print("Type: (1=available, 2=reserved, 3=ACPI recl. mem, 4=ACPI nvs mem, 5=bad mem)");
-		        
-		        print("\n\nSo in the first field, we have an available memory field\nstarting from 0 up to 654336 (0x9FC00) bytes (length)\n");
-		        print("Some fields could be bugged. Like in Qemu, for example.\nThe last field could be bugged, there.");
-		}
+        uint8_t* memorymap2 = (uint8_t*) memorymap_addr;
+        if (explaination == 1) {
+                print("\n\n");
+                print("Memory map. Shows buffers about 6 different memory regions. In this order:\n");     
+                print("\nSize of this buffer (minus 4, the info about the buffer itself) in bytes,\nMemory field address start low bits (in bytes),\nMemory field address start high bits (in bytes)");
+                print(",\nMemory field lenght low bits (in bytes),\n");
+                print("Memory field lenght high bits (in bytes),\n");
+                print("Type: (1=available, 2=reserved, 3=ACPI recl. mem, 4=ACPI nvs mem, 5=bad mem)");
+                
+                print("\n\nSo in the first field, we have an available memory field\nstarting from 0 up to 654336 (0x9FC00) bytes (length)\n");
+                print("Some fields could be bugged. Like in Qemu, for example.\nThe last field could be bugged, there.");
+        }
 
-	    print("\n\n");
-		uint8_t mi = 0;
-		for (int b = 1; b < 7; b++) {
-		        for (int a = 1; a < 7; a++) {
+        print("\n\n");
+        uint8_t mi = 0;
+        for (int b = 1; b < 7; b++) {
+                for (int a = 1; a < 7; a++) {
 
-				        print("0x");
+                        print("0x");
 
-				        print_hex_byte(memorymap2[mi + 3]);
-				        
-				        print_hex_byte(memorymap2[mi + 2]);
-					        
-				        print_hex_byte(memorymap2[mi + 1]);
-					        
-				        print_hex_byte(memorymap2[mi]);
-					        mi += 4;
-				        if (a < 6)
-				        print(", ");
+                        print_hex_byte(memorymap2[mi + 3]);
+                        
+                        print_hex_byte(memorymap2[mi + 2]);
+                            
+                        print_hex_byte(memorymap2[mi + 1]);
+                            
+                        print_hex_byte(memorymap2[mi]);
+                        mi += 4;
+                        if (a < 6)
+                                print(", ");
 
 
-		        }
-		        print("\n");
+                }
+                print("\n");
 
-		}	
+        }
 
-}  
+}
 
 /* ********************************************************************************************* SET AND COPY REGIONS *************************************************************************************************************** */
 
@@ -426,13 +426,13 @@ uint32_t check_first_free_memory()
         uint32_t memloop = 0;
         uint32_t temp2 = 1;
 
-		for(;(memloop <= 60800) && (temp2 == 1);memloop++) {				
+        for(;(memloop <= 60800) && (temp2 == 1);memloop++) {				
 
-				temp2 = check_bit(memloop);
+                temp2 = check_bit(memloop);
 
-		}
+        }
 
-	    return memloop - 1;
+        return memloop - 1;
 }
 /* Checks for a free page after a specified start location */
 uint32_t check_free_memory(uint32_t start)
@@ -458,15 +458,15 @@ uint32_t kmem_4k_allocate()
 
         temp = check_first_free_memory();
         if (temp < 60800) {
-		        set_bit(temp);
-		        mem_address = KERNEL_HEAP_START + (temp*4096);
-		        return mem_address;
+                set_bit(temp);
+                mem_address = KERNEL_HEAP_START + (temp*4096);
+                return mem_address;
         }
 
         else  {
-		        print("\n\nWarning: reached the end of the Os memory map array.");
-		        print("\nSetting memory address to the reserved heap starting area.");
-		        return (uint32_t)KERNEL_HEAP_START;
+                print("\n\nWarning: reached the end of the Os memory map array.");
+                print("\nSetting memory address to the reserved heap starting area.");
+                return (uint32_t)KERNEL_HEAP_START;
         }
 }
 
