@@ -115,43 +115,43 @@ uint8_t strEql3(int8_t* ch1,int8_t* ch2)
                 if(temp1 != temp2) {
 
                         result = 0;	
-				}	
+                }	
 
         }
 
 		if (result == 1) {
 
-				if(size < 8) {
+                if(size < 8) {
 
-				for(strcmp_count = 0; strcmp_count <= size; strcmp_count++)
-					    get_file[strcmp_count] = temp3[strcmp_count];
+                        for(strcmp_count = 0; strcmp_count <= size; strcmp_count++)
+                                get_file[strcmp_count] = temp3[strcmp_count];
                 }
 
-				get_file[strcmp_count] = '\0';
+                get_file[strcmp_count] = '\0';
 
-				if (size > 11) {
-						print("\nError during string comparison.");
-						return 0;
-				}
+                if (size > 11) {
+                        print("\nError during string comparison.");
+                        return 0;
+                }
 
-				else {
+                else {
 
                         if(size < 8) {
-						        for(;size < 8; size++)
-							            get_file[size] = (int8_t)0x20;
+                                for(;size < 8; size++)
+                                        get_file[size] = (int8_t)0x20;
                         }
-						
-						get_file[8] = 'T';
-						get_file[9] = 'X';
-						get_file[10] = 'T';
-						get_file[11] = '\0';
-						
+                        
+                        get_file[8] = 'T';
+                        get_file[9] = 'X';
+                        get_file[10] = 'T';
+                        get_file[11] = '\0';
+                        
 
 
-					}
+                }
 
 			
-		} 
+        } 
 
         return result; 
 }
