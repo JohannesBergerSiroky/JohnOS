@@ -29,8 +29,8 @@ void timer_phase(int hz)
  */
 void timer_handler(struct regs* r)
 {
-    /* Increment our 'tick count' */
-    timer_ticks++;
+        /* Increment our 'tick count' */
+        timer_ticks++;
 }
 
 
@@ -39,8 +39,8 @@ void timer_handler(struct regs* r)
  */
 void timer_install()
 {
-    /* Installs 'timer_handler' to IRQ0 */
-    irq_install_handler(0, timer_handler);
+        /* Installs 'timer_handler' to IRQ0 */
+        irq_install_handler(0, timer_handler);
 }
 
 void set_timer_variable()
