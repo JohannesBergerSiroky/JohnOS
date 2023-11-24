@@ -36,14 +36,14 @@ uint32_t read_mem_address(uint32_t* value, uint8_t counter1)
         uint32_t v;
         uint32_t po;
         for (;temp <= temp2; temp++) {
-	            v = (uint32_t)value[temp];
-	            po = power_of(10,x);
+                v = (uint32_t)value[temp];
+                po = power_of(10,x);
 
-	            printi(po);
-	            temp3 = (v)*(po);
+                printi(po);
+                temp3 = (v)*(po);
 
-	            memvalue += temp3;
-	            x--;
+                memvalue += temp3;
+                x--;
         }
 
         return memvalue;
@@ -56,29 +56,28 @@ uint32_t read_mem_address(uint32_t* value, uint8_t counter1)
  */
 uint32_t read_dword_2(const uint32_t base_addr, const uint32_t offset)
 {
-	    volatile uint32_t dword = (*((uint32_t *) (base_addr + offset))) & (~(0x000000ff << 8));
-	    return dword;
+        volatile uint32_t dword = (*((uint32_t *) (base_addr + offset))) & (~(0x000000ff << 8));
+        return dword;
 }
 
 /* This function reads the contents of a memory address */
 uint32_t read_dword(const uint32_t base_addr, const uint32_t offset)
 {
-		volatile uint32_t dword = *((uint32_t *) (base_addr + offset));
-		return dword;
+        volatile uint32_t dword = *((uint32_t *) (base_addr + offset));
+        return dword;
 }
 
 /* Returns an address based of a base address and the offset */
 uint32_t * read_dword_addr(const uint32_t base, const uint32_t offset)
 {
-		uint32_t * dword = ((uint32_t*) (base + offset));
-		return dword;
+        uint32_t * dword = ((uint32_t*) (base + offset));
+        return dword;
 }
 
 /* This function writes a value to a memory address */
 void write_dword(const uint32_t base, const uint32_t offset, const uint32_t value)
 {
-		*((uint32_t *) (base + offset)) = value;
-		
+        *((uint32_t *) (base + offset)) = value;
 }
 
 /* Writes a byte value or values in bytes into a memory address
@@ -97,10 +96,10 @@ void memset2(uint8_t *dest, uint8_t* val, uint32_t count)
 {
 
         for(uint32_t count1 = 0; count1 < count; count1++) {
-			    *dest = *val;
-			    dest++;
-			    val++;
-	    }
+                *dest = *val;
+                dest++;
+                val++;
+        }
 }
 
 /* This function writes a value to a memory address in bytes
@@ -109,9 +108,9 @@ void memset2(uint8_t *dest, uint8_t* val, uint32_t count)
 void memsetbyte(uint8_t *dest, uint8_t val, uint32_t count)
 {
         for(uint32_t count1 = 0; count1 < count; count1++) {
-			    *dest = val;
-			    dest++;
-	    }
+                *dest = val;
+                dest++;
+        }
 
 }
 
@@ -122,9 +121,9 @@ void memsetint(uint32_t *dest, uint32_t val, uint32_t count)
 {
 
         for(uint32_t count1 = 0; count1 < count; count1++) {
-			    *dest = val;
-			    dest++;
-	    }
+                *dest = val;
+                dest++;
+        }
 }
 
 /* Writes a value to a memory address in words
@@ -134,34 +133,34 @@ void memsetshort(uint16_t *dest, uint16_t val, uint32_t count)
 {
 
         for(uint32_t count1 = 0; count1 < count; count1++) {
-			    *dest = val;
-			    dest++;
-	    }
+                *dest = val;
+                dest++;
+        }
 }
 
 
 /* Zeroes five page regions */
 void zero_usbms_mem_1 (volatile uint8_t* ms_buffer_ptr0, volatile uint8_t* ms_buffer_ptr1, volatile uint8_t* ms_buffer_ptr2, volatile uint8_t* ms_buffer_ptr3, volatile uint8_t* ms_buffer_ptr4)
 {
-	    uint32_t counter1;
-	    uint32_t counter2;
-	    volatile uint8_t* ms_pointr;
+        uint32_t counter1;
+        uint32_t counter2;
+        volatile uint8_t* ms_pointr;
 
-	    for(counter1 = 0; counter1 < 5; counter1++) {
+        for(counter1 = 0; counter1 < 5; counter1++) {
 
-			    if(counter1 == 0)
-				        ms_pointr = ms_buffer_ptr0;
-			    else if(counter1 == 1)
-				        ms_pointr = ms_buffer_ptr1;
-			    else if(counter1 == 2)
-				        ms_pointr = ms_buffer_ptr2;
-			    else if(counter1 == 3)
-				        ms_pointr = ms_buffer_ptr3;
-			    else if(counter1 == 4)
-				        ms_pointr = ms_buffer_ptr4;
-			    for(counter2 = 0; counter2 < 4096; counter2++)
-				        *(ms_pointr + counter2) = 0x00;
-	    }
+                if(counter1 == 0)
+                        ms_pointr = ms_buffer_ptr0;
+                else if(counter1 == 1)
+                        ms_pointr = ms_buffer_ptr1;
+                else if(counter1 == 2)
+                        ms_pointr = ms_buffer_ptr2;
+                else if(counter1 == 3)
+                        ms_pointr = ms_buffer_ptr3;
+                else if(counter1 == 4)
+                        ms_pointr = ms_buffer_ptr4;
+                for(counter2 = 0; counter2 < 4096; counter2++)
+                        *(ms_pointr + counter2) = 0x00;
+        }
 }
 
 /* Zeroes four page regions */
