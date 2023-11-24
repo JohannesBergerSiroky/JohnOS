@@ -38,28 +38,28 @@ int main(multiboot_info_t *mbr, unsigned int magic)
 
         /* Register value 10 is for setting the cursor shape start position */
         /*
-		Commented code: outportb(0x3d4, 10); 
-		temp2 = inportb(0x3d5); 
-		temp2 &= 0xf0;
-		temp2 |= 6;
-		outportb(0x3d5, temp2);
-         */
+        Commented code: outportb(0x3d4, 10); 
+        temp2 = inportb(0x3d5); 
+        temp2 &= 0xf0;
+        temp2 |= 6;
+        outportb(0x3d5, temp2);
+        */
 
 
         /* Register value 11 is the register for cursor shape end position */
-		/* Commented code: outportb(0x3d4, 11);
-		temp2 = inportb(0x3d5); 	
-		temp2 &= 0xf0;
-		temp2 |= 8;					
-		outportb(0x3d5, temp2);
+        /* Commented code: outportb(0x3d4, 11);
+         * temp2 = inportb(0x3d5); 	
+         * temp2 &= 0xf0;
+         * temp2 |= 8;					
+         * outportb(0x3d5, temp2);
          */
 
-        /* Now let's initialize the screen buffers for a 80*25
-         * screen resolution and clear the screen. 
-         */
+       /* Now let's initialize the screen buffers for a 80*25
+        * screen resolution and clear the screen. 
+        */
 
         init_screen_driver();
- 	    init_screenbuffers();
+        init_screenbuffers();
         clearScreen();
 
 
@@ -186,7 +186,7 @@ int main(multiboot_info_t *mbr, unsigned int magic)
                 print("\nPlease wait..");
                 /* This initializes the FAT16. It assumes that it uses the MBR. */
                 bpbsector_location = get_bpb_sector();
-			    get_bpb_struct(bpbsector_location);
+                get_bpb_struct(bpbsector_location);
                 scan_all_directories();
                 
         }
@@ -194,9 +194,9 @@ int main(multiboot_info_t *mbr, unsigned int magic)
         else {
 
                 print("\n\nError: Could not initialize the Usb Flash Memory");
-			    print("Usb mass storage device reset to be inplemented later (I hope).");
+                print("Usb mass storage device reset to be inplemented later (I hope).");
                 asm("cli");
-			    asm("hlt");
+                asm("hlt");
 
         }
 
