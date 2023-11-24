@@ -55,8 +55,8 @@ void init_screen_driver()
 void init_screenbuffers()
 {
         for (int i = 0; i < 16000; i++) {
-		        screen_buffer[i] = 0;
-		        screen_buffer2[i] = 0;
+                screen_buffer[i] = 0;
+                screen_buffer2[i] = 0;
 
         }
 }
@@ -68,33 +68,33 @@ void init_screenbuffers()
 
 void fill_Upscreen_buffer(uint32_t temppos)
 {
-	    int8_t* vidmem = (int8_t*) 0xb8000;
-	    for (uint32_t a = 0; a < 160; a += 2)
-	            screen_buffer[160*(temppos - 24) + a]  = vidmem[a];
+        int8_t* vidmem = (int8_t*) 0xb8000;
+        for (uint32_t a = 0; a < 160; a += 2)
+                screen_buffer[160*(temppos - 24) + a]  = vidmem[a];
 }
 
 void adjust_Upscreen_buffer()
 {
-		int8_t* vidmem = (int8_t*) 0xb8000;
-		
-		for(uint32_t a = 1; a <= BUFLIMIT; a++) {
-				for(uint32_t b = 0; b < 160; b +=2)
+        int8_t* vidmem = (int8_t*) 0xb8000;
+        
+        for(uint32_t a = 1; a <= BUFLIMIT; a++) {
+                for(uint32_t b = 0; b < 160; b +=2)
                         /* moves everything, in the buffer, up 1 step */
-					    screen_buffer[160*(a - 1) + b]  = screen_buffer[160*a + b]; 
-		}
+                        screen_buffer[160*(a - 1) + b]  = screen_buffer[160*a + b]; 
+        }
 
-		for(uint32_t b = 0; b < 160; b +=2)
+        for(uint32_t b = 0; b < 160; b +=2)
                 /* fill the empty space at the bottom, and done */
-			    screen_buffer[160*BUFLIMIT + b] = vidmem[b]; 
+                screen_buffer[160*BUFLIMIT + b] = vidmem[b]; 
 }
 
 
 
 void fill_Dwnscreen_buffer()
 {
-	    int8_t* vidmem = (int8_t*) 0xb8000;
-	    for (uint32_t a = 0; a < 160; a += 2)
-		        screen_buffer2[160*(pos - 24) + a]  = vidmem[22*160 +a];
+        int8_t* vidmem = (int8_t*) 0xb8000;
+        for (uint32_t a = 0; a < 160; a += 2)
+                screen_buffer2[160*(pos - 24) + a]  = vidmem[22*160 +a];
 }
 
 /* this function clears a line */
@@ -102,31 +102,31 @@ void fill_Dwnscreen_buffer()
 void clearLine(uint8_t from, uint8_t to)
 {
         /* row 2. 80*2 = 160 times 2 = 320.  to = 10 */ 
-	    uint16_t a = sw*from*sd;   
-	    int8_t* vidmem = (int8_t*) 0xb8000; 
+        uint16_t a = sw*from*sd;   
+        int8_t* vidmem = (int8_t*) 0xb8000; 
 
         /* example: clear row 10: for a = 320, less than 1760. clears row 10 so that it gets to (to + 1). */
-	    for(;a<(sw*(to+1)*sd);a = a + 2) {
-		    vidmem[a] = 0x0;
-		    vidmem[a+1] = sc;
-	    }
+        for(;a<(sw*(to+1)*sd);a = a + 2) {
+                vidmem[a] = 0x0;
+                vidmem[a+1] = sc;
+        }
 }
 
 /* Sets the cursor at another place. */
 
 void updateCursor()
 {
-	    uint16_t temp1;
-	    uint16_t temp2;
-	    uint8_t temp3;
-	    temp1 = cursorY*sw+cursorX;
+        uint16_t temp1;
+        uint16_t temp2;
+        uint8_t temp3;
+        temp1 = cursorY*sw+cursorX;
 
-	    temp2 = temp1;
-	    temp3 = (uint8_t)temp2;
+        temp2 = temp1;
+        temp3 = (uint8_t)temp2;
 
 
-	    /*outportb = write to port inportb = reads from a port into something (a variable for example)
-	     *as far as I know: 0x3D4 = access register. 0x3D5 = change or copy (inportb) from register 
+        /*outportb = write to port inportb = reads from a port into something (a variable for example)
+         *as far as I know: 0x3D4 = access register. 0x3D5 = change or copy (inportb) from register 
          */ 
 
         /* access register number 15 = cursor location low (bits 0-7) register */
@@ -136,7 +136,7 @@ void updateCursor()
         outportb(0x3D5, temp3); 
         /* access register number 14: cursor location high (bits 8-15) register */
         outportb(0x3D4, 0x0E); 
-	    temp3 = (uint8_t)(temp1 >> 8);
+        temp3 = (uint8_t)(temp1 >> 8);
         /* bits in temp1 shifted 8 bits to the right to get the remainder of bits to the high register (could be 00000000 if temp1 = 60 for example) */
         outportb(0x3D5, temp3); 
 }
@@ -145,12 +145,12 @@ void updateCursor()
 
 void clearScreen()
 {
-	    clearLine(0, sh-1);
-	    cursorX = 0;
-	    cursorY = 0;
-	    poscheck = 0;
-	    pos = 0;
-	    updateCursor();
+        clearLine(0, sh-1);
+        cursorX = 0;
+        cursorY = 0;
+        poscheck = 0;
+        pos = 0;
+        updateCursor();
 }
 
 /*This function scrolls through text when the arrow up
