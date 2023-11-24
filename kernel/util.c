@@ -9,13 +9,11 @@
  */
 uint32_t power_of(uint32_t arg1, uint32_t arg2) 
 {
-	    uint32_t result = 1;
+        uint32_t result = 1;
+        for (uint32_t counter = 0; counter < arg2; counter++)
+                result *= arg1; 
 
-	    for (uint32_t counter = 0; counter < arg2; counter++)
-		        result *= arg1; 
-
-
-	    return result;
+        return result;
 }
 
 /* This sorts an array. Sort size corresponds to the amount of numbers
@@ -45,10 +43,10 @@ uint16_t* sort_array2(uint32_t* input_array, int sort_size)
                         for(int j = (i-2); (j >= 0) && (sort_flag == 0);j--) {
  
                                 if(*(temp_array_ptr + j) < input_array[i]) {
-                                            sort_flag = 1;
+                                        sort_flag = 1;
 
 
-                                           for(int k = i; k >= (j+2); k--) 
+                                        for(int k = i; k >= (j+2); k--) 
                                                 *(temp_array_ptr + k) = *(temp_array_ptr + k - 1); 
                                 }
                                 shift_var++;
@@ -65,7 +63,7 @@ uint16_t* sort_array2(uint32_t* input_array, int sort_size)
                         else {
 
                                 if((i - shift_var) >= 0) {
-                                    *(temp_array_ptr + i - shift_var) = input_array[i]; 
+                                        *(temp_array_ptr + i - shift_var) = input_array[i]; 
 
                                 }
 
@@ -105,12 +103,12 @@ uint16_t* sort_array3(uint16_t* input_array, int sort_size)
                         for(int j = (i-2); (j >= 0) && (sort_flag == 0);j--) {
  
                                 if(*(temp_array_ptr + (j*2)) < input_array[i*2]) {
-                                            sort_flag = 1;
+                                        sort_flag = 1;
 
-                                           for(int k = i; k >= (j+2); k--) {
-                                                    *(temp_array_ptr + (k*2)) = *(temp_array_ptr + (k*2) - 2); 
-                                                    *(temp_array_ptr + (k*2) + 1) = *(temp_array_ptr + (k*2) - 1); 
-                                            }
+                                        for(int k = i; k >= (j+2); k--) {
+                                                *(temp_array_ptr + (k*2)) = *(temp_array_ptr + (k*2) - 2); 
+                                                *(temp_array_ptr + (k*2) + 1) = *(temp_array_ptr + (k*2) - 1); 
+                                        }
                                 }
                                 shift_var++;
                         } 
@@ -128,8 +126,8 @@ uint16_t* sort_array3(uint16_t* input_array, int sort_size)
                         else {
 
                                 if((i - shift_var) >= 0) {
-                                    *(temp_array_ptr + (i*2) - (shift_var*2)) = input_array[i*2]; 
-                                    *(temp_array_ptr + (i*2) - (shift_var*2) + 1) = input_array[(i*2) + 1]; 
+                                        *(temp_array_ptr + (i*2) - (shift_var*2)) = input_array[i*2]; 
+                                        *(temp_array_ptr + (i*2) - (shift_var*2) + 1) = input_array[(i*2) + 1]; 
                                 }
 
                         }
