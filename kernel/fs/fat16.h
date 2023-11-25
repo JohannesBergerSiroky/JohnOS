@@ -4,46 +4,46 @@
 /* bios parameter block for fat32 */
 struct bios_parameter_block_fat32 {	
         /* executable code */
-		volatile uint16_t jump1; 
+        volatile uint16_t jump1; 
         // executable code 
-		volatile uint8_t jump2; 
+        volatile uint8_t jump2; 
         /* oem identityfinder */  
-		volatile uint32_t oem1;
+        volatile uint32_t oem1;
         volatile uint32_t oem2; 
-        
+
         /* little endian format */
-		volatile uint16_t bytes_per_sector; 
-		volatile uint8_t sectors_per_cluster; 
+        volatile uint16_t bytes_per_sector; 
+        volatile uint8_t sectors_per_cluster; 
         /* boot record sectors included */
-		volatile uint16_t reserved_sectors; 
+        volatile uint16_t reserved_sectors; 
         /* usually 2 */
-		volatile uint8_t fat_copies; 
-		volatile uint16_t root_directory_entries; 
+        volatile uint8_t fat_copies; 
+        volatile uint16_t root_directory_entries; 
         /* if value = 0 then ts larger than 65355 and trhe real value is stored at large_total_sectors */
-		volatile uint16_t total_sectors; 
-		volatile uint8_t media_descriptor_type; 
+        volatile uint16_t total_sectors; 
+        volatile uint8_t media_descriptor_type; 
 
         /* fat12/16 only */
-		volatile uint16_t sectors_per_fat; 
-		volatile uint16_t sectors_per_track; 
+        volatile uint16_t sectors_per_fat; 
+        volatile uint16_t sectors_per_track; 
         /* number of heads */
-		volatile uint16_t head_count;   
+        volatile uint16_t head_count;   
         /* number of hidden sectors */
-		volatile uint32_t hidden_sectors_count;
+        volatile uint32_t hidden_sectors_count;
         /* here's where the sector number are stored if larger than 65355 sectors */ 
-		volatile uint32_t large_total_sectors; 
+        volatile uint32_t large_total_sectors; 
         /* offset 36 bytes */
-		volatile uint8_t drive_number; 
-		volatile uint8_t nt_flags;
+        volatile uint8_t drive_number; 
+        volatile uint8_t nt_flags;
         /* must be 0x28 or 0x29 */ 
-		volatile uint8_t signature; 
+        volatile uint8_t signature; 
         /* usually set to 2 */
-		volatile uint32_t volume_id; 
-		volatile uint8_t volume_label_string[11]; 
-		volatile uint8_t system_identifier_string[8];
-		volatile uint8_t boot_code[448]; 
+        volatile uint32_t volume_id; 
+        volatile uint8_t volume_label_string[11]; 
+        volatile uint8_t system_identifier_string[8];
+        volatile uint8_t boot_code[448]; 
         /* the 0x55aa */
-		volatile uint16_t end_signature; 
+        volatile uint16_t end_signature; 
 } __attribute__((packed));
 
 
@@ -51,23 +51,23 @@ struct bios_parameter_block_fat32 {
 struct directory_entry {
 
 
-		uint8_t filename[11]; 
-		uint8_t attributes; 
-		uint8_t unused_1;
-		uint8_t unused_2;
-		uint8_t unused_3;
-		uint8_t unused_4;
-		uint8_t unused_5;
-		uint8_t unused_6;
-		uint8_t unused_7;
-		uint8_t unused_8;
-		uint8_t unused_9;
-		uint8_t unused_10;
-		uint16_t time;
-		uint16_t date;
-		uint16_t file_cluster;
+        uint8_t filename[11]; 
+        uint8_t attributes; 
+        uint8_t unused_1;
+        uint8_t unused_2;
+        uint8_t unused_3;
+        uint8_t unused_4;
+        uint8_t unused_5;
+        uint8_t unused_6;
+        uint8_t unused_7;
+        uint8_t unused_8;
+        uint8_t unused_9;
+        uint8_t unused_10;
+        uint16_t time;
+        uint16_t date;
+        uint16_t file_cluster;
         /* size of the file in bytes */
-		uint32_t file_size; 
+        uint32_t file_size; 
 
 
 } __attribute__((packed));
