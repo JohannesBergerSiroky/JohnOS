@@ -159,37 +159,37 @@ void clearScreen()
 
 void scrollDown() 
 {
-		if (pos >= 24) {
-				if (pos < ADJUSTEDBUFLIMIT)
-					    fill_Dwnscreen_buffer();
+        if (pos >= 24) {
+                if (pos < ADJUSTEDBUFLIMIT)
+                        fill_Dwnscreen_buffer();
 
-				int8_t * vidmem = (int8_t*) 0xb8000;
-				
+                int8_t * vidmem = (int8_t*) 0xb8000;
+                
 
 
-				for(int i = 3838; i >= 0; i = i - 2) {
-						vidmem[i + 160] = vidmem[i];
-						vidmem[i+1] = sc;
-				}
-					
-				if (pos < ADJUSTEDBUFLIMIT) {
-						for (int i = 0; i < 160; i += 2) {
-								vidmem[i] = screen_buffer[160*(pos - 24) + i];
-								vidmem[i + 1] = sc;
-						}
-						for (int i = 0; i < 160; i++)
-							screen_buffer[160*(pos - 24) + i] = 0x0;
-				}
+                for(int i = 3838; i >= 0; i = i - 2) {
+                        vidmem[i + 160] = vidmem[i];
+                        vidmem[i+1] = sc;
+                }
+                	
+                if (pos < ADJUSTEDBUFLIMIT) {
+                        for (int i = 0; i < 160; i += 2) {
+                                vidmem[i] = screen_buffer[160*(pos - 24) + i];
+                                vidmem[i + 1] = sc;
+                        }
+                        for (int i = 0; i < 160; i++)
+                                screen_buffer[160*(pos - 24) + i] = 0x0;
+                }
 
-				
-				clearLine(23, 24);
-				cursorX = 0;
-				cursorY = 23;
-				updateCursor();
-				print(csptr);
-				pos--;
-		}
-	
+
+                clearLine(23, 24);
+                cursorX = 0;
+                cursorY = 23;
+                updateCursor();
+                print(csptr);
+                pos--;
+        }
+
 }
 	
 /*This function scrolls through text when the arrow down
@@ -198,65 +198,65 @@ void scrollDown()
 
 void scrollUp(uint8_t lineNumber) 
 {
-		if (screen_buffer2[0] != 0 || (pos + 1) >=24) {
-			    int8_t* vidmem = (int8_t*) 0xb8000;
+        if (screen_buffer2[0] != 0 || (pos + 1) >=24) {
+                int8_t* vidmem = (int8_t*) 0xb8000;
 
-			    if (poscheck == 0 && pos < ADJUSTEDBUFLIMIT)
-     				    fill_Upscreen_buffer(pos + 1); 
-			    if (pos == ADJUSTEDBUFLIMIT)
-				        adjust_Upscreen_buffer();
+                if (poscheck == 0 && pos < ADJUSTEDBUFLIMIT)
+                        fill_Upscreen_buffer(pos + 1); 
+                if (pos == ADJUSTEDBUFLIMIT)
+                        adjust_Upscreen_buffer();
 
                 /* moves up the symbols on the screen */
-			    uint16_t b = 0;
-			    for (;b < sw*(sh-1)*2;b++) {
-				    vidmem[b] = vidmem[lineNumber*2*sw+b]; 
+                uint16_t b = 0;
+                for (;b < sw*(sh-1)*2;b++) {
+                        vidmem[b] = vidmem[lineNumber*2*sw+b]; 
                 }
 
-			    if((cursorY - lineNumber) < 0) {
-					    cursorX = 0;
-					    cursorY = 0;
-			    }
+                if((cursorY - lineNumber) < 0) {
+                        cursorX = 0;
+                        cursorY = 0;
+                }
 
-			    if (poscheck == 0 && pos < ADJUSTEDBUFLIMIT) {
-						    
-			            int8_t* vidmem = (int8_t*) 0xb8000;
+                if (poscheck == 0 && pos < ADJUSTEDBUFLIMIT) {
+		    
+                        int8_t* vidmem = (int8_t*) 0xb8000;
 
-			    
-			            for (uint32_t a = 0; a < 160; a += 2) {
-					            vidmem[22*160 +a] = screen_buffer2[160*(pos + 1 - 24) + a];
-					            vidmem[22*160 +a + 1] = sc;
-			            }
 
-			            for (uint32_t a = 0; a < 160; a++)
-				                screen_buffer2[160*(pos +1 - 24) + a] = 0x0;
-		            
+                        for (uint32_t a = 0; a < 160; a += 2) {
+                                vidmem[22*160 +a] = screen_buffer2[160*(pos + 1 - 24) + a];
+                                vidmem[22*160 +a + 1] = sc;
+                        }
 
-			            clearLine(24, 24);
-			            cursorX = 0;
-			            cursorY = 23;
-			            updateCursor();
-			            print(csptr);
-			            if (pos < ADJUSTEDBUFLIMIT)
-					            pos++;
-			    }
+                        for (uint32_t a = 0; a < 160; a++)
+                                screen_buffer2[160*(pos +1 - 24) + a] = 0x0;
 
-			    else if (poscheck == 0 && pos >= 24) {
-			            clearLine(24, 24);
-			            cursorX = 0;
-			            cursorY = 23;
-			            updateCursor();
-			            print(csptr); 
-							    
-			    }
-				    
-			    else if (poscheck == 1) {
-					    clearLine(24, 24);
-					    cursorX = 0;
-					    cursorY = 23;
-			    } 
 
-				
-		} 
+                        clearLine(24, 24);
+                        cursorX = 0;
+                        cursorY = 23;
+                        updateCursor();
+                        print(csptr);
+                        if (pos < ADJUSTEDBUFLIMIT)
+                                pos++;
+                }
+
+                else if (poscheck == 0 && pos >= 24) {
+                        clearLine(24, 24);
+                        cursorX = 0;
+                        cursorY = 23;
+                        updateCursor();
+                        print(csptr); 
+	    
+                }
+    
+                else if (poscheck == 1) {
+                        clearLine(24, 24);
+                        cursorX = 0;
+                        cursorY = 23;
+               }
+
+
+        } 
         poscheck = 0;
 }
 
@@ -264,14 +264,14 @@ void scrollUp(uint8_t lineNumber)
 
 void newLineCheck() 
 {
-	    if(cursorY >= 24) {
-			    if ((pos + 1 - 24) < 77)
-				        fill_Upscreen_buffer(pos + 1); 
-			    scrollUp(1); 
+        if(cursorY >= 24) {
+                if ((pos + 1 - 24) < 77)
+                        fill_Upscreen_buffer(pos + 1); 
+                scrollUp(1); 
         }
 
-	    if (pos < ADJUSTEDBUFLIMIT)
-	    pos++;
+        if (pos < ADJUSTEDBUFLIMIT)
+        pos++;
 }
 
 
