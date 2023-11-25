@@ -47,7 +47,7 @@ uint32_t hexbytetemp2;
 
 
 void printch(int8_t c, int32_t i);
-void printbyteint8_t(int8_t value);
+void printbytechar(int8_t value);
 void printword(uint16_t value);
 void print_hex(uint32_t value);
 
