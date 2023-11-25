@@ -285,67 +285,64 @@ void newLineCheck()
 void printch(int8_t c, int32_t i) 
 {
 
-	    int8_t* vidmem = (int8_t*) 0xb8000; 
-	    switch(c) {
+        int8_t* vidmem = (int8_t*) 0xb8000; 
+        switch(c) {
                 /* If the backspace key is pressed. */
-            	case (0x08): 
-					    if((i + stringlength(csptr)) > stringlength(csptr)) {
-                            	cursorX--;
-							    vidmem[(cursorY*sw+cursorX)*sd] = 0x0;
+                case (0x08): 
+                        if((i + stringlength(csptr)) > stringlength(csptr)) {
+                                cursorX--;
+                                vidmem[(cursorY*sw+cursorX)*sd] = 0x0;
 
                         }
-			    break;
+                break;
                 /* If the tab character is pressed. */
-			    case (0x09): 
-				        cursorX = (cursorX +8) & ~(8 - 1);
-			    break;
+                case (0x09): 
+                        cursorX = (cursorX +8) & ~(8 - 1);
+                break;
                 /* If the enter key is pressed. */
-			    case ('\n'):
-					    cursorX = 0;
-	                    cursorY++;
-				    
-					    
-					    for(int temp = 0; temp < 160; temp +=2) {
-							    vidmem[(cursorY)*160 + temp] = 0;
-							    vidmem[(cursorY)*160 + temp + 1] = sc;
-					    }
-					    
-				        poscheck = 1;
-				        newLineCheck();
-			    break;   
+                case ('\n'):
+                        cursorX = 0;
+                        cursorY++;
+
+
+                        for(int temp = 0; temp < 160; temp +=2) {
+                                vidmem[(cursorY)*160 + temp] = 0;
+                                vidmem[(cursorY)*160 + temp + 1] = sc;
+                        }
+
+                        poscheck = 1;
+                        newLineCheck();
+                break;
 
                 /* If not backspace, tab or the enter key is pressed this prints a 
                  *character and the properties of the character 
                  */
-			    default:
-			    vidmem[(cursorY*sw+cursorX)*sd] = c; 
-			    vidmem[(cursorY*sw+cursorX)*sd+1] = sc;
+                default:
+                vidmem[(cursorY*sw+cursorX)*sd] = c; 
+                vidmem[(cursorY*sw+cursorX)*sd+1] = sc;
 
-			    
-			    cursorX++;
-			    break;
-		    }
+
+                cursorX++;
+                break;
+        }
         /* Now check of the cursor is out of bounds and if so, adjust it properly */
-	    if (cursorX >= sw)
-		    {
-			    cursorX = 0;
-			    cursorY++;
-			    poscheck = 1;
-			    newLineCheck();
-		    }
+        if (cursorX >= sw) {
+                cursorX = 0;
+                cursorY++;
+                poscheck = 1;
+                newLineCheck();
+        }
 
-	    else if (cursorX < 0 && (c != '\n'))
-		    {
-			    cursorX = sw - 1;
-			    cursorY--;
-			    pos--;
-			    vidmem[(cursorY*160 + cursorX*sd)] = 0x0;
-			    
-		    }
-	    else
-		    {
-			    vidmem[(cursorY*sw+cursorX)*sd+3] = sc;
-		    }
+        else if (cursorX < 0 && (c != '\n')) {
+                cursorX = sw - 1;
+                cursorY--;
+                pos--;
+                vidmem[(cursorY*160 + cursorX*sd)] = 0x0;
+        }
+
+        else {
+                vidmem[(cursorY*sw+cursorX)*sd+3] = sc;
+		}
         updateCursor();
 
 }
