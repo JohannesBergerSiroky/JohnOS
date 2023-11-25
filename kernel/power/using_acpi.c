@@ -20,13 +20,13 @@ void find_rsdp()
         uint32_t rsdp_found = 0;
 
         for(uint32_t a = 0xe0000; (a < 0x100000) && (rsdp_found == 0); a+=16) {
-                        for(uint32_t b = 0; b < 8; b++)
-                                (*(ch_to_ptr + b)) = (*(find_rsdp + b));
-                        (*(ch_to_ptr + 8)) = '\0';
+                for(uint32_t b = 0; b < 8; b++)
+                        (*(ch_to_ptr + b)) = (*(find_rsdp + b));
+                (*(ch_to_ptr + 8)) = '\0';
 
-                        if(strEql(ch_to_ptr, "RSD PTR "))
-                                rsdp_found = 1;
-                        find_rsdp +=16;
+                if(strEql(ch_to_ptr, "RSD PTR "))
+                        rsdp_found = 1;
+                find_rsdp +=16;
         }
 
         if(rsdp_found == 1) {
@@ -89,12 +89,12 @@ void read_rsdp_2()
 	    uint8_t* rsd = (uint8_t*)rsdp_addr;
 	    print("rsdp byte by byte:");
 	    print("\n\n");
-	    for(uint32_t a = 0; a < temp_size; a++) {
-			    if((a < 8) || ((a > 8) && (a < 15)))
-				        printch((char)(*(rsd + a)), 0);
-			    else
+        for(uint32_t a = 0; a < temp_size; a++) {
+                if((a < 8) || ((a > 8) && (a < 15)))
+                        printch((char)(*(rsd + a)), 0);
+                else
                         print_hex_byte((*(rsd + a)));
-	    }
+        }
 }
 
 /* Reads from a memory region and copies it's contents into
@@ -119,11 +119,11 @@ void test_read_rsdt()
  */
 void test_read_from_array() 
 {
-		print("\n\n");
-	    for(uint32_t b = 0; b < rsdt_entries; b++) {
-			    print_hex((uint32_t)(*(rsdt_array + b)));
-			    print(" ");
-	    }
+        print("\n\n");
+        for(uint32_t b = 0; b < rsdt_entries; b++) {
+                print_hex((uint32_t)(*(rsdt_array + b)));
+                print(" ");
+        }
 }
 
 /* Sets signatures in headers pointed to by the RSDT
@@ -132,12 +132,12 @@ void test_read_from_array()
  */
 void read_h_f_rsdt() 
 {
-	char* read_acpi_signatures;
-	for(uint32_t a = 0; a < rsdt_entries; a++) {
-			read_acpi_signatures = (char*)(*(rsdt_array + a));
-			for(uint32_t b = 0; b < 4; b++)
-				    printch((*(read_acpi_signatures + b)), 0);
-	}
+        char* read_acpi_signatures;
+        for(uint32_t a = 0; a < rsdt_entries; a++) {
+                read_acpi_signatures = (char*)(*(rsdt_array + a));
+                for(uint32_t b = 0; b < 4; b++)
+                        printch((*(read_acpi_signatures + b)), 0);
+        }
 
 }
 
