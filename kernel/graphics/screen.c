@@ -384,7 +384,7 @@ void printi (uint32_t value)
  *that number on the screen. 
  */
 
-void printbyteint8_t(int8_t value)
+void printbytechar(int8_t value)
 {
         int8_t chr[11] = "0123456789";
         int8_t chr2[3];
