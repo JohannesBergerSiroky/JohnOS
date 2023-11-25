@@ -81,14 +81,14 @@ void read_rsdp()
  */
 void read_rsdp_2()
 {
-	    uint32_t rsdp_addr = rsdp_address;
-	    uint32_t temp_size = sizeof(struct root_system_description_ptr) - 3;
-	    print("\nsize of rsdp struct: ");
-	    print_hex(temp_size);
+        uint32_t rsdp_addr = rsdp_address;
+        uint32_t temp_size = sizeof(struct root_system_description_ptr) - 3;
+        print("\nsize of rsdp struct: ");
+        print_hex(temp_size);
 
-	    uint8_t* rsd = (uint8_t*)rsdp_addr;
-	    print("rsdp byte by byte:");
-	    print("\n\n");
+        uint8_t* rsd = (uint8_t*)rsdp_addr;
+        print("rsdp byte by byte:");
+        print("\n\n");
         for(uint32_t a = 0; a < temp_size; a++) {
                 if((a < 8) || ((a > 8) && (a < 15)))
                         printch((char)(*(rsd + a)), 0);
@@ -148,65 +148,64 @@ void read_h_f_rsdt()
 void print_madt_struct_info()
 {
 
-	    /* find the madt */
-		char read_acpi_signatures[(rsdt_entries*5) + 1];
-		read_acpi_signatures[(rsdt_entries*5)] = '\0';
-		char* read_acpi_signatures_ptr = read_acpi_signatures;
+        /* find the madt */
+        char read_acpi_signatures[(rsdt_entries*5) + 1];
+        read_acpi_signatures[(rsdt_entries*5)] = '\0';
+        char* read_acpi_signatures_ptr = read_acpi_signatures;
 
-		char* read_sign;
-		uint32_t index_value = 0;
-		uint32_t found_flag = 0;
+        char* read_sign;
+        uint32_t index_value = 0;
+        uint32_t found_flag = 0;
 
-	    for(uint32_t a = 0; ((a < rsdt_entries) && (found_flag == 0)); a++) {
+        for(uint32_t a = 0; ((a < rsdt_entries) && (found_flag == 0)); a++) {
 
-			        read_sign = (char*)(*(rsdt_array + a));
+                read_sign = (char*)(*(rsdt_array + a));
 
-                    /* rsdt_array contains mem addresses in int format */
-				    for(uint32_t b = 0; b < 4 ; b++) {
+                /* rsdt_array contains mem addresses in int format */
+                for(uint32_t b = 0; b < 4 ; b++) {
 
-            
-						    (*(read_acpi_signatures_ptr + (5*a) + b)) = (*(read_sign + b));
-				    }
 
-				    (*(read_acpi_signatures_ptr + (5*a) + 4)) = '\0';
-				    if(strEql((read_acpi_signatures_ptr + (5*a)), "APIC")) {
-						    found_flag = 1;
-						    index_value = a;
-				    }
-				    
-	    }
+                        (*(read_acpi_signatures_ptr + (5*a) + b)) = (*(read_sign + b));
+                }
 
-	    if(found_flag == 1) {
+                (*(read_acpi_signatures_ptr + (5*a) + 4)) = '\0';
+                if(strEql((read_acpi_signatures_ptr + (5*a)), "APIC")) {
+                        found_flag = 1;
+                        index_value = a;
+                }
 
-			    uint32_t m_size = sizeof(struct m_apic_description_table);
-			    memset2((uint8_t*)madt, (uint8_t*)(*(rsdt_array + index_value)), m_size);
-			    uint8_t* madt_ptr_2 = (uint8_t*)(*(rsdt_array + index_value));
+        }
 
-			    madt_entries = madt->length - m_size;
-			    uint8_t* madt_array_ptr = madt_array;
-			    print("\n\nMADT structures byte by byte: ");
-			    print("\n");
-			    for(uint32_t a = 0; a < madt_entries; a++) {
-					    (*(madt_array_ptr + a)) = (*(madt_ptr_2 + m_size + a));
+        if(found_flag == 1) {
 
-			    }
+                uint32_t m_size = sizeof(struct m_apic_description_table);
+                memset2((uint8_t*)madt, (uint8_t*)(*(rsdt_array + index_value)), m_size);
+                uint8_t* madt_ptr_2 = (uint8_t*)(*(rsdt_array + index_value));
 
-			    for(uint32_t b = 0; b < madt_entries; b++) {
-					    print_hex_byte((uint8_t)(*(madt_array_ptr + b)));
-					    print(" ");
-					    if((b % 24 == 0) && (b != 0))
-						        print("\n");
-			    }
-			    print("\n\nLength of the APIC structure: ");
-			    print_hex(madt->length);
-	    }
+                madt_entries = madt->length - m_size;
+                uint8_t* madt_array_ptr = madt_array;
+                print("\n\nMADT structures byte by byte: ");
+                print("\n");
+                for(uint32_t a = 0; a < madt_entries; a++) {
+                        (*(madt_array_ptr + a)) = (*(madt_ptr_2 + m_size + a));
 
-	    else {
-			    print("\n\nError: could not read the madt structure"); 
-			    print("\n\n Index value: ");
-			    print_hex(index_value);
+                }
+                for(uint32_t b = 0; b < madt_entries; b++) {
+                        print_hex_byte((uint8_t)(*(madt_array_ptr + b)));
+                        print(" ");
+                        if((b % 24 == 0) && (b != 0))
+                                print("\n");
+                }
+                print("\n\nLength of the APIC structure: ");
+                print_hex(madt->length);
+        }
 
-	    }
+        else {
+                print("\n\nError: could not read the madt structure"); 
+                print("\n\n Index value: ");
+                print_hex(index_value);
+
+        }
 
 }
 
@@ -216,44 +215,44 @@ void print_madt_struct_info()
 void print_fadt_struct_info()
 {
 
-		/* find the madt */
-		char read_acpi_signatures[(rsdt_entries*5) + 1];
-		read_acpi_signatures[(rsdt_entries*5)] = '\0';
-		char* read_acpi_signatures_ptr = read_acpi_signatures;
+        /* find the madt */
+        char read_acpi_signatures[(rsdt_entries*5) + 1];
+        read_acpi_signatures[(rsdt_entries*5)] = '\0';
+        char* read_acpi_signatures_ptr = read_acpi_signatures;
 
-		char* read_sign;
-		uint32_t index_value = 0;
-		uint32_t found_flag = 0;
+        char* read_sign;
+        uint32_t index_value = 0;
+        uint32_t found_flag = 0;
 
-	    for(uint32_t a = 0; ((a < rsdt_entries) && (found_flag == 0)); a++) {
-			read_sign = (char*)(*(rsdt_array + a));
+        for(uint32_t a = 0; ((a < rsdt_entries) && (found_flag == 0)); a++) {
+                read_sign = (char*)(*(rsdt_array + a));
 
                 /* rsdt_array contains mem addresses in int format */
-				for(uint32_t b = 0; b < 4 ; b++) {
+                for(uint32_t b = 0; b < 4 ; b++) {
 
-						(*(read_acpi_signatures_ptr + (5*a) + b)) = (*(read_sign + b));
-				}
+                        (*(read_acpi_signatures_ptr + (5*a) + b)) = (*(read_sign + b));
+                }
 
-				(*(read_acpi_signatures_ptr + (5*a) + 4)) = '\0';
-				if(strEql((read_acpi_signatures_ptr + (5*a)), "FACP")) {
-						found_flag = 1;
-						index_value = a;
-				}
-				
+                (*(read_acpi_signatures_ptr + (5*a) + 4)) = '\0';
+                if(strEql((read_acpi_signatures_ptr + (5*a)), "FACP")) {
+                        found_flag = 1;
+                        index_value = a;
+                }
 
-		}
 
-	    if(found_flag == 1) {
-			    uint32_t m_size = sizeof(struct fixed_acpi_description_table);
-			    memset2((uint8_t*)fadt, (uint8_t*)(*(rsdt_array + index_value)), m_size);
+        }
 
-	    }
-	    else {
-			    print("\n\nError: could not read the fadt structure"); 
-			    print("\n\n Index value: ");
-			    print_hex(index_value);
+        if(found_flag == 1) {
+                uint32_t m_size = sizeof(struct fixed_acpi_description_table);
+                memset2((uint8_t*)fadt, (uint8_t*)(*(rsdt_array + index_value)), m_size);
 
-	    }
+        }
+        else {
+                print("\n\nError: could not read the fadt structure"); 
+                print("\n\n Index value: ");
+                print_hex(index_value);
+
+        }
 
 
 }
@@ -264,19 +263,19 @@ void print_fadt_struct_info()
  */
 void read_dsdt()
 {
-	    uint8_t* dsdt_byte_b_byte = (uint8_t*)fadt->dsdt_addr;
-	    uint32_t m_size = sizeof(struct d_system_descriptor_table);
-	    memset2((uint8_t*)dsdt, dsdt_byte_b_byte, m_size);
+        uint8_t* dsdt_byte_b_byte = (uint8_t*)fadt->dsdt_addr;
+        uint32_t m_size = sizeof(struct d_system_descriptor_table);
+        memset2((uint8_t*)dsdt, dsdt_byte_b_byte, m_size);
 
-	    print("\n\nSignature: ");
-	    for(uint32_t c = 0; c < 4; c++) {
+        print("\n\nSignature: ");
+        for(uint32_t c = 0; c < 4; c++) {
 
                 printch(dsdt->signature[c], 0);
-	    }
+        }
 
-	    dsdt_code_length = dsdt->length - m_size;
-	    print("\n\nLength of dsdt code: ");
-	    print_hex(dsdt_code_length);
+        dsdt_code_length = dsdt->length - m_size;
+        print("\n\nLength of dsdt code: ");
+        print_hex(dsdt_code_length);
 }
 
 /* Finds the SSDT memory region and copies it into
@@ -286,57 +285,54 @@ void read_ssdt()
 {
 
         /* find the madt */
-		char read_acpi_signatures[(rsdt_entries*5) + 1];
-		read_acpi_signatures[(rsdt_entries*5)] = '\0';
-		char* read_acpi_signatures_ptr = read_acpi_signatures;
+        char read_acpi_signatures[(rsdt_entries*5) + 1];
+        read_acpi_signatures[(rsdt_entries*5)] = '\0';
+        char* read_acpi_signatures_ptr = read_acpi_signatures;
 
-		char* read_sign;
-		uint32_t index_value = 0;
-		uint32_t found_flag = 0;
+        char* read_sign;
+        uint32_t index_value = 0;
+        uint32_t found_flag = 0;
 
-	    for(uint32_t a = 0; ((a < rsdt_entries) && (found_flag == 0)); a++) {
+        for(uint32_t a = 0; ((a < rsdt_entries) && (found_flag == 0)); a++) {
 
-			    read_sign = (char*)(*(rsdt_array + a));
+                read_sign = (char*)(*(rsdt_array + a));
 
-                    /* rsdt_array contains mem addresses in int format */
-				    for(uint32_t b = 0; b < 4 ; b++)
-					    {
+                /* rsdt_array contains mem addresses in int format */
+                for(uint32_t b = 0; b < 4 ; b++) {
 
-						        (*(read_acpi_signatures_ptr + (5*a) + b)) = (*(read_sign + b));
-					    }
-				    (*(read_acpi_signatures_ptr + (5*a) + 4)) = '\0';
-				    if(strEql((read_acpi_signatures_ptr + (5*a)), "SSDT")) {
-						    found_flag = 1;
-						    index_value = a;
-				    }
-				    
-	    }
+                        (*(read_acpi_signatures_ptr + (5*a) + b)) = (*(read_sign + b));
+                }
+                (*(read_acpi_signatures_ptr + (5*a) + 4)) = '\0';
+                if(strEql((read_acpi_signatures_ptr + (5*a)), "SSDT")) {
+                        found_flag = 1;
+                        index_value = a;
+                }
 
-	    if(found_flag == 1) {
+        }
 
-			    uint32_t m_size = sizeof(struct s_system_descriptor_table);
-			    memset2((uint8_t*)ssdt, (uint8_t*)(*(rsdt_array + index_value)), m_size);
-			    print("\n\nSignature: ");
+        if(found_flag == 1) {
 
-			    for(uint32_t c = 0; c < 4; c++) {
+                uint32_t m_size = sizeof(struct s_system_descriptor_table);
+                memset2((uint8_t*)ssdt, (uint8_t*)(*(rsdt_array + index_value)), m_size);
+                print("\n\nSignature: ");
 
-					    printch(ssdt->signature[c], 0);
+                for(uint32_t c = 0; c < 4; c++) {
+                        printch(ssdt->signature[c], 0);
+                }
 
-			    }
+                print("\n\nLength of the SSDT structure: ");
+                print_hex(ssdt->length);
+                ssdt_code_length = ssdt->length - m_size;
 
-			    print("\n\nLength of the SSDT structure: ");
-			    print_hex(ssdt->length);
-			    ssdt_code_length = ssdt->length - m_size;
+                print("\n\nLength of the ssdt code: ");
+                print_hex(ssdt_code_length);
+        }
 
-			    print("\n\nLength of the ssdt code: ");
-			    print_hex(ssdt_code_length);
-		    }
-
-	    else {
-			    print("\n\nError: could not read the ssdt structure"); 
-			    print("\n\n Index value: ");
-			    print_hex(index_value);
-	    }
+        else {
+                print("\n\nError: could not read the ssdt structure"); 
+                print("\n\n Index value: ");
+                print_hex(index_value);
+        }
 
 }
 
@@ -347,7 +343,7 @@ void read_ssdt()
 void init_acpi_variables()
 {
 
-	    if(fadt->ext_pm1a_cnt_blk_high_high | fadt->ext_pm1a_cnt_blk_high_low | fadt->ext_pm1a_cnt_blk_low) {
+        if(fadt->ext_pm1a_cnt_blk_high_high | fadt->ext_pm1a_cnt_blk_high_low | fadt->ext_pm1a_cnt_blk_low) {
 
                 pm1a_ignore = 1;
         }
@@ -358,7 +354,7 @@ void init_acpi_variables()
         }
 
 
-	    if(fadt->ext_pm1b_cnt_blk_high_high | fadt->ext_pm1b_cnt_blk_high_low | fadt->ext_pm1b_cnt_blk_low) {
+        if(fadt->ext_pm1b_cnt_blk_high_high | fadt->ext_pm1b_cnt_blk_high_low | fadt->ext_pm1b_cnt_blk_low) {
 
                 pm1b_ignore = 1;
 
