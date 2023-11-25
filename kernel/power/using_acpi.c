@@ -13,30 +13,28 @@
  */
 void find_rsdp() 
 {
-	    char* find_rsdp = (char*) 0xe0000;
-	    char temp_str[9];
-	    char* ch_to_ptr;
-	    ch_to_ptr = temp_str;
-	    uint32_t rsdp_found = 0;
-	
-	    for(uint32_t a = 0xe0000; (a < 0x100000) && (rsdp_found == 0); a+=16)
-		        {
-			            for(uint32_t b = 0; b < 8; b++)
-				                (*(ch_to_ptr + b)) = (*(find_rsdp + b));
-			            (*(ch_to_ptr + 8)) = '\0';
-			            
-			            if(strEql(ch_to_ptr, "RSD PTR "))
-				                rsdp_found = 1;
-			            find_rsdp +=16;
-		        }
+        char* find_rsdp = (char*) 0xe0000;
+        char temp_str[9];
+        char* ch_to_ptr;
+        ch_to_ptr = temp_str;
+        uint32_t rsdp_found = 0;
 
-	    if(rsdp_found == 1)
-		        {
-			            find_rsdp -=16;
-			            rsdp_address = (uint32_t)find_rsdp;
-		        }
-	    else
-		        print("\n\nError, could not find the rsdp");
+        for(uint32_t a = 0xe0000; (a < 0x100000) && (rsdp_found == 0); a+=16) {
+                        for(uint32_t b = 0; b < 8; b++)
+                                (*(ch_to_ptr + b)) = (*(find_rsdp + b));
+                        (*(ch_to_ptr + 8)) = '\0';
+
+                        if(strEql(ch_to_ptr, "RSD PTR "))
+                                rsdp_found = 1;
+                        find_rsdp +=16;
+        }
+
+        if(rsdp_found == 1) {
+                find_rsdp -=16;
+                rsdp_address = (uint32_t)find_rsdp;
+        }
+        else
+                print("\n\nError, could not find the rsdp");
 }
 
 /* Sets some memory regions and writes a zero
@@ -44,27 +42,27 @@ void find_rsdp()
  */
 void set_acpi_structs()
 {
-	    rsd_ptr = (struct root_system_description_ptr*)kmem_4k_allocate();
-	    rsd_tbl = (struct root_system_description_tbl*)kmem_4k_allocate();
-	    fadt = (struct fixed_acpi_description_table*)kmem_4k_allocate();
-	    madt = (struct m_apic_description_table*)kmem_4k_allocate();
+        rsd_ptr = (struct root_system_description_ptr*)kmem_4k_allocate();
+        rsd_tbl = (struct root_system_description_tbl*)kmem_4k_allocate();
+        fadt = (struct fixed_acpi_description_table*)kmem_4k_allocate();
+        madt = (struct m_apic_description_table*)kmem_4k_allocate();
 
-	    ssdt = (struct s_system_descriptor_table*)kmem_4k_allocate();
-	    dsdt = (struct d_system_descriptor_table*)kmem_4k_allocate();
-	    dsdt_code_ptr = dsdt_code;
-	    ssdt_code_ptr = ssdt_code;
+        ssdt = (struct s_system_descriptor_table*)kmem_4k_allocate();
+        dsdt = (struct d_system_descriptor_table*)kmem_4k_allocate();
+        dsdt_code_ptr = dsdt_code;
+        ssdt_code_ptr = ssdt_code;
 
-	    for(uint32_t a = 0; a < 16000; a++) {
-			    (*(dsdt_code_ptr + a)) = 0x00;
-			    (*(ssdt_code_ptr + a)) = 0x00;
-	    }
-	    for(uint32_t a = 0; a < 512; a++) {
-			    (*(madt_array + a)) = 0x00;
-	    }
-	    for(uint32_t a = 0; a < 128; a++) {
-			    (*(madt_array_pointers + a)) = 0x00000000;
-			    (*(rsdt_array + a)) = 0x0000000000;
-	    }
+        for(uint32_t a = 0; a < 16000; a++) {
+                (*(dsdt_code_ptr + a)) = 0x00;
+                (*(ssdt_code_ptr + a)) = 0x00;
+        }
+        for(uint32_t a = 0; a < 512; a++) {
+                (*(madt_array + a)) = 0x00;
+        }
+        for(uint32_t a = 0; a < 128; a++) {
+                (*(madt_array_pointers + a)) = 0x00000000;
+                (*(rsdt_array + a)) = 0x0000000000;
+        }
 }
 
 /* Reads from a memory region and copies it's contents into
@@ -72,10 +70,10 @@ void set_acpi_structs()
  */
 void read_rsdp()
 {
-	    uint32_t rsdp_addr = rsdp_address;
-	    uint32_t temp_size = sizeof(struct root_system_description_ptr);
+        uint32_t rsdp_addr = rsdp_address;
+        uint32_t temp_size = sizeof(struct root_system_description_ptr);
 
-	    memset2((uint8_t*)rsd_ptr, (uint8_t*)rsdp_addr, temp_size);
+        memset2((uint8_t*)rsd_ptr, (uint8_t*)rsdp_addr, temp_size);
 }
 
 /* Prints the contents of the Root Table Descriptor Pointer
@@ -95,7 +93,7 @@ void read_rsdp_2()
 			    if((a < 8) || ((a > 8) && (a < 15)))
 				        printch((char)(*(rsd + a)), 0);
 			    else
-				        print_hex_byte((*(rsd + a)));
+                        print_hex_byte((*(rsd + a)));
 	    }
 }
 
@@ -104,16 +102,16 @@ void read_rsdp_2()
  */
 void test_read_rsdt()
 {
-	uint32_t rsdt_addr = rsd_ptr->rsdt_address;
-	uint8_t* rsdt_ptr = (uint8_t*)rsdt_addr;
-	uint32_t temp_size = sizeof(struct root_system_description_tbl);
-	memset2((uint8_t*)rsd_tbl, rsdt_ptr, temp_size);
+        uint32_t rsdt_addr = rsd_ptr->rsdt_address;
+        uint8_t* rsdt_ptr = (uint8_t*)rsdt_addr;
+        uint32_t temp_size = sizeof(struct root_system_description_tbl);
+        memset2((uint8_t*)rsd_tbl, rsdt_ptr, temp_size);
 
-	rsdt_entries = (rsd_tbl->length - temp_size)/(uint32_t)4;
+        rsdt_entries = (rsd_tbl->length - temp_size)/(uint32_t)4;
 
-	uint32_t* rsdt_ptr_int = (uint32_t*)(rsdt_addr + temp_size);
-	for(uint32_t a = 0; a < rsdt_entries; a++)
-		    *(rsdt_array + a) = *(rsdt_ptr_int + a);
+        uint32_t* rsdt_ptr_int = (uint32_t*)(rsdt_addr + temp_size);
+        for(uint32_t a = 0; a < rsdt_entries; a++)
+                *(rsdt_array + a) = *(rsdt_ptr_int + a);
 }
 /* Prints the Root Table Descriptor Table from an array.
  * It works after reading the rsdt. so now maybe this is 
