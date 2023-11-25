@@ -353,12 +353,12 @@ void printch(int8_t c, int32_t i)
 
 void print (int8_t* ch) 
 {
-	    uint16_t d = 0;
-	    
-	    while (ch[d]) {
-		        printch(ch[d], 0);
-		        d++;	
-	    }
+        uint16_t d = 0;
+        
+        while (ch[d]) {
+                printch(ch[d], 0);
+                d++;	
+        }
 }
 
 /* This function will take an integer number and print that number on the screen.
@@ -449,10 +449,10 @@ void print_hex(uint32_t value)
 
         uint32_t i_temp = 0;
         while (value >= 1) {
-	            hextemp2 = value;
-	            value /= 16;
-	            finished_buffer[i_temp] = hexbuffer[(hextemp2 - (value*16))];
-	            i_temp++;
+                hextemp2 = value;
+                value /= 16;
+                finished_buffer[i_temp] = hexbuffer[(hextemp2 - (value*16))];
+                i_temp++;
         }
 
         for (;i_temp > 0; i_temp--)
@@ -466,26 +466,26 @@ void print_hex(uint32_t value)
 void print_hex_byte(uint8_t value)
 {
         /* the compiler always ignores everything after \0 */
-		uint8_t hexbufferbyte[17] = "0123456789ABCDEF\0";  
+        uint8_t hexbufferbyte[17] = "0123456789ABCDEF\0";  
 
         /* here is where our numbers are stored. A byte is ranged from 0x00-0xFF. 2 spots maximum. And the \0 at the end */
-		uint8_t finished_buffer_byte[3] = "00\0"; 
+        uint8_t finished_buffer_byte[3] = "00\0"; 
 
         /* i_temp_byte is never bigger than 2. 2 is the number of spots in our int8_t array to store the numbers. */
-		uint32_t i_temp_byte = 0; 
+        uint32_t i_temp_byte = 0; 
 
         /* stop when it gets too low */
-		while (value >= 1) {
-				hexbytetemp2 = value;
+        while (value >= 1) {
+                hexbytetemp2 = value;
                 /* value = value / 16. look up a decimal to hexadecimal formula where it divides by 16 per time */
-				value /= 16; 
+                value /= 16; 
 
                 /* original value minus the result of the division times 16 is actually the value */
-				finished_buffer_byte[i_temp_byte] = (hexbufferbyte[(hexbytetemp2 - (value*16))]);
-				i_temp_byte++;
-		}
+                finished_buffer_byte[i_temp_byte] = (hexbufferbyte[(hexbytetemp2 - (value*16))]);
+                i_temp_byte++;
+        }
         /* have to print the stored values backwards. look at the formula. printch = print a int8_t. */
-		for (i_temp_byte = 2;i_temp_byte > 0; i_temp_byte--)
+        for (i_temp_byte = 2;i_temp_byte > 0; i_temp_byte--)
                 printch(finished_buffer_byte[i_temp_byte - 1], 0); 
 }
 
@@ -493,14 +493,14 @@ void print_hex_byte(uint8_t value)
 
 uint32_t hex_to_dec(uint32_t* value)
 {
-	    int c = 7;
-	    uint32_t result = 0;
-	    while(c >= 0) {
-			    result +=(value[c]*power_of(16,c));
-			    c--;
-	    }
+        int c = 7;
+        uint32_t result = 0;
+        while(c >= 0) {
+                result +=(value[c]*power_of(16,c));
+                c--;
+        }
 
-	    return (const uint32_t) result;
+        return (const uint32_t) result;
 }
 
 /* This function will convert a decimal number to a binary number
@@ -509,47 +509,47 @@ uint32_t hex_to_dec(uint32_t* value)
 
 void dec_to_bin(uint32_t value)
 {
-		uint8_t temparray[34];
-		temparray[33] = '0';
-		uint32_t max = 2147483648;
-		uint8_t a = 0;
+        uint8_t temparray[34];
+        temparray[33] = '0';
+        uint32_t max = 2147483648;
+        uint8_t a = 0;
 
 
         /* padding */
-		while (value < max) {
-
-	
-				temparray[a] = '0'; 
-				a++;
-				max /= 2;
-		};
-
-		a = 31;
+        while (value < max) {
 
 
-		/* formula: */	
-		while (((uint32_t)value) > 0) {
-				if ((value % 2) == 0)
-					    temparray[a] = '0';
+                temparray[a] = '0'; 
+                a++;
+                max /= 2;
+        };
 
-				else {
-						temparray[a] = '1';
-						value = value - 1;
-				}
-				value/= 2;
-				a--;
-		};
-		temparray[32] = '\0';
+        a = 31;
 
 
+        /* formula: */	
+        while (((uint32_t)value) > 0) {
+                if ((value % 2) == 0)
+                        temparray[a] = '0';
+
+                else {
+                        temparray[a] = '1';
+                        value = value - 1;
+                }
+                value/= 2;
+                a--;
+        };
+        temparray[32] = '\0';
 
 
-		/* print it */
-		a = 0;
-		while(a < 32) {
-				printch(temparray[a],0);
-				a++;
-				if ((a % 4) == 0)
-					    print(" ");
-		};
+
+
+        /* print it */
+        a = 0;
+        while(a < 32) {
+                printch(temparray[a],0);
+                a++;
+                if ((a % 4) == 0)
+                        print(" ");
+        };
 }
