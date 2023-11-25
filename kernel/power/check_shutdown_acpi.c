@@ -14,15 +14,15 @@ void check_shutdown_code()
         temp_holder[4] = '\0';
         char* dsdt_string_byte = temp_holder;
         uint32_t i = 0;
-	    uint8_t* dsdt_byte_b_byte = (uint8_t*)fadt->dsdt_addr;
+        uint8_t* dsdt_byte_b_byte = (uint8_t*)fadt->dsdt_addr;
         uint32_t m_size = sizeof(struct d_system_descriptor_table);
 
         memset2((uint8_t*)dsdt, dsdt_byte_b_byte, m_size);
-	    print("\n\nSignature: ");
+        print("\n\nSignature: ");
 
-	    for(uint32_t c = 0; c < 4; c++) {
-			    printch(dsdt->signature[c], 0);
-	    }
+        for(uint32_t c = 0; c < 4; c++) {
+                printch(dsdt->signature[c], 0);
+        }
 
         dsdt_code_length = dsdt->length - m_size;
         print("\n\nLength of dsdt code: ");
