@@ -38,78 +38,78 @@ int8_t fat16_temp_char1[5] = {'\0', '\0', '\0', '\0', '\0'};
 void set_fs_clusters()
 {
         are_in_root_flag = 1;
-	    have_read_dir_counter = 0;
-	    saved_dir_counter = 0;
-	    rootfile_counter = 0;
-	    have_read_dir = 0;
-	    no_more_directories = 0;
-	    // Commented code: read_dirs = 0;
-	    have_read_file = 0;
-	    have_read_first_dir = 0;
-	    temp_dir_ptr_counter = 0;
-	    rootdir_counter2 = 0;
-	    rootdirinfo_counter = 1;
-	    fs_dir_cluster_counter = 0;
-	    fs_file_cluster_counter = 0;
-	    fs_dir_counter_temp = 0;
-	    fs_current_directory_ptr = fs_current_directory;
+        have_read_dir_counter = 0;
+        saved_dir_counter = 0;
+        rootfile_counter = 0;
+        have_read_dir = 0;
+        no_more_directories = 0;
+        // Commented code: read_dirs = 0;
+        have_read_file = 0;
+        have_read_first_dir = 0;
+        temp_dir_ptr_counter = 0;
+        rootdir_counter2 = 0;
+        rootdirinfo_counter = 1;
+        fs_dir_cluster_counter = 0;
+        fs_file_cluster_counter = 0;
+        fs_dir_counter_temp = 0;
+        fs_current_directory_ptr = fs_current_directory;
         /* Initializes fs_filenames where names of files and
          * directories are stored, I think.
          */
-	    fs_filenames = (int8_t*)kmem_4k_allocate();
+        fs_filenames = (int8_t*)kmem_4k_allocate();
         fs_filenames_start = (int8_t*)kmem_4k_allocate();
         /* Initializes fs_directories where names of directories
          * are stored. 
          */
-	    fs_directories = (int8_t*)kmem_4k_allocate();
-	    fs_filenames_dirinfo = (int8_t*)kmem_4k_allocate();
-	    fs_directory_info = (int8_t*)kmem_4k_allocate();
-	    zero_usbms_mem_7(fs_filenames);
+        fs_directories = (int8_t*)kmem_4k_allocate();
+        fs_filenames_dirinfo = (int8_t*)kmem_4k_allocate();
+        fs_directory_info = (int8_t*)kmem_4k_allocate();
+        zero_usbms_mem_7(fs_filenames);
         zero_usbms_mem_7(fs_filenames_start);
-	    zero_usbms_mem_7(fs_filenames_dirinfo);
-	    zero_usbms_mem_7(fs_directory_info);
+        zero_usbms_mem_7(fs_filenames_dirinfo);
+        zero_usbms_mem_7(fs_directory_info);
         fs_filenames_start = fs_filenames;
-	    *fs_filenames = 'R';
-	    *(fs_filenames + 1) = 'O';
-	    *(fs_filenames + 2) = 'O';
-	    *(fs_filenames + 3) = 'T';
-	    *(fs_filenames + 4) = '\0';
-	    *fs_filenames_dirinfo = 'R';
-	    *(fs_filenames_dirinfo + 1) = 'O';
-	    *(fs_filenames_dirinfo + 2) = 'O';
-	    *(fs_filenames_dirinfo + 3) = 'T';
-	    *(fs_filenames_dirinfo + 4) = '\0';
-	    *(fs_filenames_dirinfo + 9) = (int8_t)0x25;
-	    *fs_directory_info = 'R';
-	    *(fs_directory_info + 1) = 'O';
-	    *(fs_directory_info + 2) = 'O';
-	    *(fs_directory_info + 3) = 'T';
-	    *(fs_directory_info + 4) = '\0';
+        *fs_filenames = 'R';
+        *(fs_filenames + 1) = 'O';
+        *(fs_filenames + 2) = 'O';
+        *(fs_filenames + 3) = 'T';
+        *(fs_filenames + 4) = '\0';
+        *fs_filenames_dirinfo = 'R';
+        *(fs_filenames_dirinfo + 1) = 'O';
+        *(fs_filenames_dirinfo + 2) = 'O';
+        *(fs_filenames_dirinfo + 3) = 'T';
+        *(fs_filenames_dirinfo + 4) = '\0';
+        *(fs_filenames_dirinfo + 9) = (int8_t)0x25;
+        *fs_directory_info = 'R';
+        *(fs_directory_info + 1) = 'O';
+        *(fs_directory_info + 2) = 'O';
+        *(fs_directory_info + 3) = 'T';
+        *(fs_directory_info + 4) = '\0';
 
-	    *fs_directories = 'R';
-	    *(fs_directories + 1) = 'O';
-	    *(fs_directories + 2) = 'O';
-	    *(fs_directories + 3) = 'T';
-	    *(fs_directories + 4) = '\0';
+        *fs_directories = 'R';
+        *(fs_directories + 1) = 'O';
+        *(fs_directories + 2) = 'O';
+        *(fs_directories + 3) = 'T';
+        *(fs_directories + 4) = '\0';
 
-	    fs_directorylocation_cluster_ptr = (uint32_t*)kmem_4k_allocate();
-	    fs_filelocation_cluster_ptr = (uint32_t*)kmem_4k_allocate();
-	    fs_filelength = (uint32_t*)kmem_4k_allocate();
-	    zero_usbms_mem_6(fs_directorylocation_cluster_ptr);
-	    zero_usbms_mem_6(fs_filelocation_cluster_ptr);
-	    zero_usbms_mem_6(fs_filelength);
-	    for(uint32_t a = 0; a < 512; a++) {
-			    (*(fs_filelength + a)) = (uint32_t)0x00000000;
-	    }
-	    kb_cd_ptr = kb_fs_current_directory;
-	    fat16_temp_char1_ptr = fat16_temp_char1;
+        fs_directorylocation_cluster_ptr = (uint32_t*)kmem_4k_allocate();
+        fs_filelocation_cluster_ptr = (uint32_t*)kmem_4k_allocate();
+        fs_filelength = (uint32_t*)kmem_4k_allocate();
+        zero_usbms_mem_6(fs_directorylocation_cluster_ptr);
+        zero_usbms_mem_6(fs_filelocation_cluster_ptr);
+        zero_usbms_mem_6(fs_filelength);
+        for(uint32_t a = 0; a < 512; a++) {
+                (*(fs_filelength + a)) = (uint32_t)0x00000000;
+        }
+        kb_cd_ptr = kb_fs_current_directory;
+        fat16_temp_char1_ptr = fat16_temp_char1;
 
-	    fs_k = 0;
-	    fs_l = 0;
-	    fs_j = 0;
-	    fs_i = 0;
+        fs_k = 0;
+        fs_l = 0;
+        fs_j = 0;
+        fs_i = 0;
 
-	    fs_string_match = 0;
+        fs_string_match = 0;
         fs_cluster_counter = 0x9b0;
         /* the next 32 bytes in the line */
         fs_rde_counter = 13; 
@@ -124,19 +124,19 @@ void set_fs_clusters()
 /* Initializes some file system variables. */
 void init_fs_variables()
 {
-	    no_more_directories = 0; 
-	    first_find_directory = 1;
-	    have_read_file = 0;
-	    have_read_dir = 0;
-	    next_dir_after_file = 0;
-	    fs_normal_procedure = 1;
-	    fs_dir_cluster_counter = 0;
-	    end_of_dir_sector = 0;
-	    more_dir_in_dir = 0;
-	    fs_dir_in_root_count = 0;
-	    scanned_dir_in_dir_count = 0;
-	    digged_dir_from_root = 0;
-	    are_in_root_flag = 1;
+        no_more_directories = 0; 
+        first_find_directory = 1;
+        have_read_file = 0;
+        have_read_dir = 0;
+        next_dir_after_file = 0;
+        fs_normal_procedure = 1;
+        fs_dir_cluster_counter = 0;
+        end_of_dir_sector = 0;
+        more_dir_in_dir = 0;
+        fs_dir_in_root_count = 0;
+        scanned_dir_in_dir_count = 0;
+        digged_dir_from_root = 0;
+        are_in_root_flag = 1;
 }
 
 /*  This function will use a driver to get the bios parameter block position
@@ -145,30 +145,30 @@ void init_fs_variables()
 uint32_t get_bpb_sector() 
 {
         struct device* dev = usbdev;
-	    uint8_t bpb_high = 0;
-	    uint8_t bpb_low = 0;
-	    uint32_t bpb = 0;
-	    volatile uint8_t* bpb_position = (volatile uint8_t*)0;
-	    asm("cli");
+        uint8_t bpb_high = 0;
+        uint8_t bpb_low = 0;
+        uint32_t bpb = 0;
+        volatile uint8_t* bpb_position = (volatile uint8_t*)0;
+        asm("cli");
         if(dev->current_device_type == USB_MASS_STORAGE) {
                 usbms_extra_data[0] = USB_BULKSTORAGE_SCSI_LBA;
                 usbms_extra_data[1] = 0;
                 bpb_position = (volatile uint8_t*)prepare_usb_storage_bulk_transfer(USB_BULKSTORAGE_SCSI_READ10, USB_DEVICE_TO_HOST, 0, 512, usbms_extra_data);
         }
-	    asm("sti");
-	    if(bpb_position) {
-			    bpb_high = (*(bpb_position + 455));
-			    bpb_low = (*(bpb_position + 454));
-			    bpb = 0 | ((bpb_high << 8) | bpb_low);
-			    asm("cli");
-			    return bpb;
-	    }
-	    else {
-			    print("\n\nError: Could not fetch the bpb position.\n");
-			    asm("cli");
+        asm("sti");
+        if(bpb_position) {
+                bpb_high = (*(bpb_position + 455));
+                bpb_low = (*(bpb_position + 454));
+                bpb = 0 | ((bpb_high << 8) | bpb_low);
+                asm("cli");
+                return bpb;
+        }
+        else {
+                print("\n\nError: Could not fetch the bpb position.\n");
+                asm("cli");
 
-	    }
-	    return 0;
+        }
+        return 0;
 
 }
 
@@ -179,53 +179,49 @@ uint32_t get_bpb_sector()
 void get_bpb_struct(uint32_t bpb_pos)
 {
 
-	    volatile uint8_t* get_bpb = (volatile uint8_t*)0;
+        volatile uint8_t* get_bpb = (volatile uint8_t*)0;
         struct device* dev = usbdev;
-
-
-
-		asm("cli");
+        asm("cli");
 
         /* reading the bpb and putting it in a bpb struct */
-         if(dev->current_device_type == USB_MASS_STORAGE) {
+        if(dev->current_device_type == USB_MASS_STORAGE) {
                 usbms_extra_data[0] = USB_BULKSTORAGE_SCSI_LBA;
                 usbms_extra_data[1] = bpb_pos;
                 get_bpb = (volatile uint8_t*)prepare_usb_storage_bulk_transfer(USB_BULKSTORAGE_SCSI_READ10, USB_DEVICE_TO_HOST, 0, 512, usbms_extra_data);
         }
-		asm("sti");
+        asm("sti");
 
 
         if (get_bpb != ((volatile uint8_t*)0x600000)) {
-	            struct bios_parameter_block_fat32* bpb_struct = (struct bios_parameter_block_fat32*)kmem_4k_allocate();
-	            memset2((uint8_t*)bpb_struct, (uint8_t*)get_bpb, 512);
-	            maximum_root_directory_entries = bpb_struct->root_directory_entries;
-	            fat_bytes_per_sector = bpb_struct->bytes_per_sector;
-        
+                struct bios_parameter_block_fat32* bpb_struct = (struct bios_parameter_block_fat32*)kmem_4k_allocate();
+                memset2((uint8_t*)bpb_struct, (uint8_t*)get_bpb, 512);
+                maximum_root_directory_entries = bpb_struct->root_directory_entries;
+                fat_bytes_per_sector = bpb_struct->bytes_per_sector;
                 /* setting some global variables with data from the struct */
-	            fat_sectors_per_cluster = bpb_struct->sectors_per_cluster;
-	            fat_reserved_sectors = bpb_struct->reserved_sectors;
-	            fat_copies = bpb_struct->fat_copies;
-	            fat_sectors_per_fat = bpb_struct->sectors_per_fat; 
+                fat_sectors_per_cluster = bpb_struct->sectors_per_cluster;
+                fat_reserved_sectors = bpb_struct->reserved_sectors;
+                fat_copies = bpb_struct->fat_copies;
+                fat_sectors_per_fat = bpb_struct->sectors_per_fat; 
 
                 /* in sectors */
-	            fat_root_area = (volatile uint16_t)(bpb_pos + fat_reserved_sectors + (fat_sectors_per_fat*fat_copies));
+                fat_root_area = (volatile uint16_t)(bpb_pos + fat_reserved_sectors + (fat_sectors_per_fat*fat_copies));
                 /* print("\nfat root area, should be 0x84c: ");
                 print_hex(fat_root_area); */
 
                 /* in sectors. getting an important value in the fat_data_cluster_start: the base address from which clusters are counted */
-	            fat_data_cluster_start = fat_root_area + ((maximum_root_directory_entries*32) / fat_bytes_per_sector) - 8;
+                fat_data_cluster_start = fat_root_area + ((maximum_root_directory_entries*32) / fat_bytes_per_sector) - 8;
 
-	            asm("cli");
+                asm("cli");
 
                 /* returning the fat root area. not the base adress for clusters */
-	            return;
+                return;
         }
 
-	    else {
-		        print("\n\nError: could not get the bpb pointer values");
-		        asm("cli");
-		        return;
-	    }
+        else {
+                print("\n\nError: could not get the bpb pointer values");
+                asm("cli");
+                return;
+        }
 
 }
 
@@ -233,46 +229,46 @@ void get_bpb_struct(uint32_t bpb_pos)
 void read_fat16_file(uint32_t cluster_number, uint32_t f_size)  
 {
 
-		volatile uint8_t* file_data_area;
-		volatile uint32_t file_location_sector = 0;
+        volatile uint8_t* file_data_area;
+        volatile uint32_t file_location_sector = 0;
         struct device* dvc = usbdev;
         dvc->current_device_type = USB_MASS_STORAGE;
-		file_location_sector = (volatile uint32_t)((uint32_t)fat_data_cluster_start + (uint32_t)((uint32_t)fat_sectors_per_cluster*cluster_number));
+        file_location_sector = (volatile uint32_t)((uint32_t)fat_data_cluster_start + (uint32_t)((uint32_t)fat_sectors_per_cluster*cluster_number));
 
 
 
-		if (cluster_number < 0x3500) {
+        if (cluster_number < 0x3500) {
                 if(dvc->current_device_type == USB_MASS_STORAGE) {
                         usbms_extra_data[0] = USB_BULKSTORAGE_SCSI_LBA;
                         usbms_extra_data[1] = (uint32_t)file_location_sector;
                         file_data_area = (volatile uint8_t*)prepare_usb_storage_bulk_transfer(USB_BULKSTORAGE_SCSI_READ10, USB_DEVICE_TO_HOST, 0, 512, usbms_extra_data);
                 }
-				f_size -=1;
+                f_size -=1;
 
 
-				if(file_data_area != (volatile uint8_t*)0x600000) {
+                if(file_data_area != (volatile uint8_t*)0x600000) {
 
-					    print("\n\nFile content: \"");
-					    for(uint32_t a = 0; a < f_size; a++) {
+                        print("\n\nFile content: \"");
+                        for(uint32_t a = 0; a < f_size; a++) {
 
-							    if(((a % 76) == 0) && (a > 0))
-								        print("\n");
-							    if((*(file_data_area + a)) > 127)
-								        print(" ");
-							    else 
-								        printch((int8_t)(*(file_data_area + a)), 0);
-							
-				        }
-							    print("\"");
+                                if(((a % 76) == 0) && (a > 0))
+                                        print("\n");
+                                if((*(file_data_area + a)) > 127)
+                                        print(" ");
+                                else 
+                                        printch((int8_t)(*(file_data_area + a)), 0);
 
-				}
+                        }
+                                print("\"");
 
-				else
-					    print("\n\nfat 16 error: could not read the file content");
+                }
 
-		}
-		else
-			    print("\n\nerror reading from fat 16: Bad cluster number or file length");
+                else
+                        print("\n\nfat 16 error: could not read the file content");
+
+        }
+        else
+                print("\n\nerror reading from fat 16: Bad cluster number or file length");
 
 }
 
@@ -282,52 +278,51 @@ void read_fat16_file(uint32_t cluster_number, uint32_t f_size)
  */                                                                                                
 uint32_t* scan_directories(uint32_t cluster_start)
 {
-        
         /* suggestion: return 0 */
-	    volatile uint8_t* get_data_area = (volatile uint8_t*)kmem_4k_allocate();
-	    zero_usbms_mem_5((uint8_t*)get_data_area);
+        volatile uint8_t* get_data_area = (volatile uint8_t*)kmem_4k_allocate();
+        zero_usbms_mem_5((uint8_t*)get_data_area);
 
 
-	    uint8_t root_directory_end = 0;
-	    uint8_t sector_read = 0;
+        uint8_t root_directory_end = 0;
+        uint8_t sector_read = 0;
 
-	    uint32_t temp1 = 0;
-	    uint32_t temp2 = 0;
-	    uint32_t temp3 = 0;
-	    uint32_t temp4 = 0;
-	    uint32_t temp_dir_ptr_counter2 = 0;
-	    uint32_t temp_directory_ptr2 = 0;
-	    uint32_t fs_b = 0;
+        uint32_t temp1 = 0;
+        uint32_t temp2 = 0;
+        uint32_t temp3 = 0;
+        uint32_t temp4 = 0;
+        uint32_t temp_dir_ptr_counter2 = 0;
+        uint32_t temp_directory_ptr2 = 0;
+        uint32_t fs_b = 0;
 
         struct device* dev = usbdev;
 
 
-	    volatile uint16_t d_entries = maximum_root_directory_entries;
-	    uint16_t directory_entries = (uint16_t)d_entries;
+        volatile uint16_t d_entries = maximum_root_directory_entries;
+        uint16_t directory_entries = (uint16_t)d_entries;
 
-	    if (directory_entries > 512)
-		        return 0; 
-	    
-	    uint32_t data_area;
-	    if (cluster_start == 0)
-		        data_area = fat_root_area;
-	    else
-		        data_area = fat_data_cluster_start + (fat_sectors_per_cluster*cluster_start);
+        if (directory_entries > 512)
+                return 0; 
 
-	    uint8_t dir_counter = 0;
-	    uint8_t dir_counter2 = 0;
-	    uint8_t rootdir_counter = 0;
-	    uint32_t fs_dir_cluster_counter2 = 0;
-	    uint32_t fs_file_cluster_counter2 = 0;
-	    uint32_t have_read_dir_counter2 = have_read_dir_counter;
+        uint32_t data_area;
+        if (cluster_start == 0)
+                data_area = fat_root_area;
+        else
+                data_area = fat_data_cluster_start + (fat_sectors_per_cluster*cluster_start);
 
-	    fs_dir_in_root_count = 0;
-	    
-	    uint8_t error_count = 0;
+        uint8_t dir_counter = 0;
+        uint8_t dir_counter2 = 0;
+        uint8_t rootdir_counter = 0;
+        uint32_t fs_dir_cluster_counter2 = 0;
+        uint32_t fs_file_cluster_counter2 = 0;
+        uint32_t have_read_dir_counter2 = have_read_dir_counter;
 
-	    /* scans every directory from the current directory and places the names of them in some containers in RAM memory */
+        fs_dir_in_root_count = 0;
 
-	    while(((root_directory_end < 4) && (directory_entries > 0)) && (error_count == 0) && (rootdir_counter2 < 455)) {
+        uint8_t error_count = 0;
+
+        /* scans every directory from the current directory and places the names of them in some containers in RAM memory */
+
+        while(((root_directory_end < 4) && (directory_entries > 0)) && (error_count == 0) && (rootdir_counter2 < 455)) {
 
                 /* checks if (while) there are less than 16 directories in the dir int8_t buffer or 
                  * less than a 3-4 32bytes area full with zeroes or no errors or directory entries 
