@@ -328,498 +328,481 @@ uint32_t* scan_directories(uint32_t cluster_start)
                  * less than a 3-4 32bytes area full with zeroes or no errors or directory entries 
                  * less than max (512) get a new data area and set root dir counter to 0 
                  */
-		        rootdir_counter = 0;
+                rootdir_counter = 0;
                 if(dev->current_device_type == USB_MASS_STORAGE) {
                         usbms_extra_data[0] = USB_BULKSTORAGE_SCSI_LBA;
                         usbms_extra_data[1] = data_area;
                         get_data_area = prepare_usb_storage_bulk_transfer(USB_BULKSTORAGE_SCSI_READ10, USB_DEVICE_TO_HOST, 0, 512, usbms_extra_data);
                 }
                 /* at the root area now. maybe a directory is found? */			
-		        if((get_data_area != (volatile uint8_t*)0x600000) && (get_data_area > (volatile uint8_t*)0x300000) && (get_data_area < (volatile uint8_t*)0x500000)) {
-		                /* while there are correct addresses for the driver */
+                if((get_data_area != (volatile uint8_t*)0x600000) && (get_data_area > (volatile uint8_t*)0x300000) && (get_data_area < (volatile uint8_t*)0x500000)) {
+                        /* while there are correct addresses for the driver */
 
-				        temp_directory_ptr2 = rootdir_counter2;
-				        while((root_directory_end < 4) && (rootdir_counter < 16) && (rootdir_counter2 < 455)) {
+                        temp_directory_ptr2 = rootdir_counter2;
+                        while((root_directory_end < 4) && (rootdir_counter < 16) && (rootdir_counter2 < 455)) {
 
-					            /* while there are less than a 3-4 32bytes area full with zeroes and sector scan not completed (sector / 32) and the dir buffer is not filled */
-						        if (((*(get_data_area)) != 0x00) && ((*(get_data_area)) != 0x20) && ((*(get_data_area)) != 0x2e) && (((((*(get_data_area + 11)) >> 5) & 0x01) == 0x01) || ((((*(get_data_area + 11)) >> 4) & 0x01) == 0x01))) {
+                                /* while there are less than a 3-4 32bytes area full with zeroes and sector scan not completed (sector / 32) and the dir buffer is not filled */
+                                if (((*(get_data_area)) != 0x00) && ((*(get_data_area)) != 0x20) && ((*(get_data_area)) != 0x2e) && (((((*(get_data_area + 11)) >> 5) & 0x01) == 0x01) || ((((*(get_data_area + 11)) >> 4) & 0x01) == 0x01))) {
 
-								        if ((((*(get_data_area + 11)) >> 5) & 0x01) == 0x01)
-										        temp2 += 32;
-								        if ((((*(get_data_area + 11)) >> 4) & 0x01) == 0x01)
-									            temp3 += 32;
+                                        if ((((*(get_data_area + 11)) >> 5) & 0x01) == 0x01)
+                                                temp2 += 32;
+                                        if ((((*(get_data_area + 11)) >> 4) & 0x01) == 0x01)
+                                                temp3 += 32;
 
 
-								        if((((*(get_data_area + 11)) >> 4) & 0x01) == 0x01) {
+                                        if((((*(get_data_area + 11)) >> 4) & 0x01) == 0x01) {
 
                                                 /* we found a directory
-										         * point to the first dir that is read somehow and then increase the pointer as many times as there are dirs. when no more, you go into the first dir and into the dirst dir there. 
+                                                 * point to the first dir that is read somehow and then increase the pointer as many times as there are dirs. when no more, you go into the first dir and into the dirst dir there. 
                                                  */
-										        have_read_dir_counter++;
+                                                have_read_dir_counter++;
 
-										        dir_counter2 = 8;
-										        dir_counter = 0;
-										        have_read_dir = 1;
-										        rootdir_counter2++;
+                                                dir_counter2 = 8;
+                                                dir_counter = 0;
+                                                have_read_dir = 1;
+                                                rootdir_counter2++;
 
-										        (*(fs_directorylocation_cluster_ptr + fs_dir_cluster_counter + fs_dir_cluster_counter2)) = (uint32_t)((uint32_t)0x00000000 | ((uint32_t)(((*(get_data_area + 26)) & 0x000000ff) | ((uint32_t)(((*(get_data_area + 27)) & 0x000000ff) << 8))))); 
+                                                (*(fs_directorylocation_cluster_ptr + fs_dir_cluster_counter + fs_dir_cluster_counter2)) = (uint32_t)((uint32_t)0x00000000 | ((uint32_t)(((*(get_data_area + 26)) & 0x000000ff) | ((uint32_t)(((*(get_data_area + 27)) & 0x000000ff) << 8))))); 
+                                                fs_dir_cluster_counter2++;
 
+                                                while (dir_counter < 8) {
+                                                        if((*(get_data_area + dir_counter)) == 0x20) {
+                                                                if(dir_counter2 > 0)
+                                                                        dir_counter2--;
 
-										        fs_dir_cluster_counter2++;
+                                                                (*(fs_directories + ((rootdir_counter2)*9) + dir_counter)) = '\0';
+                                                        }
+                                                        dir_counter++;
+                                                }
 
-										        while (dir_counter < 8) {
-												        if((*(get_data_area + dir_counter)) == 0x20) {
-														        if(dir_counter2 > 0)
-															            dir_counter2--;
+                                                dir_counter = 0;
 
-															        (*(fs_directories + ((rootdir_counter2)*9) + dir_counter)) = '\0';
-												        }
-												        dir_counter++;
-										        }
+                                                while (((*(get_data_area + dir_counter)) != '\0') && (dir_counter < dir_counter2)) {
 
-										        dir_counter = 0;
+                                                        if((*(get_data_area + dir_counter)) > 127)
+                                                                *(fs_directories + (rootdir_counter2 * 9) + dir_counter) = (int8_t)'\0';
+                                                        else 
+                                                                *(fs_directories + (rootdir_counter2 *9) + dir_counter) = (int8_t)(*(get_data_area + dir_counter));																		
 
-										        while (((*(get_data_area + dir_counter)) != '\0') && (dir_counter < dir_counter2)) {
-
-												        if((*(get_data_area + dir_counter)) > 127)
-													        *(fs_directories + (rootdir_counter2 * 9) + dir_counter) = (int8_t)'\0';
-												        else 
-													        *(fs_directories + (rootdir_counter2 *9) + dir_counter) = (int8_t)(*(get_data_area + dir_counter));																		
-
-													        
-												        dir_counter++;
-										        }
-										        (*(fs_directories + (rootdir_counter2 *9) + dir_counter)) = (int8_t)'\0';
-
-			        
-
-								        }
+                                                        dir_counter++;
+                                                }
+                                                (*(fs_directories + (rootdir_counter2 *9) + dir_counter)) = (int8_t)'\0';
 
 
-								        else if ((((*(get_data_area + 11)) >> 5) & 0x01) == 0x01) { 
+                                        }
+
+
+                                        else if ((((*(get_data_area + 11)) >> 5) & 0x01) == 0x01) { 
                                                 /* we found a file */
-										        rootfile_counter++;
-										        have_read_file = 1;
-										        (*(fs_filelocation_cluster_ptr + rootfile_counter))  = (uint32_t)  ((uint32_t)0x00000000 | ((uint32_t)(((*(get_data_area + 26)) & 0x000000ff))) | ((uint32_t)(((*(get_data_area + 27)) & 0x000000ff) << 8)));
+                                                rootfile_counter++;
+                                                have_read_file = 1;
+                                                (*(fs_filelocation_cluster_ptr + rootfile_counter))  = (uint32_t)  ((uint32_t)0x00000000 | ((uint32_t)(((*(get_data_area + 26)) & 0x000000ff))) | ((uint32_t)(((*(get_data_area + 27)) & 0x000000ff) << 8)));
 
 
-										        (*(fs_filelength + rootfile_counter)) = (uint32_t)((uint32_t)0x00000000 | ((uint32_t)(((*(get_data_area + 28)) & 0x000000ff))) | ((uint32_t)(((*(get_data_area + 29)) & 0x000000ff) << 8)) | ((uint32_t)(((*(get_data_area + 30)) & 0x000000ff) << 16)) | ((uint32_t)(((*(get_data_area + 31)) & 0x000000ff) << 24)));
+                                                (*(fs_filelength + rootfile_counter)) = (uint32_t)((uint32_t)0x00000000 | ((uint32_t)(((*(get_data_area + 28)) & 0x000000ff))) | ((uint32_t)(((*(get_data_area + 29)) & 0x000000ff) << 8)) | ((uint32_t)(((*(get_data_area + 30)) & 0x000000ff) << 16)) | ((uint32_t)(((*(get_data_area + 31)) & 0x000000ff) << 24)));
 
 
-										        fs_file_cluster_counter2++;
+                                                fs_file_cluster_counter2++;
 
-										        dir_counter = 8;
-									            /* truncate */
-										        dir_counter2 = 0;
-										        while (dir_counter2 < 8) {
-												        if((*(get_data_area + dir_counter2)) == 0x20) {
+                                                dir_counter = 8;
+                                                /* truncate */
+                                                dir_counter2 = 0;
+                                                while (dir_counter2 < 8) {
+                                                        if((*(get_data_area + dir_counter2)) == 0x20) {
 
-														        if(dir_counter > 0) {
-															            dir_counter--;
+                                                                if(dir_counter > 0) {
+                                                                        dir_counter--;
                                                                 }
 
-														        (*(fs_filenames + ((rootfile_counter)*10) + dir_counter2)) = '\0';
-												        }
-												        dir_counter2++;
-										        }
+                                                                (*(fs_filenames + ((rootfile_counter)*10) + dir_counter2)) = '\0';
+                                                        }
+                                                        dir_counter2++;
+                                                }
 
-										        dir_counter2 = 0;
+                                                dir_counter2 = 0;
 
-										        while (((*(get_data_area + dir_counter2)) != '\0') && (dir_counter2 < dir_counter)) {
-												        if((*(get_data_area + dir_counter2)) > 127)
-													            (*(fs_filenames + ((rootfile_counter)*10) + dir_counter2)) = '\0'; 
-												        else 
-													            (*(fs_filenames + ((rootfile_counter)*10) + dir_counter2)) = (int8_t)(*(get_data_area + dir_counter2));
+                                                while (((*(get_data_area + dir_counter2)) != '\0') && (dir_counter2 < dir_counter)) {
+                                                        if((*(get_data_area + dir_counter2)) > 127)
+                                                                (*(fs_filenames + ((rootfile_counter)*10) + dir_counter2)) = '\0'; 
+                                                        else 
+                                                                (*(fs_filenames + ((rootfile_counter)*10) + dir_counter2)) = (int8_t)(*(get_data_area + dir_counter2));
 
-												        dir_counter2++;
+                                                        dir_counter2++;
 
-										        }
+                                                }
 
-										        (*(fs_filenames + ((rootfile_counter)*10) + dir_counter2)) = '\0';
-										        for(uint32_t fs_o = 0; fs_o < 3; fs_o++)
-											            (*(fat16_temp_char1_ptr + fs_o)) = (*(get_data_area + 8 + fs_o));
+                                                (*(fs_filenames + ((rootfile_counter)*10) + dir_counter2)) = '\0';
+                                                for(uint32_t fs_o = 0; fs_o < 3; fs_o++)
+                                                        (*(fat16_temp_char1_ptr + fs_o)) = (*(get_data_area + 8 + fs_o));
 
-										        (*(fat16_temp_char1_ptr + 3)) = '\0';
-										        (*(fat16_temp_char1_ptr + 4)) = '\0';
-										        (*(fat16_temp_char1_ptr + 5)) = '\0';
+                                                (*(fat16_temp_char1_ptr + 3)) = '\0';
+                                                (*(fat16_temp_char1_ptr + 4)) = '\0';
+                                                (*(fat16_temp_char1_ptr + 5)) = '\0';
 
-										        if(strEql((fat16_temp_char1_ptr), "TXT")) {
+                                                if(strEql((fat16_temp_char1_ptr), "TXT")) {
 
-												        (*(fs_filenames + ((rootfile_counter)*10) + 8)) = 't';
-												        (*(fs_filenames + ((rootfile_counter)*10) + 9)) = '\0';
-										        }
+                                                        (*(fs_filenames + ((rootfile_counter)*10) + 8)) = 't';
+                                                        (*(fs_filenames + ((rootfile_counter)*10) + 9)) = '\0';
+                                                }
 
-										        dir_counter = 0;
-								        }
-									        
+                                                dir_counter = 0;
+                                        }
 
-						        } 
-			        
+                                }
 
-						        else if ((*(get_data_area)) == 0x00) {
+                                else if ((*(get_data_area)) == 0x00) {
                                         /* if it is a bad directory format */
-								        root_directory_end++;
+                                        root_directory_end++;
                                 }
 
-						        get_data_area = (uint8_t*)(get_data_area +  32);
-						        rootdir_counter += 1;
+                                get_data_area = (uint8_t*)(get_data_area +  32);
+                                rootdir_counter += 1;
 
 
-				        } 
+                        } 
 
-                            /* directory end (if going upwards) */
-				        if ((root_directory_end > 3)) {
+                        /* directory end (if going upwards) */
+                        if ((root_directory_end > 3)) {
 
-                            /*  end of sector or root end counter > 4 */
-						        if(have_read_dir_counter != have_read_dir_counter2) {
-                                     /* suggestion: maybe make an array here for keeping track of differences */
-							        saved_dir_counter = saved_dir_counter + (have_read_dir_counter - have_read_dir_counter2);
-                                    /* keeps it in track */
+                                /*  end of sector or root end counter > 4 */
+                                if(have_read_dir_counter != have_read_dir_counter2) {
+                                        /* suggestion: maybe make an array here for keeping track of differences */
+                                        saved_dir_counter = saved_dir_counter + (have_read_dir_counter - have_read_dir_counter2);
+                                        /* keeps it in track */
                                 }
-						        else if (saved_dir_counter != 0)
-							            saved_dir_counter--;
+                                else if (saved_dir_counter != 0)
+                                        saved_dir_counter--;
 
 
-						        sector_read = 0;
-						        fs_dir_counter_temp++;
-						        uint32_t fs_m = 0;
-						        if (rootdir_counter2 > 454) {
-								        no_more_directories = 1;
-								        temp4 = 0x00000000;
-								        temp4 = (uint32_t)get_data_area;
-								        free_mem_uint(temp4);
-								        return 0;
-						        }
+                                sector_read = 0;
+                                fs_dir_counter_temp++;
+                                uint32_t fs_m = 0;
+                                if (rootdir_counter2 > 454) {
+                                        no_more_directories = 1;
+                                        temp4 = 0x00000000;
+                                        temp4 = (uint32_t)get_data_area;
+                                        free_mem_uint(temp4);
+                                        return 0;
+                                }
 
-						        rootfile_counter++;
-						        rootdirinfo_counter++;
-
-						        if(have_read_dir == 1) {
-							            have_read_dir_counter2++;
-							            for(fs_b = have_read_dir_counter2; fs_b <= have_read_dir_counter; fs_b++) {
+                                rootfile_counter++;
+                                rootdirinfo_counter++;
+                                if(have_read_dir == 1) {
+                                        have_read_dir_counter2++;
+                                        for(fs_b = have_read_dir_counter2; fs_b <= have_read_dir_counter; fs_b++) {
                                                 /* write all found dirs into dir_info */
-									            for(;fs_m < 8;fs_m++)
-										                (*(fs_filenames_dirinfo + ((rootdirinfo_counter)*9) + fs_m)) = (*(fs_directories + ((fs_b)*9) + fs_m));
-									            rootdirinfo_counter++;
-									            fs_m = 0;
-							            }
-
-						        }
-
-                                     /* now dirinfo is filled with read dirs. next step is to put the eod (end of directory) */
-							        (*(fs_filenames_dirinfo + (rootdirinfo_counter*9))) = (int8_t)'e';
-							        (*(fs_filenames_dirinfo + (rootdirinfo_counter*9) + 1)) = (int8_t)'o';
-							        (*(fs_filenames_dirinfo + (rootdirinfo_counter*9) + 2)) = (int8_t)'d';
-							        (*(fs_filenames_dirinfo + (rootdirinfo_counter*9) + 3)) = (int8_t)'\0';
-							        temp_dir_ptr_counter2++;
-							        rootdirinfo_counter++;
-
-                                    /* now the eod has been written to the dir_info. next step is to write the first dir read after the eod. go to if have_read_dir=1 */
-							        (*(fs_filenames + ((rootfile_counter)*10))) = (int8_t)'e';
-							        (*(fs_filenames + ((rootfile_counter)*10) + 1)) = (int8_t)'o';
-							        (*(fs_filenames + ((rootfile_counter)*10) + 2)) = (int8_t)'d';
-							        (*(fs_filenames + ((rootfile_counter)*10) + 3)) = (int8_t)'\0';
-							        (*(fs_filelocation_cluster_ptr + rootfile_counter)) = 0;
-							        (*(fs_filelength + rootfile_counter)) = 0;
-							        have_read_file = 0;
-
-						        fs_dir_cluster_counter += fs_dir_cluster_counter2;
-						        if((fs_file_cluster_counter + fs_file_cluster_counter2) < 455)
-							            fs_file_cluster_counter += fs_file_cluster_counter2;
-
-						        are_in_root_flag = 0;
-						        have_read_first_dir = 1;
-						        if(have_read_dir == 0) {
-
-								        /* now the eod has been put at place in dir_info. what dir should now be put here? the next dir in the list but need to check if it exists first */
-								        rootfile_counter++;
-								        temp_dir_ptr_counter2 = temp_dir_ptr_counter;
-
-								        while((!(*(fs_directories + ((temp_dir_ptr_counter2 - 1)*9))) && ((455 - (temp_dir_ptr_counter2 - 1)) > 0))) {
-										        temp_dir_ptr_counter2++;
-								        }
-								        if(temp_dir_ptr_counter2 > 455) {
-										        no_more_directories = 1;
-										        /* done */
-										        return 0;
-								        }
-
-								        
-							        if (((455 - temp_dir_ptr_counter2) > 0)) {
-									        temp_directory_ptr2++;
-
-									        if((*(fs_directorylocation_cluster_ptr + temp_dir_ptr_counter)) == 0) {
-											        no_more_directories = 1;
-                                                    /* done */
-											        return 0;
-									        }
-
-									        for(fs_b = 0; fs_b < 8; fs_b++) {
-
-											        (*(fs_filenames + ((rootfile_counter)*10) + fs_b)) = (*(fs_directories + ((fs_dir_counter_temp)*9) + fs_b));
-											        (*(fs_filenames_dirinfo + ((rootdirinfo_counter)*9) + fs_b)) = (*(fs_directories + ((fs_dir_counter_temp)*9) + fs_b));
-
-									        }
-
-									        (*(fs_filelocation_cluster_ptr + rootfile_counter)) = 0;
-									        (*(fs_filelength + rootfile_counter)) = 0;
-									        rootdirinfo_counter++;
-									        (*(fs_filenames_dirinfo + ((rootdirinfo_counter)*9))) = (int8_t)0x25;
-
-
-									        return fs_directorylocation_cluster_ptr + temp_dir_ptr_counter;
-							        }
-
-							        else {
-									        no_more_directories = 1;
-									        temp4 = 0x00000000;
-									        temp4 = (uint32_t)get_data_area;
-									        free_mem_uint(temp4);
-									        return 0;
-							        }
-
-
-						        }
-						         /* you should now have read a directory. go to the next + (temp_dir_ptr_counter - 1) */
-						        if(have_read_dir == 1) {
-
-								        rootfile_counter++;
-								        for(fs_b = 0; fs_b < 8; fs_b++) {
-
-										        (*(fs_filenames + ((rootfile_counter*10)) + fs_b)) = (*(fs_directories + ((fs_dir_counter_temp) *9) + fs_b)); //boot for example. so if so then save "boot" in a global int8_t file.
-										        (*(fs_filenames_dirinfo + ((rootdirinfo_counter)*9) + fs_b)) = (*(fs_directories + ((fs_dir_counter_temp)*9) + fs_b));
-
-								        }
-
-								        (*(fs_filelocation_cluster_ptr + rootfile_counter)) = 0;
-								        (*(fs_filelength + rootfile_counter)) = 0;
-								        rootdirinfo_counter++;
-								        (*(fs_filenames_dirinfo + ((rootdirinfo_counter)*9))) = (int8_t)0x25;
-
-								        have_read_dir = 0;
-
-								        temp4 = 0x00000000;
-								        temp4 = (uint32_t)get_data_area;
-								        free_mem_uint(temp4);
-
-								        return fs_directorylocation_cluster_ptr + temp_dir_ptr_counter; 
-						        }
-
-						        else {
-							            temp4 = 0x00000000;
-							            temp4 = (uint32_t)get_data_area;
-							            free_mem_uint(temp4);
-							            return 0;
-						        }
-				        }
-
-				        if (rootdir_counter2 > 454) {
-						        no_more_directories = 1;
-						        temp4 = 0x00000000;
-						        temp4 = (uint32_t)get_data_area;
-						        free_mem_uint(temp4);
-						        return 0;
-				        }
-		        } 
-                /* if the driver read valid data or not */
-		        else
-			            error_count = 1;
-
-		        if(error_count == 0) {
-				        directory_entries -= 1;
-				        if (rootdir_counter2 > 454) {
-						        no_more_directories = 1;
-						        temp4 = 0x00000000;
-						        temp4 = (uint32_t)get_data_area;
-						        free_mem_uint(temp4);
-						        return 0;
-				        }
-		        }
-		        else {
-				        print("\n\nDriver error: Could not process data");
-				        no_more_directories = 1;
-				        temp1 = 0x00000000;
-				        temp1 = (uint32_t)get_data_area;
-				        free_mem_uint(temp1);
-				        error_count = 0;
-				        return 0;
-		        } 
-
-		        if (rootdir_counter > 15) {
-
-				        data_area++;
-				        sector_read++;
-				        dir_counter = 0;
-				        dir_counter2 = 0;
-		        }
-
-		        if(sector_read == 4) {
-
-
-				        sector_read = 0;
-				        fs_dir_counter_temp++;
-				        uint32_t fs_m = 0;
-				        if (rootdir_counter2 > 454) {
-						        no_more_directories = 1;
-						        temp4 = 0x00000000;
-						        temp4 = (uint32_t)get_data_area;
-						        free_mem_uint(temp4);
-						        return 0;
-				        }
-				        rootfile_counter++;
-				        rootdirinfo_counter++; 
-				        if(have_read_dir == 1) {
-        					    have_read_dir_counter2++;
-                                /* write all found dirs into dir_info */
-					        for(fs_b = have_read_dir_counter2; fs_b <= have_read_dir_counter; fs_b++) {
-							        for(;fs_m < 8;fs_m++)
-								            (*(fs_filenames_dirinfo + ((rootdirinfo_counter)*9) + fs_m)) = (*(fs_directories + ((fs_b)*9) + fs_m));
-							        rootdirinfo_counter++;
-					        }
-
-				        } 
-
-
-					        (*(fs_filenames_dirinfo + (rootdirinfo_counter*9))) = (int8_t)'e';
-					        (*(fs_filenames_dirinfo + (rootdirinfo_counter*9) + 1)) = (int8_t)'o';
-					        (*(fs_filenames_dirinfo + (rootdirinfo_counter*9) + 2)) = (int8_t)'d';
-					        (*(fs_filenames_dirinfo + (rootdirinfo_counter*9) + 3)) = (int8_t)'\0';
-					        temp_dir_ptr_counter2++;
-					        rootdirinfo_counter++;
-
-
-                            /* now the eod has been written to the dir_info. next step is to write the first dir read after the eod. go to if have_read_dir=1 */
-					        (*(fs_filenames + ((rootfile_counter)*10))) = (int8_t)'e';
-					        (*(fs_filenames + ((rootfile_counter)*10) + 1)) = (int8_t)'o';
-					        (*(fs_filenames + ((rootfile_counter)*10) + 2)) = (int8_t)'d';
-					        (*(fs_filenames + ((rootfile_counter)*10) + 3)) = (int8_t)'\0';
-					        (*(fs_filelocation_cluster_ptr + rootfile_counter)) = 0;
-					        (*(fs_filelength + rootfile_counter)) = 0;
-					        have_read_file = 0;
-
-
-				        fs_dir_cluster_counter += fs_dir_cluster_counter2;
-				        if((fs_file_cluster_counter + fs_file_cluster_counter2) < 455)
-					            fs_file_cluster_counter += fs_file_cluster_counter2;
-
-				        are_in_root_flag = 0;
-				        have_read_first_dir = 1;
-				        if(have_read_dir == 0) {
-
-						        rootfile_counter++;
-						        temp_dir_ptr_counter2 = temp_dir_ptr_counter;
-
-						        while((!(*(fs_directories + ((temp_dir_ptr_counter2 - 1)*9))) && ((455 - (temp_dir_ptr_counter2 - 1)) > 0)))
-							            temp_dir_ptr_counter2++;
-						        if(temp_dir_ptr_counter2 > 455) {
-								        no_more_directories = 1;
-                                        /* done */
-								        return 0;
-						        }
-
-								        
-						        if (((455 - temp_dir_ptr_counter2) > 0)) {
-								        temp_directory_ptr2++;
-                                        (*(fs_filenames_dirinfo + ((rootfile_counter)*9) + fs_b)) = (*(fs_directories + ((fs_dir_counter_temp)*9) + fs_b));
-						        
-
-						                if((*(fs_directorylocation_cluster_ptr + temp_dir_ptr_counter)) == 0) {
-								                no_more_directories = 1;
-                
-								                return 0;
-						                }
-
-						                for(fs_b = 0; fs_b < 8; fs_b++) {
-
-								                (*(fs_filenames + ((rootfile_counter)*10) + fs_b)) = (*(fs_directories + ((fs_dir_counter_temp)*9) + fs_b));
-								                (*(fs_filenames_dirinfo + ((rootdirinfo_counter)*9) + fs_b)) = (*(fs_directories + ((fs_dir_counter_temp)*9) + fs_b));
-						                } 
-						                (*(fs_filelocation_cluster_ptr + rootfile_counter)) = 0;
-						                (*(fs_filelength + rootfile_counter)) = 0;
-
-						                rootdirinfo_counter++;
-						                (*(fs_filenames_dirinfo + ((rootdirinfo_counter)*9))) = (int8_t)0x25;
-						                return fs_directorylocation_cluster_ptr + temp_dir_ptr_counter;
+                                                for(;fs_m < 8;fs_m++)
+                                                        (*(fs_filenames_dirinfo + ((rootdirinfo_counter)*9) + fs_m)) = (*(fs_directories + ((fs_b)*9) + fs_m));
+                                                rootdirinfo_counter++;
+                                                fs_m = 0;
+                                        }
 
                                 }
 
-				        
+                                /* now dirinfo is filled with read dirs. next step is to put the eod (end of directory) */
+                                (*(fs_filenames_dirinfo + (rootdirinfo_counter*9))) = (int8_t)'e';
+                                (*(fs_filenames_dirinfo + (rootdirinfo_counter*9) + 1)) = (int8_t)'o';
+                                (*(fs_filenames_dirinfo + (rootdirinfo_counter*9) + 2)) = (int8_t)'d';
+                                (*(fs_filenames_dirinfo + (rootdirinfo_counter*9) + 3)) = (int8_t)'\0';
+                                temp_dir_ptr_counter2++;
+                                rootdirinfo_counter++;
 
-						        else {
-								        no_more_directories = 1;
-								        temp4 = 0x00000000;
-								        temp4 = (uint32_t)get_data_area;
-								        free_mem_uint(temp4);
-								        return 0;
-						        }
+                                /* now the eod has been written to the dir_info. next step is to write the first dir read after the eod. go to if have_read_dir=1 */
+                                (*(fs_filenames + ((rootfile_counter)*10))) = (int8_t)'e';
+                                (*(fs_filenames + ((rootfile_counter)*10) + 1)) = (int8_t)'o';
+                                (*(fs_filenames + ((rootfile_counter)*10) + 2)) = (int8_t)'d';
+                                (*(fs_filenames + ((rootfile_counter)*10) + 3)) = (int8_t)'\0';
+                                (*(fs_filelocation_cluster_ptr + rootfile_counter)) = 0;
+                                (*(fs_filelength + rootfile_counter)) = 0;
+                                have_read_file = 0;
+
+                                fs_dir_cluster_counter += fs_dir_cluster_counter2;
+                                if((fs_file_cluster_counter + fs_file_cluster_counter2) < 455)
+                                        fs_file_cluster_counter += fs_file_cluster_counter2;
+
+                                are_in_root_flag = 0;
+                                have_read_first_dir = 1;
+                                if(have_read_dir == 0) {
+
+                                        /* now the eod has been put at place in dir_info. what dir should now be put here? the next dir in the list but need to check if it exists first */
+                                        rootfile_counter++;
+                                        temp_dir_ptr_counter2 = temp_dir_ptr_counter;
+
+                                        while((!(*(fs_directories + ((temp_dir_ptr_counter2 - 1)*9))) && ((455 - (temp_dir_ptr_counter2 - 1)) > 0))) {
+                                                temp_dir_ptr_counter2++;
+                                        }
+                                        if(temp_dir_ptr_counter2 > 455) {
+                                                no_more_directories = 1;
+                                                /* done */
+                                                return 0;
+                                        }
+
+                                        if (((455 - temp_dir_ptr_counter2) > 0)) {
+                                                temp_directory_ptr2++;
+
+                                                if((*(fs_directorylocation_cluster_ptr + temp_dir_ptr_counter)) == 0) {
+                                                        no_more_directories = 1;
+                                                        /* done */
+                                                        return 0;
+                                                }
+
+                                                for(fs_b = 0; fs_b < 8; fs_b++) {
+
+                                                        (*(fs_filenames + ((rootfile_counter)*10) + fs_b)) = (*(fs_directories + ((fs_dir_counter_temp)*9) + fs_b));
+                                                        (*(fs_filenames_dirinfo + ((rootdirinfo_counter)*9) + fs_b)) = (*(fs_directories + ((fs_dir_counter_temp)*9) + fs_b));
+
+                                                }
+
+                                                (*(fs_filelocation_cluster_ptr + rootfile_counter)) = 0;
+                                                (*(fs_filelength + rootfile_counter)) = 0;
+                                                rootdirinfo_counter++;
+                                                (*(fs_filenames_dirinfo + ((rootdirinfo_counter)*9))) = (int8_t)0x25;
+
+
+                                                return fs_directorylocation_cluster_ptr + temp_dir_ptr_counter;
+                                        }
+
+                                        else {
+                                                no_more_directories = 1;
+                                                temp4 = 0x00000000;
+                                                temp4 = (uint32_t)get_data_area;
+                                                free_mem_uint(temp4);
+                                                return 0;
+                                        }
+
+
+                                }
+                                /* you should now have read a directory. go to the next + (temp_dir_ptr_counter - 1) */
+                                if(have_read_dir == 1) {
+
+                                        rootfile_counter++;
+                                        for(fs_b = 0; fs_b < 8; fs_b++) {
+
+                                                (*(fs_filenames + ((rootfile_counter*10)) + fs_b)) = (*(fs_directories + ((fs_dir_counter_temp) *9) + fs_b)); //boot for example. so if so then save "boot" in a global int8_t file.
+                                                (*(fs_filenames_dirinfo + ((rootdirinfo_counter)*9) + fs_b)) = (*(fs_directories + ((fs_dir_counter_temp)*9) + fs_b));
+
+                                        }
+
+                                        (*(fs_filelocation_cluster_ptr + rootfile_counter)) = 0;
+                                        (*(fs_filelength + rootfile_counter)) = 0;
+                                        rootdirinfo_counter++;
+                                        (*(fs_filenames_dirinfo + ((rootdirinfo_counter)*9))) = (int8_t)0x25;
+
+                                        have_read_dir = 0;
+
+                                        temp4 = 0x00000000;
+                                        temp4 = (uint32_t)get_data_area;
+                                        free_mem_uint(temp4);
+
+                                        return fs_directorylocation_cluster_ptr + temp_dir_ptr_counter; 
+                                }
+
+                                else {
+                                        temp4 = 0x00000000;
+                                        temp4 = (uint32_t)get_data_area;
+                                        free_mem_uint(temp4);
+                                        return 0;
+                                }
+                        }
+
+                        if (rootdir_counter2 > 454) {
+                                no_more_directories = 1;
+                                temp4 = 0x00000000;
+                                temp4 = (uint32_t)get_data_area;
+                                free_mem_uint(temp4);
+                                return 0;
+                        }
+                }
+                /* if the driver read valid data or not */
+                else
+                        error_count = 1;
+
+                if(error_count == 0) {
+                        directory_entries -= 1;
+                        if (rootdir_counter2 > 454) {
+                                no_more_directories = 1;
+                                temp4 = 0x00000000;
+                                temp4 = (uint32_t)get_data_area;
+                                free_mem_uint(temp4);
+                                return 0;
+                        }
+                }
+                else {
+                        print("\n\nDriver error: Could not process data");
+                        no_more_directories = 1;
+                        temp1 = 0x00000000;
+                        temp1 = (uint32_t)get_data_area;
+                        free_mem_uint(temp1);
+                        error_count = 0;
+                        return 0;
+                }
+
+                if (rootdir_counter > 15) {
+
+                        data_area++;
+                        sector_read++;
+                        dir_counter = 0;
+                        dir_counter2 = 0;
+                }
+
+                if(sector_read == 4) {
+
+
+                        sector_read = 0;
+                        fs_dir_counter_temp++;
+                        uint32_t fs_m = 0;
+                        if (rootdir_counter2 > 454) {
+                                no_more_directories = 1;
+                                temp4 = 0x00000000;
+                                temp4 = (uint32_t)get_data_area;
+                                free_mem_uint(temp4);
+                                return 0;
+                        }
+                        rootfile_counter++;
+                        rootdirinfo_counter++; 
+                        if(have_read_dir == 1) {
+                                have_read_dir_counter2++;
+                                /* write all found dirs into dir_info */
+                                for(fs_b = have_read_dir_counter2; fs_b <= have_read_dir_counter; fs_b++) {
+                                        for(;fs_m < 8;fs_m++)
+                                                (*(fs_filenames_dirinfo + ((rootdirinfo_counter)*9) + fs_m)) = (*(fs_directories + ((fs_b)*9) + fs_m));
+                                        rootdirinfo_counter++;
+                                }
+
                         }
 
 
-						            
+                        (*(fs_filenames_dirinfo + (rootdirinfo_counter*9))) = (int8_t)'e';
+                        (*(fs_filenames_dirinfo + (rootdirinfo_counter*9) + 1)) = (int8_t)'o';
+                        (*(fs_filenames_dirinfo + (rootdirinfo_counter*9) + 2)) = (int8_t)'d';
+                        (*(fs_filenames_dirinfo + (rootdirinfo_counter*9) + 3)) = (int8_t)'\0';
+                        temp_dir_ptr_counter2++;
+                        rootdirinfo_counter++;
+
+
+                        /* now the eod has been written to the dir_info. next step is to write the first dir read after the eod. go to if have_read_dir=1 */
+                        (*(fs_filenames + ((rootfile_counter)*10))) = (int8_t)'e';
+                        (*(fs_filenames + ((rootfile_counter)*10) + 1)) = (int8_t)'o';
+                        (*(fs_filenames + ((rootfile_counter)*10) + 2)) = (int8_t)'d';
+                        (*(fs_filenames + ((rootfile_counter)*10) + 3)) = (int8_t)'\0';
+                        (*(fs_filelocation_cluster_ptr + rootfile_counter)) = 0;
+                        (*(fs_filelength + rootfile_counter)) = 0;
+                        have_read_file = 0;
+
+
+                        fs_dir_cluster_counter += fs_dir_cluster_counter2;
+                        if((fs_file_cluster_counter + fs_file_cluster_counter2) < 455)
+                                fs_file_cluster_counter += fs_file_cluster_counter2;
+
+                        are_in_root_flag = 0;
+                        have_read_first_dir = 1;
+                        if(have_read_dir == 0) {
+
+                                rootfile_counter++;
+                                temp_dir_ptr_counter2 = temp_dir_ptr_counter;
+
+                                while((!(*(fs_directories + ((temp_dir_ptr_counter2 - 1)*9))) && ((455 - (temp_dir_ptr_counter2 - 1)) > 0)))
+                                        temp_dir_ptr_counter2++;
+                                if(temp_dir_ptr_counter2 > 455) {
+                                        no_more_directories = 1;
+                                        /* done */
+                                        return 0;
+                                }
+
+                                if (((455 - temp_dir_ptr_counter2) > 0)) {
+                                        temp_directory_ptr2++;
+                                        (*(fs_filenames_dirinfo + ((rootfile_counter)*9) + fs_b)) = (*(fs_directories + ((fs_dir_counter_temp)*9) + fs_b));
+
+                                        if((*(fs_directorylocation_cluster_ptr + temp_dir_ptr_counter)) == 0) {
+                                                no_more_directories = 1;
+                                                return 0;
+                                        }
+
+                                        for(fs_b = 0; fs_b < 8; fs_b++) {
+
+                                                (*(fs_filenames + ((rootfile_counter)*10) + fs_b)) = (*(fs_directories + ((fs_dir_counter_temp)*9) + fs_b));
+                                                (*(fs_filenames_dirinfo + ((rootdirinfo_counter)*9) + fs_b)) = (*(fs_directories + ((fs_dir_counter_temp)*9) + fs_b));
+                                        }
+                                        (*(fs_filelocation_cluster_ptr + rootfile_counter)) = 0;
+                                        (*(fs_filelength + rootfile_counter)) = 0;
+
+                                        rootdirinfo_counter++;
+                                        (*(fs_filenames_dirinfo + ((rootdirinfo_counter)*9))) = (int8_t)0x25;
+                                        return fs_directorylocation_cluster_ptr + temp_dir_ptr_counter;
+
+                                }
+
+
+                                else {
+                                        no_more_directories = 1;
+                                        temp4 = 0x00000000;
+                                        temp4 = (uint32_t)get_data_area;
+                                        free_mem_uint(temp4);
+                                        return 0;
+                                }
+                        }
                             
-				        if(have_read_dir == 1) {
+                        if(have_read_dir == 1) {
 
-						        rootfile_counter++;
-						        for(fs_b = 0; fs_b < 8; fs_b++) {
+                                rootfile_counter++;
+                                for(fs_b = 0; fs_b < 8; fs_b++) {
 
-								        (*(fs_filenames + ((rootfile_counter*10)) + fs_b)) = (*(fs_directories + ((fs_dir_counter_temp) *9) + fs_b)); 
-								        (*(fs_filenames_dirinfo + ((rootdirinfo_counter)*9) + fs_b)) = (*(fs_directories + ((fs_dir_counter_temp)*9) + fs_b));
-						        }
-						        (*(fs_filelocation_cluster_ptr + rootfile_counter)) = 0;
-						        (*(fs_filelength + rootfile_counter)) = 0;
+                                        (*(fs_filenames + ((rootfile_counter*10)) + fs_b)) = (*(fs_directories + ((fs_dir_counter_temp) *9) + fs_b)); 
+                                        (*(fs_filenames_dirinfo + ((rootdirinfo_counter)*9) + fs_b)) = (*(fs_directories + ((fs_dir_counter_temp)*9) + fs_b));
+                                }
+                                (*(fs_filelocation_cluster_ptr + rootfile_counter)) = 0;
+                                (*(fs_filelength + rootfile_counter)) = 0;
 
-						        rootdirinfo_counter++;
-						        (*(fs_filenames_dirinfo + ((rootdirinfo_counter)*10))) = (int8_t)0x25;
-                                
-						        have_read_dir = 0;
+                                rootdirinfo_counter++;
+                                (*(fs_filenames_dirinfo + ((rootdirinfo_counter)*10))) = (int8_t)0x25;
+                                have_read_dir = 0;
 
-						        temp4 = 0x00000000;
-						        temp4 = (uint32_t)get_data_area;
-						        free_mem_uint(temp4);
+                                temp4 = 0x00000000;
+                                temp4 = (uint32_t)get_data_area;
+                                free_mem_uint(temp4);
 
-						        return fs_directorylocation_cluster_ptr + temp_dir_ptr_counter;
+                                return fs_directorylocation_cluster_ptr + temp_dir_ptr_counter;
 
-				        }
+                        }
 
-				        else {
-					            temp4 = 0x00000000;
-					            temp4 = (uint32_t)get_data_area;
-					            free_mem_uint(temp4);
-					            return 0;
-				        }
+                        else {
+                                temp4 = 0x00000000;
+                                temp4 = (uint32_t)get_data_area;
+                                free_mem_uint(temp4);
+                                return 0;
+                        }
 
-			            
-	            } 
+                } 
         }
 
         /* sectors end (if going upwards) */
-	    if (rootdir_counter2 > 454) {
-			    no_more_directories = 1;
-			    temp4 = 0x00000000;
-			    temp4 = (uint32_t)get_data_area;
-			    free_mem_uint(temp4);
-			    return 0;
-	    }
+        if (rootdir_counter2 > 454) {
+                no_more_directories = 1;
+                temp4 = 0x00000000;
+                temp4 = (uint32_t)get_data_area;
+                free_mem_uint(temp4);
+                return 0;
+        }
 
-	    (*(fs_directories + (rootdir_counter2*9))) = (int8_t)'e';
-	    (*(fs_directories + (rootdir_counter2*9) + 1)) = (int8_t)'o';
-	    (*(fs_directories + (rootdir_counter2*9) + 2)) = (int8_t)'d';
-	    (*(fs_directories + (rootdir_counter2*9) + 3)) = (int8_t)'\0';
+        (*(fs_directories + (rootdir_counter2*9))) = (int8_t)'e';
+        (*(fs_directories + (rootdir_counter2*9) + 1)) = (int8_t)'o';
+        (*(fs_directories + (rootdir_counter2*9) + 2)) = (int8_t)'d';
+        (*(fs_directories + (rootdir_counter2*9) + 3)) = (int8_t)'\0';
 
-	    (*(fs_filenames + ((rootfile_counter + 1)*10))) = (int8_t)'e';
-	    (*(fs_filenames + ((rootfile_counter + 1)*10) + 1)) = (int8_t)'o';
-	    (*(fs_filenames + ((rootfile_counter + 1)*10) + 2)) = (int8_t)'d';
-	    (*(fs_filenames + ((rootfile_counter + 1)*10) + 3)) = (int8_t)'\0';
-	    (*(fs_filelocation_cluster_ptr + rootfile_counter)) = 0;
-	    (*(fs_filelength + rootfile_counter)) = 0;
-	    are_in_root_flag = 0;
+        (*(fs_filenames + ((rootfile_counter + 1)*10))) = (int8_t)'e';
+        (*(fs_filenames + ((rootfile_counter + 1)*10) + 1)) = (int8_t)'o';
+        (*(fs_filenames + ((rootfile_counter + 1)*10) + 2)) = (int8_t)'d';
+        (*(fs_filenames + ((rootfile_counter + 1)*10) + 3)) = (int8_t)'\0';
+        (*(fs_filelocation_cluster_ptr + rootfile_counter)) = 0;
+        (*(fs_filelength + rootfile_counter)) = 0;
+        are_in_root_flag = 0;
 
 
-	    temp1 = 0x00000000;
-	    temp1 = (uint32_t)get_data_area;
-	    free_mem_uint(temp1);
+        temp1 = 0x00000000;
+        temp1 = (uint32_t)get_data_area;
+        free_mem_uint(temp1);
 
-	    return 0;
+        return 0;
 
 
 }
@@ -827,18 +810,18 @@ uint32_t* scan_directories(uint32_t cluster_start)
 /* Attempts to scan all directories in a FAT16 file system. */
 void scan_all_directories()
 {
-	    uint32_t* fs_dir_cluster_ptr = (uint32_t*)0;
-	    uint32_t fs_dir_cluster = 0;
-	    while(no_more_directories == 0) {
+        uint32_t* fs_dir_cluster_ptr = (uint32_t*)0;
+        uint32_t fs_dir_cluster = 0;
+        while(no_more_directories == 0) {
 
-			    fs_dir_cluster_ptr = scan_directories(fs_dir_cluster);
-			    temp_dir_ptr_counter++;
-			    if ((!fs_dir_cluster_ptr) && (no_more_directories == 0)) {
+                fs_dir_cluster_ptr = scan_directories(fs_dir_cluster);
+                temp_dir_ptr_counter++;
+                if ((!fs_dir_cluster_ptr) && (no_more_directories == 0)) {
 
-					    print("\n\nError reading directories");
-					    return;
-			    }
-			    else if (no_more_directories == 1) {
+                        print("\n\nError reading directories");
+                        return;
+                }
+                else if (no_more_directories == 1) {
                         fs_filenames = fs_filenames_start;
                         /* Commented code: 
                         print("\nthe directory names below\n\n");
@@ -864,7 +847,7 @@ void scan_all_directories()
                                         print("\n");
 
                                 }
-                        } 
+                        }
                         print("\nthe file clusters below\n\n");
                         for(int32_t a = 0; a < 64;a++) {
                                 print_hex((*(fs_filelocation_cluster_ptr + a)));
@@ -876,33 +859,33 @@ void scan_all_directories()
                         } */
 
 
-					    return;
-			    }
-			    else
-				    fs_dir_cluster = (*(fs_dir_cluster_ptr));
-	    }
+                        return;
+                }
+                else
+                       fs_dir_cluster = (*(fs_dir_cluster_ptr));
+        }
 
-	    print("\n\nAll directories scanned or a driver error occured");
+        print("\n\nAll directories scanned or a driver error occured");
 
 }
 
 /* Tests a write operation on a specific cluster. */
 void test_read_write()
 {	
-	    /* will read filea at a fixed location and then write file a on the next cluster after filej at a fixed location */
-	    /* and then read filea again. */
-	    print("hi");
-	    uint32_t tmp1 = 0;
-	    volatile uint8_t* tmp2 = (volatile uint8_t*)0;
-	    volatile uint8_t* fs_transfer = (volatile uint8_t*)kmem_4k_allocate();
-	    zero_usbms_mem_4(fs_transfer);
-	    tmp2 = fs_transfer;
+        /* will read filea at a fixed location and then write file a on the next cluster after filej at a fixed location */
+        /* and then read filea again. */
+        print("hi");
+        uint32_t tmp1 = 0;
+        volatile uint8_t* tmp2 = (volatile uint8_t*)0;
+        volatile uint8_t* fs_transfer = (volatile uint8_t*)kmem_4k_allocate();
+        zero_usbms_mem_4(fs_transfer);
+        tmp2 = fs_transfer;
 
         for(uint32_t a = 0; a < 512; a+=4) {
-		        (*(fs_transfer + a)) = 0x6a;
-		        (*(fs_transfer + a + 1)) = 0x6f;
-		        (*(fs_transfer + a + 2)) = 0x68;
-		        (*(fs_transfer + a + 3)) = 0x61;
+                (*(fs_transfer + a)) = 0x6a;
+                (*(fs_transfer + a + 1)) = 0x6f;
+                (*(fs_transfer + a + 2)) = 0x68;
+                (*(fs_transfer + a + 3)) = 0x61;
         }
 
         print("\n\nDriver:");
@@ -911,21 +894,21 @@ void test_read_write()
         if (b == 3) {
                 usbms_extra_data[0] = USB_BULKSTORAGE_SCSI_CTL;
                 volatile uint8_t* c = prepare_usb_storage_bulk_transfer(USB_BULKSTORAGE_SCSI_REQUEST_SENSE, USB_DEVICE_TO_HOST, 0, 0x12, usbms_extra_data);
-		        if (c!= (volatile uint8_t*)0x600000) {
-				        uint8_t d = transfer_data_10(set_cbw_10_data(0x21, 0x2f, 512), 0, 0);
-				        if (d == 3)
-					            print("\n\nWriting and reading data successfully completed.\n\n");
-				        else
-					            print("\n\nFailed to read the data which was written to the drive.\n\n");
-		        }
-		        else
-				        print("\n\n Error during request sense operation.\n\n");
+                if (c!= (volatile uint8_t*)0x600000) {
+                        uint8_t d = transfer_data_10(set_cbw_10_data(0x21, 0x2f, 512), 0, 0);
+                        if (d == 3)
+                                print("\n\nWriting and reading data successfully completed.\n\n");
+                        else
+                                print("\n\nFailed to read the data which was written to the drive.\n\n");
+                }
+                else
+                        print("\n\n Error during request sense operation.\n\n");
 
 
         }
 
         else
-		        print("\n\n Error during write operation.\n\n");
+                print("\n\n Error during write operation.\n\n");
 
         print(csptr);
 
@@ -938,28 +921,27 @@ void test_read_write()
 void test_temp()
 {
         struct device* dev = usbdev;
-	    volatile uint8_t* get_data_area2 = (volatile uint8_t*)0;
-	    uint8_t* get_data_area3 = (uint8_t*)0;
-	    volatile uint8_t* get_data_area = (volatile uint8_t*)0;
+        volatile uint8_t* get_data_area2 = (volatile uint8_t*)0;
+        uint8_t* get_data_area3 = (uint8_t*)0;
+        volatile uint8_t* get_data_area = (volatile uint8_t*)0;
         if(dev->current_device_type == USB_MASS_STORAGE) {
                 usbms_extra_data[0] = USB_BULKSTORAGE_SCSI_LBA;
                 usbms_extra_data[1] = 0x869;
                 get_data_area = (volatile uint8_t*)prepare_usb_storage_bulk_transfer(USB_BULKSTORAGE_SCSI_READ10, USB_DEVICE_TO_HOST, 0, 512, usbms_extra_data);
-        } 
-	    get_data_area2 = get_data_area;
-	    get_data_area3 = (uint8_t*)get_data_area2;
+        }
+        get_data_area2 = get_data_area;
+        get_data_area3 = (uint8_t*)get_data_area2;
 
-	    get_data_area3 +=160;
+        get_data_area3 +=160;
 
-	    print("\n\nTesting if it can print i386: ");
-	    for(uint32_t fs_g = 0;fs_g < 7; fs_g++) {
-			    if((*(get_data_area3 + fs_g)) < 128)
-				    printch((int8_t)(*(get_data_area3 + fs_g)), 0);
-			    else if ((*(get_data_area3 + fs_g)) > 127)
-				    print(" ");
-	    }
+        print("\n\nTesting if it can print i386: ");
+        for(uint32_t fs_g = 0;fs_g < 7; fs_g++) {
+                if((*(get_data_area3 + fs_g)) < 128)
+                        printch((int8_t)(*(get_data_area3 + fs_g)), 0);
+                else if ((*(get_data_area3 + fs_g)) > 127)
+                        print(" ");
+        }
 
 
 
 }
-
