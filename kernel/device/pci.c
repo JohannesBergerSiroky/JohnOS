@@ -205,203 +205,203 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                 print("          Type: Bridge Device\n");
                                 print("          Function: MCA Bridge\n\n");
                         }
-				        else if (pci_func == 4) {
-						        if (pci_progif == 0) {
-								        print("          Type: Bridge Device\n");
-								        print("          Function: PCI-to-PCI Bridge\n\n");
-						        }
-						        else if (pci_progif == 1) {
-								        print("          Type: Bridge Device\n");
-								        print("          Function: PCI-to-PCI Bridge (Subtractive Decode)\n\n");
-						        }
-				        }
-				        else if (pci_func == 5) {
-							        print("          Type: Bridge Device\n");
-							        print("          Function: PCMCIA Bridge\n\n");
-				        }
-				        else if (pci_func == 6) {
-							        print("          Type: Bridge Device\n");
-							        print("          Function: NuBus Bridge\n\n");
-				        }
-				        else if (pci_func == 7) {
-							        print("          Type: Bridge Device\n");
-							        print("          Function: CardBus Bridge\n\n");
-				        }
-				        else if (pci_func == 8) {
-							        print("          Type: Bridge Device\n");
-							        print("          Function: RACEway Bridge\n\n");
-				        }
-				        else if (pci_func == 9) {
-						        if (pci_progif == 0x40) {
-								        print("          Type: Bridge Device\n");
-								        print("          Function: PTP Bridge (Semi-Transparent, Primary)\n\n");
-						        }
-						        else if (pci_progif == 0x80) {
-								        print("          Type: Bridge Device\n");
-								        print("          Function: PTP Bridge (Semi-Transparent, Secondary)\n\n");
-						        }
-				        }
-				        else if (pci_func == 0xa) {
-							        print("          Type: Bridge Device\n");
-							        print("          Function: RAM Controller\n\n");
-				        }
-				        else if (pci_func == 0x80) {
-						        print("          Type: Bridge Device\n");
-						        print("          Function: Other Bridge Device\n\n");
-				        }
-		        break;
+                        else if (pci_func == 4) {
+                                if (pci_progif == 0) {
+                                        print("          Type: Bridge Device\n");
+                                        print("          Function: PCI-to-PCI Bridge\n\n");
+                                }
+                                else if (pci_progif == 1) {
+                                        print("          Type: Bridge Device\n");
+                                        print("          Function: PCI-to-PCI Bridge (Subtractive Decode)\n\n");
+                                }
+                        }
+                        else if (pci_func == 5) {
+                                print("          Type: Bridge Device\n");
+                                print("          Function: PCMCIA Bridge\n\n");
+                        }
+                        else if (pci_func == 6) {
+                                print("          Type: Bridge Device\n");
+                                print("          Function: NuBus Bridge\n\n");
+                        }
+                        else if (pci_func == 7) {
+                                print("          Type: Bridge Device\n");
+                                print("          Function: CardBus Bridge\n\n");
+                        }
+                        else if (pci_func == 8) {
+                                print("          Type: Bridge Device\n");
+                                print("          Function: RACEway Bridge\n\n");
+                        }
+                        else if (pci_func == 9) {
+                                if (pci_progif == 0x40) {
+                                        print("          Type: Bridge Device\n");
+                                        print("          Function: PTP Bridge (Semi-Transparent, Primary)\n\n");
+                                }
+                                else if (pci_progif == 0x80) {
+                                        print("          Type: Bridge Device\n");
+                                        print("          Function: PTP Bridge (Semi-Transparent, Secondary)\n\n");
+                                }
+                        }
+                        else if (pci_func == 0xa) {
+                                print("          Type: Bridge Device\n");
+                                print("          Function: RAM Controller\n\n");
+                        }
+                        else if (pci_func == 0x80) {
+                                print("          Type: Bridge Device\n");
+                                print("          Function: Other Bridge Device\n\n");
+                        }
+                break;
 
-		        case 7:
-	            		if (pci_func == 0) {
+                case 7:
+                        if (pci_func == 0) {
                     
-					        if (pci_progif == 0) {
-							        print("          Type: 	Simple Communication Controllers\n");
-							        print("          Function: Generic XT-Compatible Serial Controller\n\n");
-					        }
-					        else if (pci_progif == 1) {
-							        print("          Type: 	Simple Communication Controllers\n");
-							        print("          Function: 16450-Compatible Serial Controller\n\n");
-					        }
-					        else if (pci_progif == 2) {
-							        print("          Type: 	Simple Communication Controllers\n");
-							        print("          Function: 16550-Compatible Serial Controller\n\n");
-					        }
-					        else if (pci_progif == 3) {
-							        print("          Type: 	Simple Communication Controllers\n");
-							        print("          Function: 16650-Compatible Serial Controller\n\n");
-					        }
-					        else if (pci_progif == 4) {
-							        print("          Type: 	Simple Communication Controllers\n");
-							        print("          Function: 16750-Compatible Serial Controller\n\n");
-					        }
-					        else if (pci_progif == 5) {
-							        print("          Type: 	Simple Communication Controllers\n");
-							        print("          Function: 16850-Compatible Serial Controller\n\n");
-					        }
-					        else if (pci_progif == 6) {
-							        print("          Type: 	Simple Communication Controllers\n");
-							        print("          Function: 16950-Compatible Serial Controller\n\n");
-					        }
-		                }
+                                if (pci_progif == 0) {
+                                        print("          Type: 	Simple Communication Controllers\n");
+                                        print("          Function: Generic XT-Compatible Serial Controller\n\n");
+                                }
+                                else if (pci_progif == 1) {
+                                        print("          Type: 	Simple Communication Controllers\n");
+                                        print("          Function: 16450-Compatible Serial Controller\n\n");
+                                }
+                                else if (pci_progif == 2) {
+                                        print("          Type: 	Simple Communication Controllers\n");
+                                        print("          Function: 16550-Compatible Serial Controller\n\n");
+                                }
+                                else if (pci_progif == 3) {
+                                        print("          Type: 	Simple Communication Controllers\n");
+                                        print("          Function: 16650-Compatible Serial Controller\n\n");
+                                }
+                                else if (pci_progif == 4) {
+                                        print("          Type: 	Simple Communication Controllers\n");
+                                        print("          Function: 16750-Compatible Serial Controller\n\n");
+                                }
+                                else if (pci_progif == 5) {
+                                        print("          Type: 	Simple Communication Controllers\n");
+                                        print("          Function: 16850-Compatible Serial Controller\n\n");
+                                }
+                                else if (pci_progif == 6) {
+                                        print("          Type: 	Simple Communication Controllers\n");
+                                        print("          Function: 16950-Compatible Serial Controller\n\n");
+                                }
+                        }
 
-				        else if (pci_func == 1) {
-					        if (pci_progif == 0) {
-							        print("          Type: Simple Communication Controllers\n");
-							        print("          Function: Parallel Port\n\n");
-					        }
-					        else if (pci_progif == 1) {
-							        print("          Type: Simple Communication Controllers\n");
-							        print("          Function: Bi-Directional Parallel Port\n\n");
-					        }
-					        else if (pci_progif == 2) {
-							        print("          Type: Simple Communication Controllers\n");
-							        print("          Function: ECP 1.X Compliant Parallel Port\n\n");
-					        }
-					        else if (pci_progif == 3) {
-							        print("          Type: Simple Communication Controllers\n");
-							        print("          Function: IEEE 1284 Controller\n\n");
-					        }
-					        else if (pci_progif == 0xfe) {
-							        print("          Type: Simple Communication Controllers\n");
-							        print("          Function: IEEE 1284 Target Device\n\n");
-					        }
-			            }
-			            else if (pci_func == 2) {
-					            print("          Type: Simple Communication Controllers\n");
-					            print("          Function: Multiport Serial Controller\n\n");
-			            }
+                        else if (pci_func == 1) {
+                                if (pci_progif == 0) {
+                                        print("          Type: Simple Communication Controllers\n");
+                                        print("          Function: Parallel Port\n\n");
+                                }
+                                else if (pci_progif == 1) {
+                                        print("          Type: Simple Communication Controllers\n");
+                                        print("          Function: Bi-Directional Parallel Port\n\n");
+                                }
+                                else if (pci_progif == 2) {
+                                        print("          Type: Simple Communication Controllers\n");
+                                        print("          Function: ECP 1.X Compliant Parallel Port\n\n");
+                                }
+                                else if (pci_progif == 3) {
+                                        print("          Type: Simple Communication Controllers\n");
+                                        print("          Function: IEEE 1284 Controller\n\n");
+                                }
+                                else if (pci_progif == 0xfe) {
+                                        print("          Type: Simple Communication Controllers\n");
+                                        print("          Function: IEEE 1284 Target Device\n\n");
+                                }
+                        }
+                        else if (pci_func == 2) {
+                                print("          Type: Simple Communication Controllers\n");
+                                print("          Function: Multiport Serial Controller\n\n");
+                        }
 
-			            else if (pci_func == 3) {
-					            if (pci_progif == 0) {
-							            print("          Type: Simple Communication Controllers\n");
-							            print("          Function: Generic Modem\n\n");
-					            }
-					            else if (pci_progif == 1) {
-							            print("          Type: Simple Communication Controllers\n");
-							            print("          Function: H. Modem (16450-Compatible Interface)\n\n");
-					            }
-					            else if (pci_progif == 2) {
-							            print("          Type: Simple Communication Controllers\n");
-							            print("          Function: H. Modem (16550-Compatible Interface)\n\n");
-					            }
-					            else if (pci_progif == 3) {
-							            print("          Type: Simple Communication Controllers\n");
-							            print("          Function: H. Modem (16650-Compatible Interface)\n\n");
-					            }
-					            else if (pci_progif == 4) {
-							            print("          Type: Simple Communication Controllers\n");
-							            print("          Function: H. Modem (16750-Compatible Interface)\n\n");
-					            }
-			            }
-			            else if (pci_func == 4) {
-				                print("          Type: Simple Communication Controllers\n");
-				                print("          Function: IEEE 488.1/2 (GPIB) Controller\n\n");
-			            }
-			            else if (pci_func == 5) {
-					            print("          Type: Simple Communication Controllers\n");
-					            print("          Function: Smart Card\n\n");
-			            }
-			            else if (pci_func == 0x80) {
-					            print("          Type: Simple Communication Controllers\n");
-					            print("          Function: Other Communications Device\n\n");
-			            }
+                        else if (pci_func == 3) {
+                                if (pci_progif == 0) {
+                                        print("          Type: Simple Communication Controllers\n");
+                                        print("          Function: Generic Modem\n\n");
+                                }
+                                else if (pci_progif == 1) {
+                                        print("          Type: Simple Communication Controllers\n");
+                                        print("          Function: H. Modem (16450-Compatible Interface)\n\n");
+                                }
+                                else if (pci_progif == 2) {
+                                        print("          Type: Simple Communication Controllers\n");
+                                        print("          Function: H. Modem (16550-Compatible Interface)\n\n");
+                                }
+                                else if (pci_progif == 3) {
+                                        print("          Type: Simple Communication Controllers\n");
+                                        print("          Function: H. Modem (16650-Compatible Interface)\n\n");
+                                }
+                                else if (pci_progif == 4) {
+                                        print("          Type: Simple Communication Controllers\n");
+                                        print("          Function: H. Modem (16750-Compatible Interface)\n\n");
+                                }
+                        }
+                        else if (pci_func == 4) {
+                                print("          Type: Simple Communication Controllers\n");
+                                print("          Function: IEEE 488.1/2 (GPIB) Controller\n\n");
+                        }
+                        else if (pci_func == 5) {
+                                print("          Type: Simple Communication Controllers\n");
+                                print("          Function: Smart Card\n\n");
+                        }
+                        else if (pci_func == 0x80) {
+                                print("          Type: Simple Communication Controllers\n");
+                                print("          Function: Other Communications Device\n\n");
+                        }
 
-		        break;
+                break;
 
-		        case 8:
-				        if (pci_func == 0) {
-					        if (pci_progif == 0) {
-							        print("          Type: Base System Peripherals\n");
-							        print("          Function: Generic 8259 PIC\n\n");
-					        }
-					        else if (pci_progif == 1) {
-							        print("          Type: Base System Peripherals\n");
-							        print("          Function: ISA PIC\n\n");
-					        }
-					        else if (pci_progif == 2) {
-							        print("          Type: Base System Peripherals\n");
-							        print("          Function: EISA PIC\n\n");
-					        }
-					        else if (pci_progif == 0x10) {
-							        print("          Type: Base System Peripherals\n");
-							        print("          Function: I/O APIC Interrupt Controller\n\n");
-					        }
-					        else if (pci_progif == 0x20) {
-							        print("          Type: 	Base System Peripherals\n");
-							        print("          Function: I/O(x) APIC Interrupt Controller\n\n");
-					        }
+                case 8:
+                        if (pci_func == 0) {
+                                if (pci_progif == 0) {
+                                        print("          Type: Base System Peripherals\n");
+                                        print("          Function: Generic 8259 PIC\n\n");
+                                }
+                                else if (pci_progif == 1) {
+                                        print("          Type: Base System Peripherals\n");
+                                        print("          Function: ISA PIC\n\n");
+                                }
+                                else if (pci_progif == 2) {
+                                        print("          Type: Base System Peripherals\n");
+                                        print("          Function: EISA PIC\n\n");
+                                }
+                                else if (pci_progif == 0x10) {
+                                        print("          Type: Base System Peripherals\n");
+                                        print("          Function: I/O APIC Interrupt Controller\n\n");
+                                }
+                                else if (pci_progif == 0x20) {
+                                        print("          Type: 	Base System Peripherals\n");
+                                        print("          Function: I/O(x) APIC Interrupt Controller\n\n");
+                                }
 
-			            }
-				        else if (pci_func == 1) {
-					        if (pci_progif == 0) {
-							        print("          Type: Base System Peripherals\n");
-							        print("          Function: Generic 8237 DMA Controller\n\n");
-					        }
-					        else if (pci_progif == 1) {
-							        print("          Type: Base System Peripherals\n");
-							        print("          Function: ISA DMA Controller\n\n");
-					        }
-					        else if (pci_progif == 2) {
-							        print("          Type: Base System Peripherals\n");
-							        print("          Function: EISA DMA Controller\n\n");
-					        }
+                        }
+                        else if (pci_func == 1) {
+                                if (pci_progif == 0) {
+                                        print("          Type: Base System Peripherals\n");
+                                        print("          Function: Generic 8237 DMA Controller\n\n");
+                                }
+                                else if (pci_progif == 1) {
+                                        print("          Type: Base System Peripherals\n");
+                                        print("          Function: ISA DMA Controller\n\n");
+                                }
+                                else if (pci_progif == 2) {
+                                        print("          Type: Base System Peripherals\n");
+                                        print("          Function: EISA DMA Controller\n\n");
+                                }
 
-				        }
-				        else if (pci_func == 2) {
-					        if (pci_progif == 0) {
-							        print("          Type: Base System Peripherals\n");
-							        print("          Function: Generic 8254 System Timer\n\n");
-					        }
-					        else if (pci_progif == 1) {
-							        print("          Type: Base System Peripherals\n");
-							        print("          Function: ISA System Timer\n\n");
-					        }
-					        else if (pci_progif == 2) {
-							        print("          Type: Base System Peripherals\n");
-							        print("          Function: EISA System Timer\n\n");
-					        }
+                        }
+                        else if (pci_func == 2) {
+                                if (pci_progif == 0) {
+                                        print("          Type: Base System Peripherals\n");
+                                        print("          Function: Generic 8254 System Timer\n\n");
+                                }
+                                else if (pci_progif == 1) {
+                                        print("          Type: Base System Peripherals\n");
+                                        print("          Function: ISA System Timer\n\n");
+                                }
+                                else if (pci_progif == 2) {
+                                        print("          Type: Base System Peripherals\n");
+                                        print("          Function: EISA System Timer\n\n");
+                                }
 
-				        }
+                        }
 				        else if (pci_func == 3) {
 					        if (pci_progif == 0) {
 							        print("          Type: Base System Peripherals\n");
