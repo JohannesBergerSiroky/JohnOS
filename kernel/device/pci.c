@@ -21,191 +21,190 @@
 void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif, uint32_t f)
 {
 
-	    if ((pci_type > 0xff) || (pci_func > 0xff) || (pci_progif > 0xff))
-		    return;
+        if ((pci_type > 0xff) || (pci_func > 0xff) || (pci_progif > 0xff))
+                return;
 
-	    if (f > 0) {
-			    print("\nFunction: ");
-			    printi((uint32_t)f);
-			    print("\n");
-	    }
+        if (f > 0) {
+                print("\nFunction: ");
+                printi((uint32_t)f);
+                print("\n");
+        }
 
         switch (pci_type) {
                 case 0:
-			            if (pci_func == 0)
-					            print("          Type: VGA/Non-VGA\n           Function: Non-VGA\n\n");
-			            else if (pci_func > 0) {
-					            print("pci_func = "); printi((uint32_t)pci_func); print("\n");
-					            print("          Type: VGA/Non-VGA\n           Function: VGA compatible device\n\n");
+                        if (pci_func == 0)
+                                print("          Type: VGA/Non-VGA\n           Function: Non-VGA\n\n");
+                        else if (pci_func > 0) {
+                                print("pci_func = "); printi((uint32_t)pci_func); print("\n");
+                                print("          Type: VGA/Non-VGA\n           Function: VGA compatible device\n\n");
 
-			            }
-			            break;
+                        }
+                        break;
 
-		        case 1:
-				        if (pci_func == 0) {
-							        print("          Type: Mass storage controller\n");
-							        print("          Function: SCSI Bus Controller\n\n");
-				        }
-				        else if (pci_func == 1) {
-						        print("          Type: Mass storage controller\n"); 
-						        print("          Function: IDE Controller\n\n");
-				        }
-				        else if (pci_func == 2) {
-						        print("          Type: Mass storage controller\n");
-						        print("          Function: Floppy Disk Controller\n\n");
-				        }
-				        else if (pci_func == 3) {
-						        print("          Type: Mass storage controller\n");
-						        print("          Function: IPI Bus Controller\n\n");
-				        }
-				        else if (pci_func == 4) {
-						        print("          Type: Mass storage controller\n");
+                case 1:
+                        if (pci_func == 0) {
+                                print("          Type: Mass storage controller\n");
+                                print("          Function: SCSI Bus Controller\n\n");
+                        }
+                        else if (pci_func == 1) {
+                                print("          Type: Mass storage controller\n"); 
+                                print("          Function: IDE Controller\n\n");
+                        }
+                        else if (pci_func == 2) {
+                                print("          Type: Mass storage controller\n");
+                                print("          Function: Floppy Disk Controller\n\n");
+                        }
+                        else if (pci_func == 3) {
+                                print("          Type: Mass storage controller\n");
+                                print("          Function: IPI Bus Controller\n\n");
+                        }
+                        else if (pci_func == 4) {
+                                print("          Type: Mass storage controller\n");
                                 /* suggestion: check progIF here */
-						        print("          Function: RAID Controller\n\n");
-				        }
-				        else if (pci_func == 5) {
-						        if (pci_progif == 0x20) {
-								        print("          Type: Mass storage controller\n");
-								        print("          Function: ATA Controller(Single DMA)\n\n");
-						        }
-						        else if (pci_progif == 0x30) {
-								        print("          Type: Mass storage controller\n");
-								        print("          Function: ATA Controller(Chained DMA)\n\n");
-						        }
-				        }
-				        else if (pci_func == 6) {
-						        if (pci_progif == 0) {
-								        print("          Type: Mass storage controller\n");
-								        print("          Function: Serial ATA (Vendor Specific Interface)\n\n");
-						        }
-						        else if (pci_progif == 1) {
-								        print("          Type: Mass storage controller\n");
-								        print("          Function: 	Serial ATA (AHCI 1.0)\n\n");
-						        }
-				        }
+                                print("          Function: RAID Controller\n\n");
+                        }
+                        else if (pci_func == 5) {
+                                if (pci_progif == 0x20) {
+                                        print("          Type: Mass storage controller\n");
+                                        print("          Function: ATA Controller(Single DMA)\n\n");
+                                }
+                                else if (pci_progif == 0x30) {
+                                        print("          Type: Mass storage controller\n");
+                                        print("          Function: ATA Controller(Chained DMA)\n\n");
+                                }
+                        }
+                        else if (pci_func == 6) {
+                                if (pci_progif == 0) {
+                                        print("          Type: Mass storage controller\n");
+                                        print("          Function: Serial ATA (Vendor Specific Interface)\n\n");
+                                }
+                                else if (pci_progif == 1) {
+                                        print("          Type: Mass storage controller\n");
+                                        print("          Function: 	Serial ATA (AHCI 1.0)\n\n");
+                                }
+                        }
 
-			            else if (pci_func == 7) {
-					            print("          Type: Mass storage controller\n");
-					            print("          Function: Serial Attached SCSI (SAS)\n\n");
-			            }
-			            else if (pci_func == 0x80) {
-					            print("          Type: Mass storage controller\n");
-					            print("          Function: Other Mass Storage Controller\n\n");
-			            }
-	            break;
+                        else if (pci_func == 7) {
+                                print("          Type: Mass storage controller\n");
+                                print("          Function: Serial Attached SCSI (SAS)\n\n");
+                        }
+                        else if (pci_func == 0x80) {
+                                print("          Type: Mass storage controller\n");
+                                print("          Function: Other Mass Storage Controller\n\n");
+                        }
+                        break;
 
-		        case 2:
-				        if (pci_func == 0) {
-							        print("          Type: Network Controller\n");
-							        print("          Function: Ethernet Controller\n\n");
-				        }
-				        else if (pci_func == 1) {
-						        print("          Type: Network Controller\n");
-						        print("          Function: Token Ring Controller\n\n");
-				        }
-				        else if (pci_func == 2) {
-						        print("          Type: Network Controller\n");
-						        print("          Function: FDDI Controller\n\n");
-				        }
-				        else if (pci_func == 3) {
-						        print("          Type: Network Controller\n");
-						        print("          Function: ATM Controller\n\n");
-				        }
-				        else if (pci_func == 4) {
-						        print("          Type: Network Controller\n");
-						        print("          Function: ISDN Controller\n\n");
-				        }
-				        else if (pci_func == 5) {
-						        print("          Type: Network Controller\n");
-						        print("          Function: WorldFip Controller\n\n");
-				        }
-				        else if (pci_func == 6) {
-						        print("          Type: Network Controller\n");
-						        print("          Function: PICMG 2.14 Multi Computing\n\n");
-				        }
-				        else if (pci_func == 0x80) {
-						        print("          Type: Network Controller\n");
-						        print("          Function: Other Network Controller\n\n");
-				        }
-		        break;
+                case 2:
+                        if (pci_func == 0) {
+                                print("          Type: Network Controller\n");
+                                print("          Function: Ethernet Controller\n\n");
+                        }
+                        else if (pci_func == 1) {
+                                print("          Type: Network Controller\n");
+                                print("          Function: Token Ring Controller\n\n");
+                        }
+                        else if (pci_func == 2) {
+                                print("          Type: Network Controller\n");
+                                print("          Function: FDDI Controller\n\n");
+                        }
+                        else if (pci_func == 3) {
+                                print("          Type: Network Controller\n");
+                                print("          Function: ATM Controller\n\n");
+                        }
+                        else if (pci_func == 4) {
+                                print("          Type: Network Controller\n");
+                                print("          Function: ISDN Controller\n\n");
+                        }
+                        else if (pci_func == 5) {
+                                print("          Type: Network Controller\n");
+                                print("          Function: WorldFip Controller\n\n");
+                        }
+                        else if (pci_func == 6) {
+                                print("          Type: Network Controller\n");
+                                print("          Function: PICMG 2.14 Multi Computing\n\n");
+                        }
+                        else if (pci_func == 0x80) {
+                                print("          Type: Network Controller\n");
+                                print("          Function: Other Network Controller\n\n");
+                        }
+                break;
 
-		        case 3:
-				        if (pci_func == 0) {
-						        if (pci_progif == 0) {
-								        print("          Type: Display Controller\n");
-								        print("          Function: VGA-Compatible Controller\n\n");
-						        }
-						        else if (pci_progif == 1) {
-								        print("          Type: Display Controller\n");
-								        print("          Function: 8512-Compatible Controller\n\n");
-						        }
-				        }
-				        else if (pci_func == 1) {
-						        print("          Type: Display Controller\n");
-						        print("          Function: XGA Controller\n\n");
-				        }				
-				        else if (pci_func == 2) {
-						        print("          Type: Display Controller\n");
-						        print("          Function: 3D Controller (Not VGA-Compatible)\n\n");
-				        }
-				        else if (pci_func == 0x80) {
-						        print("          Type: Display Controller\n");
-						        print("          Function: Other Display Controller\n\n");
-				        }
-		        break;
+                case 3:
+                        if (pci_func == 0) {
+                                if (pci_progif == 0) {
+                                        print("          Type: Display Controller\n");
+                                        print("          Function: VGA-Compatible Controller\n\n");
+                                }
+                                else if (pci_progif == 1) {
+                                        print("          Type: Display Controller\n");
+                                        print("          Function: 8512-Compatible Controller\n\n");
+                                }
+                        }
+                        else if (pci_func == 1) {
+                                print("          Type: Display Controller\n");
+                                print("          Function: XGA Controller\n\n");
+                        }
+                        else if (pci_func == 2) {
+                                print("          Type: Display Controller\n");
+                                print("          Function: 3D Controller (Not VGA-Compatible)\n\n");
+                        }
+                        else if (pci_func == 0x80) {
+                                print("          Type: Display Controller\n");
+                                print("          Function: Other Display Controller\n\n");
+                        }
+                break;
 
-		        case 4:
-				        if (pci_func == 0) {
-							        print("          Type: Multimedia Device\n");
-							        print("          Function: Video Device\n\n");
-				        }
-				        else if (pci_func == 1) {
-						        print("          Type: Multimedia Device\n");
-						        print("          Function: Audio Device\n\n");
-				        }
-				        else if (pci_func == 2) {
-						        print("          Type: Multimedia Device\n");
-						        print("          Function: Computer Telephony Device\n\n");
-				        }
-				        else if (pci_func == 0x80) {
-						        print("          Type: Multimedia Device\n");
-						        print("          Function: Other Multimedia Device\n\n");
-				        }
-		        break;
+                case 4:
+                        if (pci_func == 0) {
+                                print("          Type: Multimedia Device\n");
+                                print("          Function: Video Device\n\n");
+                        }
+                        else if (pci_func == 1) {
+                                print("          Type: Multimedia Device\n");
+                                print("          Function: Audio Device\n\n");
+                        }
+                        else if (pci_func == 2) {
+                                print("          Type: Multimedia Device\n");
+                                print("          Function: Computer Telephony Device\n\n");
+                        }
+                        else if (pci_func == 0x80) {
+                                print("          Type: Multimedia Device\n");
+                                print("          Function: Other Multimedia Device\n\n");
+                        }
+                break;
 
-		        case 5:
-				        if (pci_func == 0) {
-							        print("          Type: Memory Controller\n");
-							        print("          Function: RAM Controller\n\n");
-				        }
-				        else if (pci_func == 1) {
-						        print("          Type: Memory Controller\n");
-						        print("          Function: Flash Controller\n\n");
-				        }
-				        else if (pci_func == 0x80) {
-						        print("          Type: Memory Controller\n");
-						        print("          Function: Other Memory Controller\n\n");
-				        }
-		        break;
+                case 5:
+                        if (pci_func == 0) {
+                                print("          Type: Memory Controller\n");
+                                print("          Function: RAM Controller\n\n");
+                        }
+                        else if (pci_func == 1) {
+                                print("          Type: Memory Controller\n");
+                                print("          Function: Flash Controller\n\n");
+                        }
+                        else if (pci_func == 0x80) {
+                                print("          Type: Memory Controller\n");
+                                print("          Function: Other Memory Controller\n\n");
+                        }
+                break;
 
-		        case 6:
-				        if (pci_func == 0) {
-							        print("          Type: Bridge Device\n"); 
-							        print("          Function: Host Bridge\n\n");
-				        }
-
-				        else if (pci_func == 1) {
-							        print("          Type: Bridge Device\n");
-							        print("          Function: ISA Bridge\n\n");
-				        }
-				        else if (pci_func == 2) {
-							        print("          Type: Bridge Device\n");
-							        print("          Function: EISA Bridge\n\n");
-				        }
-				        else if (pci_func == 3) {
-							        print("          Type: Bridge Device\n");
-							        print("          Function: MCA Bridge\n\n");
-				        }
+                case 6:
+                        if (pci_func == 0) {
+                                print("          Type: Bridge Device\n"); 
+                                print("          Function: Host Bridge\n\n");
+                        }
+                        else if (pci_func == 1) {
+                                print("          Type: Bridge Device\n");
+                                print("          Function: ISA Bridge\n\n");
+                        }
+                        else if (pci_func == 2) {
+                                print("          Type: Bridge Device\n");
+                                print("          Function: EISA Bridge\n\n");
+                        }
+                        else if (pci_func == 3) {
+                                print("          Type: Bridge Device\n");
+                                print("          Function: MCA Bridge\n\n");
+                        }
 				        else if (pci_func == 4) {
 						        if (pci_progif == 0) {
 								        print("          Type: Bridge Device\n");
