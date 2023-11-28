@@ -995,71 +995,67 @@ void pci_bscan_devices()
 uint32_t* find_device(uint16_t f_class, uint16_t f_subclass, uint16_t f_pprogif)
 {
 
-		uint16_t vendor;
-		uint16_t headerType;
-		uint16_t ptype;
-		uint16_t pfunc;
-		uint16_t pprogif;
-		pci_device_array[0] = 0;
-		pci_device_array[1] = 1;
-		pci_device_array[2] = 0;
-		uint32_t function = 0;
-		
+        uint16_t vendor;
+        uint16_t headerType;
+        uint16_t ptype;
+        uint16_t pfunc;
+        uint16_t pprogif;
+        pci_device_array[0] = 0;
+        pci_device_array[1] = 1;
+        pci_device_array[2] = 0;
+        uint32_t function = 0;
+
         for (uint32_t pbus = 0;pbus < 256; pbus++) {
 
-		        for (uint32_t pdevice = 0;pdevice < 32; pdevice++) {
+                for (uint32_t pdevice = 0;pdevice < 32; pdevice++) {
 
-				        if ((vendor = PCI_Config_RW(pbus,pdevice,0,0)) != 0xFFFF) {
-					        
-						        headerType= get_pci_HeaderType(pbus, pdevice,0);
-					        
-						        if( (headerType & 0x80) != 0) {
+                        if ((vendor = PCI_Config_RW(pbus,pdevice,0,0)) != 0xFFFF) {
 
-							            for(function = 1; function < 8; function++) {
-                     							ptype = check_pci_type(pbus, pdevice, function);
-									            pprogif = check_pci_progif(pbus, pdevice, function);
-                         						pfunc = check_pci_function(pbus, pdevice, function);
+                                headerType= get_pci_HeaderType(pbus, pdevice,0);
+                                if( (headerType & 0x80) != 0) {
 
-									            if ((ptype == f_class) && (pfunc == f_subclass) && (pprogif == f_pprogif)) {
-											            pci_device_array[0] = pbus;
-											            pci_device_array[1] = pdevice;
-											            pci_device_array[2] = function;
-											            pci_dvc_bus = pci_device_array[0];
-											            pci_dvc_device = pci_device_array[1];
-											            pci_dvc_function = pci_device_array[2];
-											            set_device(pci_dvc_bus, pci_dvc_device, pci_dvc_function, ptype, pfunc, pprogif);
-											            return pci_device_array;
-									            }
-							            }
+                                        for(function = 1; function < 8; function++) {
+                                                ptype = check_pci_type(pbus, pdevice, function);
+                                                pprogif = check_pci_progif(pbus, pdevice, function);
+                                                pfunc = check_pci_function(pbus, pdevice, function);
+
+                                                if ((ptype == f_class) && (pfunc == f_subclass) && (pprogif == f_pprogif)) {
+                                                        pci_device_array[0] = pbus;
+                                                        pci_device_array[1] = pdevice;
+                                                        pci_device_array[2] = function;
+                                                        pci_dvc_bus = pci_device_array[0];
+                                                        pci_dvc_device = pci_device_array[1];
+                                                        pci_dvc_function = pci_device_array[2];
+                                                        set_device(pci_dvc_bus, pci_dvc_device, pci_dvc_function, ptype, pfunc, pprogif);
+                                                        return pci_device_array;
+                                                }
+                                        }
 							            function = 0;
-						        }
-					        
-						        else {
+                                }
+                                else {
 
 
-								        ptype = check_pci_type(pbus, pdevice, (uint32_t)0);
+                                        ptype = check_pci_type(pbus, pdevice, (uint32_t)0);
+                                        pfunc = check_pci_function(pbus, pdevice, (uint32_t)0);
+                                        pprogif = check_pci_progif(pbus, pdevice, (uint32_t)0);
+                                        if ((ptype == f_class) && (pfunc == f_subclass) && (pprogif == f_pprogif)) {
+                                                pci_device_array[0] = pbus;
+                                                pci_device_array[1] = pdevice;
+                                                pci_device_array[2] = (uint32_t)0;
+                                                pci_dvc_bus = pci_device_array[0];
+                                                pci_dvc_device = pci_device_array[1];
+                                                pci_dvc_function = pci_device_array[2];
+                                                set_device(pci_dvc_bus, pci_dvc_device, pci_dvc_function, ptype, pfunc, pprogif);
+                                                return pci_device_array;
+                                        }
 
-								        pfunc = check_pci_function(pbus, pdevice, (uint32_t)0);
-								        pprogif = check_pci_progif(pbus, pdevice, (uint32_t)0);
-								        if ((ptype == f_class) && (pfunc == f_subclass) && (pprogif == f_pprogif)) {
-										        pci_device_array[0] = pbus;
-										        pci_device_array[1] = pdevice;
-										        pci_device_array[2] = (uint32_t)0;
-										        pci_dvc_bus = pci_device_array[0];
-										        pci_dvc_device = pci_device_array[1];
-										        pci_dvc_function = pci_device_array[2];
-										        set_device(pci_dvc_bus, pci_dvc_device, pci_dvc_function, ptype, pfunc, pprogif);
-										        return pci_device_array;
-								        }
-
-					            }
-			            }
-	            }
-			        
+                                }
+                        }
+                }
         }
-	    print("\nError: No such pci device.");
-	    print("\n");
-	    return 0;
+        print("\nError: No such pci device.");
+        print("\n");
+        return 0;
 
 }
 
@@ -1071,128 +1067,124 @@ uint32_t* find_device(uint16_t f_class, uint16_t f_subclass, uint16_t f_pprogif)
 void set_device(uint32_t deviceinfo_1, uint32_t deviceinfo_2, uint32_t deviceinfo_3, uint16_t pci_class, uint16_t pci_func, uint16_t pci_pprogif)
 {
 
-	    asm("sti");
-	    volatile uint32_t temp;
-         /* uhci */
-	    if((pci_class == 0xc) && (pci_func == 0x3) && (pci_pprogif == 0)) {
-			    found_uhci_bus = deviceinfo_1;
-			    found_uhci_device = deviceinfo_2;
-			    found_uhci_function = deviceinfo_3;
+        asm("sti");
+        volatile uint32_t temp;
+        /* uhci */
+        if((pci_class == 0xc) && (pci_func == 0x3) && (pci_pprogif == 0)) {
+                found_uhci_bus = deviceinfo_1;
+                found_uhci_device = deviceinfo_2;
+                found_uhci_function = deviceinfo_3;
                 temp = PCI_Config_RW_Uhci(found_uhci_bus,found_uhci_device,found_uhci_function,32);
                 uhci_mem_address = (volatile uint32_t)temp;
-	    }
+        }
 
         /* xhci */
-	    if((pci_class == 0xc) && (pci_func == 0x3) && (pci_pprogif == 0x30)) {
-			    found_xhci_bus = deviceinfo_1;
-			    found_xhci_device = deviceinfo_2;
-			    found_xhci_function = deviceinfo_3;
+        if((pci_class == 0xc) && (pci_func == 0x3) && (pci_pprogif == 0x30)) {
+                found_xhci_bus = deviceinfo_1;
+                found_xhci_device = deviceinfo_2;
+                found_xhci_function = deviceinfo_3;
                 temp = PCI_Config_RW2(found_xhci_bus,found_xhci_device,found_xhci_function,0x10); 
                 temp &= 0xfffffff0;
                 xhci_mem_address_attr_doorb = temp;
 
-	    }
+        }
 
         /* ehci */
-	    else if((pci_class == 0x0c) && (pci_func == 0x03) && (pci_pprogif == 0x20)) {
-			    found_ehci_bus = deviceinfo_1;
-			    found_ehci_device = deviceinfo_2;
-			    found_ehci_function = deviceinfo_3;
-			    temp = PCI_Config_RW2(found_ehci_bus,found_ehci_device,found_ehci_function,16);
-			    ehci_mem_address = (uint32_t)temp;
-	    }
+        else if((pci_class == 0x0c) && (pci_func == 0x03) && (pci_pprogif == 0x20)) {
+                found_ehci_bus = deviceinfo_1;
+                found_ehci_device = deviceinfo_2;
+                found_ehci_function = deviceinfo_3;
+                temp = PCI_Config_RW2(found_ehci_bus,found_ehci_device,found_ehci_function,16);
+                ehci_mem_address = (uint32_t)temp;
+        }
 
         /* ohci */
-	    else if((pci_class == 0xc) && (pci_func == 0x3) && (pci_pprogif == 0x10)) {
-			    found_ohci_bus = deviceinfo_1;
-			    found_ohci_device = deviceinfo_2;
-			    found_ohci_function = deviceinfo_3;
+        else if((pci_class == 0xc) && (pci_func == 0x3) && (pci_pprogif == 0x10)) {
+                found_ohci_bus = deviceinfo_1;
+                found_ohci_device = deviceinfo_2;
+                found_ohci_function = deviceinfo_3;
                 temp = PCI_Config_RW2(found_ohci_bus,found_ohci_device,found_ohci_function,16);
                 ohci_mem_address = (volatile uint32_t)temp;
-	    }
+        }
         /* ethernet e1000 */
-	    else if((pci_class == 2) && (pci_func == 0) && (pci_pprogif == 0)) {
+        else if((pci_class == 2) && (pci_func == 0) && (pci_pprogif == 0)) {
 
-			    found_ethernetc_bus = deviceinfo_1;
-			    found_ethernetc_device = deviceinfo_2;
-			    found_ethernetc_function = deviceinfo_3;
+                found_ethernetc_bus = deviceinfo_1;
+                found_ethernetc_device = deviceinfo_2;
+                found_ethernetc_function = deviceinfo_3;
 
-			    temp = PCI_Config_RW2(found_ethernetc_bus,found_ethernetc_device,found_ethernetc_function,16);
-			    ethernetc_mem_address = (volatile uint32_t)temp;
+                temp = PCI_Config_RW2(found_ethernetc_bus,found_ethernetc_device,found_ethernetc_function,16);
+                ethernetc_mem_address = (volatile uint32_t)temp;
 
 
 
-			    temp = PCI_Config_RW2(found_ethernetc_bus,found_ethernetc_device,found_ethernetc_function,20);
-			    if ((temp & 0x00000001) == 1)
-				    ethernetc_flash_address = (volatile uint32_t)(temp - 1);
-			    else
-				    ethernetc_flash_address = (volatile uint32_t)temp;
-			    PCI_Config_RW_ethernetc_io(found_ethernetc_bus,found_ethernetc_device,found_ethernetc_function,24);
-			    temp = PCI_Config_RW2(found_ethernetc_bus,found_ethernetc_device,found_ethernetc_function,0x30);
-			    if ((temp & 0x00000001) == 1)
-				    print("Ethernet: Expansion rom address enabled!\n\n");
-			    else
-				    print("Ethernet: Expansion rom address not enabled.\n\n");
-	    }
+                temp = PCI_Config_RW2(found_ethernetc_bus,found_ethernetc_device,found_ethernetc_function,20);
+                if ((temp & 0x00000001) == 1)
+                        ethernetc_flash_address = (volatile uint32_t)(temp - 1);
+                else
+                        ethernetc_flash_address = (volatile uint32_t)temp;
+                PCI_Config_RW_ethernetc_io(found_ethernetc_bus,found_ethernetc_device,found_ethernetc_function,24);
+                temp = PCI_Config_RW2(found_ethernetc_bus,found_ethernetc_device,found_ethernetc_function,0x30);
+                if ((temp & 0x00000001) == 1)
+                        print("Ethernet: Expansion rom address enabled!\n\n");
+                else
+                        print("Ethernet: Expansion rom address not enabled.\n\n");
+        }
 
         /* ahci */
-	    else if((pci_class == 0x1) && (pci_func == 0x6) && (pci_pprogif == 0x1)) {
-			    found_ahci_bus = deviceinfo_1;
-			    found_ahci_device = deviceinfo_2;
-			    found_ahci_function = deviceinfo_3;
+        else if((pci_class == 0x1) && (pci_func == 0x6) && (pci_pprogif == 0x1)) {
+                found_ahci_bus = deviceinfo_1;
+                found_ahci_device = deviceinfo_2;
+                found_ahci_function = deviceinfo_3;
                 temp = (volatile uint32_t)PCI_Config_RW2(found_ahci_bus,found_ahci_device,found_ahci_function,0x24);
                 temp &= (volatile uint32_t)0xfffffff0;
                 ahci_base_address = temp;
 
-	    }
+        }
 
-	    else
-		        print("Error: could not find such a PCI device. \nMaybe some devices like USB will not work at this point.\n\n");
+        else
+                print("Error: could not find such a PCI device. \nMaybe some devices like USB will not work at this point.\n\n");
 
-	    asm("cli");
+        asm("cli");
 
 }
 
 /* Checks the class of a device */
 uint16_t check_pci_type(uint32_t bus, uint32_t device, uint32_t funct)
 {
-	    uint16_t vendor;
-	    uint16_t type;
-	    if ((vendor = PCI_Config_RW(bus,device,0,0)) != 0xFFFF) 
-		        type = ((PCI_Config_RW(bus,device,funct,11) >> 8) & 0x00ff);
-	    else
-		        type = 512;
-	    return type;
+        uint16_t vendor;
+        uint16_t type;
+        if ((vendor = PCI_Config_RW(bus,device,0,0)) != 0xFFFF) 
+                type = ((PCI_Config_RW(bus,device,funct,11) >> 8) & 0x00ff);
+        else
+                type = 512;
+        return type;
 }
 
 /* Checks the progif of the device */
 uint16_t check_pci_progif(uint32_t bus, uint32_t device, uint32_t funct)
 {
-	    uint16_t vendor;
-	    uint16_t progif;
+        uint16_t vendor;
+        uint16_t progif;
 
-	    if ((vendor = PCI_Config_RW(bus,device,0,0)) != 0xFFFF)
-		        progif = ((PCI_Config_RW(bus,device,funct,9) >> 8) & 0x00ff);
-	    else
-		        progif = 512;
+        if ((vendor = PCI_Config_RW(bus,device,0,0)) != 0xFFFF)
+                progif = ((PCI_Config_RW(bus,device,funct,9) >> 8) & 0x00ff);
+        else
+                progif = 512;
 
-	    return progif;
-}	
+        return progif;
+}
 
 /* Reads an eventual interrupt line of a device. This assumes that
  * the old PIC is present and usable on the computer.
  */
 int32_t read_device_intline(uint32_t bus, uint32_t device, uint32_t funct)
 {
-	    uint16_t vendor;
-	    uint16_t ebaddr;
-	    if ((vendor = PCI_Config_RW(bus,device,0,0)) != 0xFFFF) 
-		        ebaddr = (PCI_Config_RW(bus,device,funct,0x3c) & 0x00ff);
-	    else
-		        ebaddr = 512;
-	    return (int)ebaddr;
+        uint16_t vendor;
+        uint16_t ebaddr;
+        if ((vendor = PCI_Config_RW(bus,device,0,0)) != 0xFFFF) 
+                ebaddr = (PCI_Config_RW(bus,device,funct,0x3c) & 0x00ff);
+        else
+                ebaddr = 512;
+        return (int)ebaddr;
 }
-
-
-
-
