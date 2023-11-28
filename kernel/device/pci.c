@@ -402,296 +402,296 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                 }
 
                         }
-				        else if (pci_func == 3) {
-					        if (pci_progif == 0) {
-							        print("          Type: Base System Peripherals\n");
-							        print("          Function: Generic RTC Controller\n\n");
-					        }
-					        else if (pci_progif == 1) {
-							        print("          Type: Base System Peripherals\n");
-							        print("          Function: ISA RTC Controller\n\n");
-					        }
+                        else if (pci_func == 3) {
+                                if (pci_progif == 0) {
+                                        print("          Type: Base System Peripherals\n");
+                                        print("          Function: Generic RTC Controller\n\n");
+                                }
+                                else if (pci_progif == 1) {
+                                        print("          Type: Base System Peripherals\n");
+                                        print("          Function: ISA RTC Controller\n\n");
+                                }
 
 
-				        }
-			            else if (pci_func == 4) {
-						            print("          Type: Base System Peripherals\n");
-						            print("          Function: Generic PCI Hot-Plug Controller\n\n");
-			            }
-			            else if (pci_func == 0x80) {
-						            print("          Type: Base System Peripherals\n");
-						            print("          Function: Other System Peripheral\n\n");
-			            }
-		        break;
+                        }
+                        else if (pci_func == 4) {
+                                print("          Type: Base System Peripherals\n");
+                                print("          Function: Generic PCI Hot-Plug Controller\n\n");
+                        }
+                        else if (pci_func == 0x80) {
+                                print("          Type: Base System Peripherals\n");
+                                print("          Function: Other System Peripheral\n\n");
+                        }
+                break;
 
-		        case 9:
-				        if (pci_func == 0) {
-						        print("          Type: Input Devices\n");
-						        print("          Function: Keyboard Controller\n\n");
-				        }
-				        else if (pci_func == 1) {
-						        print("          Type: Input Devices\n");
-						        print("          Function: Digitizer\n\n");
-				        }
-				        else if (pci_func == 2) {
-						        print("          Type: Input Devices\n");
-						        print("          Function: Mouse Controller\n\n");
-				        }
-				        else if (pci_func == 3) {
-						        print("          Type: Input Devices\n");
-						        print("          Function: Scanner Controller\n\n");
-				        }
-				        else if (pci_func == 4) {
-						        if (pci_progif == 0x00) {
-								        print("          Type: Input Devices\n");
-								        print("          Function: Gameport Controller (Generic)\n\n");
-						        }
-						        else if (pci_progif == 0x10) {
-								        print("          Type: Input Devices\n"); 
-								        print("          Function: Gameport Controller (Legacy)\n\n");
-						        }
-				        }
-				        else if (pci_func == 0x80) {
-						        print("          Type: Input Devices\n");
-						        print("          Function: Other Input Controller\n\n");
-				        }
-		        break;
+                case 9:
+                        if (pci_func == 0) {
+                                print("          Type: Input Devices\n");
+                                print("          Function: Keyboard Controller\n\n");
+                        }
+                        else if (pci_func == 1) {
+                                print("          Type: Input Devices\n");
+                                print("          Function: Digitizer\n\n");
+                        }
+                        else if (pci_func == 2) {
+                                print("          Type: Input Devices\n");
+                                print("          Function: Mouse Controller\n\n");
+                        }
+                        else if (pci_func == 3) {
+                                print("          Type: Input Devices\n");
+                                print("          Function: Scanner Controller\n\n");
+                        }
+                        else if (pci_func == 4) {
+                                if (pci_progif == 0x00) {
+                                        print("          Type: Input Devices\n");
+                                        print("          Function: Gameport Controller (Generic)\n\n");
+                                }
+                                else if (pci_progif == 0x10) {
+                                        print("          Type: Input Devices\n"); 
+                                        print("          Function: Gameport Controller (Legacy)\n\n");
+                                }
+                        }
+                        else if (pci_func == 0x80) {
+                                print("          Type: Input Devices\n");
+                                print("          Function: Other Input Controller\n\n");
+                        }
+                break;
 
-		        case 0xa:
-				        if (pci_func == 0) {
-							        print("          Type: Docking Stations\n");
-							        print("          Function: Generic Docking Station\n\n");
-				        }
-				        else if (pci_func == 0x80) {
-						        print("          Type: Docking Stations\n");
-						        print("          Function: Other Docking Station\n\n");
-				        }
-				        break;
+                case 0xa:
+                        if (pci_func == 0) {
+                                print("          Type: Docking Stations\n");
+                                print("          Function: Generic Docking Station\n\n");
+                        }
+                        else if (pci_func == 0x80) {
+                                print("          Type: Docking Stations\n");
+                                print("          Function: Other Docking Station\n\n");
+                        }
+                        break;
 
-				        case 0xb:
-				        if (pci_func == 0x0) {
-							        print("          Type: Processors\n");
-							        print("          Function: 386 Processor\n\n");
-				        }
-				        else if (pci_func == 0x1) {
-						        print("          Type: Processors\n");
-						        print("          Function: 486 Processor\n\n");
-				        }
-				        else if (pci_func == 0x2) {
-						        print("          Type: Processors\n");
-						        print("          Function: Pentium Processor\n\n");
-				        }
-				        else if (pci_func == 0x10) {
-						        print("          Type: Processors\n");
-						        print("          Function: Alpha Processor\n\n");
-				        }
-				        else if (pci_func == 0x20) {
-						        print("          Type: Processors\n");
-						        print("          Function: PowerPC Processor\n\n");
-				        }
-				        else if (pci_func == 0x30) {
-						        print("          Type: Processors\n");
-						        print("          Function: MIPS Processor\n\n");
-				        }
-				        else if (pci_func == 0x40) {
-						        print("          Type: Processors\n");
-						        print("          Function: Co-Processor\n\n");
-				        }
-		        break;
+                        case 0xb:
+                        if (pci_func == 0x0) {
+                                print("          Type: Processors\n");
+                                print("          Function: 386 Processor\n\n");
+                        }
+                        else if (pci_func == 0x1) {
+                                print("          Type: Processors\n");
+                                print("          Function: 486 Processor\n\n");
+                        }
+                        else if (pci_func == 0x2) {
+                                print("          Type: Processors\n");
+                                print("          Function: Pentium Processor\n\n");
+                        }
+                        else if (pci_func == 0x10) {
+                                print("          Type: Processors\n");
+                                print("          Function: Alpha Processor\n\n");
+                        }
+                        else if (pci_func == 0x20) {
+                                print("          Type: Processors\n");
+                                print("          Function: PowerPC Processor\n\n");
+                        }
+                        else if (pci_func == 0x30) {
+                                print("          Type: Processors\n");
+                                print("          Function: MIPS Processor\n\n");
+                        }
+                        else if (pci_func == 0x40) {
+                                print("          Type: Processors\n");
+                                print("          Function: Co-Processor\n\n");
+                        }
+                break;
 
-	            case 0xc:
-				        if (pci_func == 0) {
-						        if (pci_progif == 0x00) {
-								        print("          Type: Serial Bus Controllers\n");
-								        print("          Function: IEEE 1394 Controller (FireWire)\n\n");
-						        }
-						        else if (pci_progif == 0x10) {
-								        print("          Type: Serial Bus Controllers\n");
-								        print("          Function: IEEE 1394 Controller (1394 OHCI Spec)\n\n");
-						        }
-				        }
-				        else if (pci_func == 1) {
-						        print("          Type: Serial Bus Controllers\n");
-						        print("          Function: ACCESS bus\n\n");
-				        }
-				        else if (pci_func == 2) {
-						        print("          Type: Serial Bus Controllers\n");
-						        print("          Function: SSA\n\n");
-				        }
-				        else if (pci_func == 3) {
-						        if (pci_progif == 0) {
-								        print("          Type: Serial Bus Controllers\n");
-								        print("          Function: USB (UHCI Spec)\n\n");
-						        }
-						        else if (pci_progif == 0x10) {
-								        print("          Type: Serial Bus Controllers\n");
-								        print("          Function: USB (OHCI Spec)\n\n");
-						        }
-						        else if (pci_progif == 0x20) {
-								        print("          Type: Serial Bus Controllers\n");
-								        print("          Function: USB2 Host Controller (Intel EHCI)\n\n");
-						        }
-						        else if (pci_progif == 0x30) {
-								        print("          Type: Serial Bus Controllers\n");
-								        print("          Function: USB3 XHCI Controller\n\n");
-						        }
-						        else if (pci_progif == 0x80) {
-								        print("          Type: Serial Bus Controllers\n");
-								        print("          Function: Unspecified USB Controller\n\n");
-						        }
-						        else if (pci_progif == 0xfe) {
-								        print("          Type: Serial Bus Controllers\n");
-								        print("          Function: USB (Not Host Controller)\n\n");
-						        }
-				        }
-				        else if (pci_func == 4) {
-						        print("          Type: Serial Bus Controllers\n");
-						        print("          Function: Fibre Channel\n\n");
-				        }
-				        else if (pci_func == 5) {
-						        print("          Type: Serial Bus Controllers\n");
-						        print("          Function: SMBus\n\n");
-				        }
-				        else if (pci_func == 6) {
-						        print("          Type: Serial Bus Controllers\n");
-						        print("          Function: InfiniBand\n\n");
-				        }
-				        else if (pci_func == 7) {
-						        if (pci_progif == 0) {
-								        print("          Type: Serial Bus Controllers\n");
-								        print("          Function: IPMI SMIC Interface\n\n");
-						        }
-						        else if (pci_progif == 1) {
-								        print("          Type: Serial Bus Controllers\n");
-								        print("          Function: IPMI Kybd Controller Style Interface\n\n");
-						        }
-						        else if (pci_progif == 2) {
-								        print("          Type: Serial Bus Controllers\n");
-								        print("          Function: IPMI Block Transfer Interface\n\n");
-						        }
-				        }
-				        else if (pci_func == 8) {
-						        print("          Type: Serial Bus Controllers\n");
-						        print("          Function: SERCOS Interface Standard (IEC 61491)\n\n");
-				        }
-				        else if (pci_func == 9) {
-						        print("          Type: Serial Bus Controllers\n");
-						        print("          Function: CANbus\n\n");
-				        }
-		        break;
+                case 0xc:
+                        if (pci_func == 0) {
+                                if (pci_progif == 0x00) {
+                                        print("          Type: Serial Bus Controllers\n");
+                                        print("          Function: IEEE 1394 Controller (FireWire)\n\n");
+                                }
+                                else if (pci_progif == 0x10) {
+                                        print("          Type: Serial Bus Controllers\n");
+                                        print("          Function: IEEE 1394 Controller (1394 OHCI Spec)\n\n");
+                                }
+                        }
+                        else if (pci_func == 1) {
+                                print("          Type: Serial Bus Controllers\n");
+                                print("          Function: ACCESS bus\n\n");
+                        }
+                        else if (pci_func == 2) {
+                                print("          Type: Serial Bus Controllers\n");
+                                print("          Function: SSA\n\n");
+                        }
+                        else if (pci_func == 3) {
+                                if (pci_progif == 0) { 
+                                        print("          Type: Serial Bus Controllers\n");
+                                        print("          Function: USB (UHCI Spec)\n\n");
+                                }
+                                else if (pci_progif == 0x10) {
+                                        print("          Type: Serial Bus Controllers\n");
+                                        print("          Function: USB (OHCI Spec)\n\n");
+                                }
+                                else if (pci_progif == 0x20) {
+                                        print("          Type: Serial Bus Controllers\n");
+                                        print("          Function: USB2 Host Controller (Intel EHCI)\n\n");
+                                }
+                                else if (pci_progif == 0x30) {
+                                        print("          Type: Serial Bus Controllers\n");
+                                        print("          Function: USB3 XHCI Controller\n\n");
+                                }
+                                else if (pci_progif == 0x80) {
+                                        print("          Type: Serial Bus Controllers\n");
+                                        print("          Function: Unspecified USB Controller\n\n");
+                                }
+                                else if (pci_progif == 0xfe) {
+                                        print("          Type: Serial Bus Controllers\n");
+                                        print("          Function: USB (Not Host Controller)\n\n");
+                                }
+                        }
+                        else if (pci_func == 4) {
+                                print("          Type: Serial Bus Controllers\n");
+                                print("          Function: Fibre Channel\n\n");
+                        }
+                        else if (pci_func == 5) {
+                                print("          Type: Serial Bus Controllers\n");
+                                print("          Function: SMBus\n\n");
+                        }
+                        else if (pci_func == 6) {
+                                print("          Type: Serial Bus Controllers\n");
+                                print("          Function: InfiniBand\n\n");
+                        }
+                        else if (pci_func == 7) {
+                                if (pci_progif == 0) {
+                                        print("          Type: Serial Bus Controllers\n");
+                                        print("          Function: IPMI SMIC Interface\n\n");
+                                }
+                                else if (pci_progif == 1) {
+                                        print("          Type: Serial Bus Controllers\n");
+                                        print("          Function: IPMI Kybd Controller Style Interface\n\n");
+                                }
+                                else if (pci_progif == 2) {
+                                        print("          Type: Serial Bus Controllers\n");
+                                        print("          Function: IPMI Block Transfer Interface\n\n");
+                                }
+                        }
+                        else if (pci_func == 8) {
+                                print("          Type: Serial Bus Controllers\n");
+                                print("          Function: SERCOS Interface Standard (IEC 61491)\n\n");
+                        }
+                        else if (pci_func == 9) {
+                                print("          Type: Serial Bus Controllers\n");
+                                print("          Function: CANbus\n\n");
+                        }
+                break;
 
-		        case 0xd:
-				        if (pci_func == 0) {
-						        print("          Type: Wireless Controllers\n");
-						        print("          Function: iRDA Compatible Controller\n\n");
-				        }
-				        else if (pci_func == 1) {
-						        print("          Type: Wireless Controllers\n");
-						        print("          Function: Consumer IR Controller\n\n");
-				        }
-				        else if (pci_func == 0x10) {
-						        print("          Type: Wireless Controllers\n");
-						        print("          Function: RF Controller\n\n");
-				        }
-				        else if (pci_func == 0x11) {
-						        print("          Type: Wireless Controllers\n");
-						        print("          Function: Bluetooth Controller\n\n");
-				        }
-				        else if (pci_func == 0x12) {
-						        print("          Type: Wireless Controllers\n");
-						        print("          Function: Broadband Controller\n\n");
-				        }
-				        else if (pci_func == 0x20) {
-						        print("          Type: Wireless Controllers\n");
-						        print("          Function: Ethernet Controller (802.11a)\n\n");
-				        }
-				        else if (pci_func == 0x21) {
-						        print("          Type: Wireless Controllers\n");
-						        print("          Function: Ethernet Controller (802.11b)\n\n");
-				        }
-				        else if (pci_func == 0x80) {
-						        print("          Type: Wireless Controllers\n");
-						        print("          Function: Other Wireless Controller\n\n");
-				        }
-		        break;
+                case 0xd:
+                        if (pci_func == 0) {
+                                print("          Type: Wireless Controllers\n");
+                                print("          Function: iRDA Compatible Controller\n\n");
+                        }
+                        else if (pci_func == 1) {
+                                print("          Type: Wireless Controllers\n");
+                                print("          Function: Consumer IR Controller\n\n");
+                        }
+                        else if (pci_func == 0x10) {
+                                print("          Type: Wireless Controllers\n");
+                                print("          Function: RF Controller\n\n");
+                        }
+                        else if (pci_func == 0x11) {
+                                print("          Type: Wireless Controllers\n");
+                                print("          Function: Bluetooth Controller\n\n");
+                        }
+                        else if (pci_func == 0x12) {
+                                print("          Type: Wireless Controllers\n");
+                                print("          Function: Broadband Controller\n\n");
+                        }
+                        else if (pci_func == 0x20) {
+                                print("          Type: Wireless Controllers\n");
+                                print("          Function: Ethernet Controller (802.11a)\n\n");
+                        }
+                        else if (pci_func == 0x21) {
+                                print("          Type: Wireless Controllers\n");
+                                print("          Function: Ethernet Controller (802.11b)\n\n");
+                        }
+                        else if (pci_func == 0x80) {
+                                print("          Type: Wireless Controllers\n");
+                                print("          Function: Other Wireless Controller\n\n");
+                        }
+                break;
 
-		        case 0xe:
-				        if (pci_func == 0) {
-						        if (pci_progif == 0) {
-								        print("          Type: Intelligent I/O Controllers\n");
-								        print("          Function: Message FIFO\n\n");
-						        }
-				        }
-		        break;
+                case 0xe:
+                        if (pci_func == 0) {
+                                if (pci_progif == 0) {
+                                        print("          Type: Intelligent I/O Controllers\n");
+                                        print("          Function: Message FIFO\n\n");
+                                }
+                        }
+                break;
 
-		        case 0xf:
-				        if (pci_func == 0) {
-						        print("          Type: Satellite Communication Controllers\n");
-						        print("          Function: TV Controller\n\n");
-				        }
-				        else if (pci_func == 1) {
-						        print("          Type: Satellite Communication Controllers\n");
-						        print("          Function: Audio Controller\n\n");
-				        }
-				        else if (pci_func == 2) {
-						        print("          Type: Satellite Communication Controllers\n");
-						        print("          Function: Voice Controller\n\n");
-				        }
-				        else if (pci_func == 3) {
-						        print("          Type: Satellite Communication Controllers\n");
-						        print("          Function: Data Controller\n\n");
-				        }
-				        else if (pci_func == 4) {
-						        print("          Type: Satellite Communication Controllers\n");
-						        print("          Function: Broadband Controller\n\n");
-				        }
-		        break;
+                case 0xf:
+                        if (pci_func == 0) {
+                                print("          Type: Satellite Communication Controllers\n");
+                                print("          Function: TV Controller\n\n");
+                        }
+                        else if (pci_func == 1) {
+                                print("          Type: Satellite Communication Controllers\n");
+                                print("          Function: Audio Controller\n\n");
+                        }
+                        else if (pci_func == 2) {
+                                print("          Type: Satellite Communication Controllers\n");
+                                print("          Function: Voice Controller\n\n");
+                        }
+                        else if (pci_func == 3) {
+                                print("          Type: Satellite Communication Controllers\n");
+                                print("          Function: Data Controller\n\n");
+                        }
+                        else if (pci_func == 4) {
+                                print("          Type: Satellite Communication Controllers\n");
+                                print("          Function: Broadband Controller\n\n");
+                        }
+                 break;
 
-		        case 0x10:
-				        if (pci_func == 0x00) {
-						        print("          Type: Encryption/Decryption Controllers\n");
-						        print("          Function: N and C Encrpytion/Decryption\n\n");
-				        }
-				        else if (pci_func == 0x10) {
-						        print("          Type: Encryption/Decryption Controllers\n");
-						        print("          Function: Entertainment Encryption/Decryption\n\n");
-				        }
-				        else if (pci_func == 0x80) {
-						        print("          Type: Encryption/Decryption Controllers\n");
-						        print("          Function: Other Encryption/Decryption\n\n");
-				        }
-		        break;
+                case 0x10:
+                        if (pci_func == 0x00) {
+                                print("          Type: Encryption/Decryption Controllers\n");
+                                print("          Function: N and C Encrpytion/Decryption\n\n");
+                        }
+                        else if (pci_func == 0x10) {
+                                print("          Type: Encryption/Decryption Controllers\n");
+                                print("          Function: Entertainment Encryption/Decryption\n\n");
+                        }
+                        else if (pci_func == 0x80) {
+                                print("          Type: Encryption/Decryption Controllers\n");
+                                print("          Function: Other Encryption/Decryption\n\n");
+                        }
+                break;
 
-		        case 0x11:
-				        if (pci_func == 0x00) {
-						        print("          Type: Data A/S Processing Controllers\n");
-						        print("          Function: DPIO Modules\n\n");
-				        }
-				        else if (pci_func == 0x1) {
-						        print("          Type: Data A/S Processing Controllers\n");
-						        print("          Function: Performance Counters\n\n");
-				        }
-				        else if (pci_func == 0x10) {
-						        print("          Type: Data A/S Processing Controllers\n");
-						        print("          Function: CSPTFTM\n\n");
-				        }
-				        else if (pci_func == 0x20) {
-						        print("          Type: Data A/S Processing Controllers\n");
-						        print("          Function: Management Card\n\n");
-				        }
-				        else if (pci_func == 0x80) {
-						        print("          Type: Data A/S Processing Controllers\n");
-						        print("          Function: Other Data A/S Processing Controller\n\n");
-				        }
-		        break;
-		        default:
-			            if ((pci_type > 0x11) && (pci_type < 0xff))
-				            print("Type: Reserved");
-			            if (pci_type == 0xff)
-				            return;
-			            if (pci_type > 0xff)
-				            return;
-		        break;
+                case 0x11:
+                        if (pci_func == 0x00) {
+                                print("          Type: Data A/S Processing Controllers\n");
+                                print("          Function: DPIO Modules\n\n");
+                        }
+                        else if (pci_func == 0x1) {
+                                print("          Type: Data A/S Processing Controllers\n");
+                                print("          Function: Performance Counters\n\n");
+                        }
+                        else if (pci_func == 0x10) {
+                                print("          Type: Data A/S Processing Controllers\n");
+                                print("          Function: CSPTFTM\n\n");
+                        }
+                        else if (pci_func == 0x20) {
+                                print("          Type: Data A/S Processing Controllers\n");
+                                print("          Function: Management Card\n\n");
+                        }
+                        else if (pci_func == 0x80) {
+                                print("          Type: Data A/S Processing Controllers\n");
+                                print("          Function: Other Data A/S Processing Controller\n\n");
+                        }
+                break;
+                default:
+                        if ((pci_type > 0x11) && (pci_type < 0xff))
+                                print("Type: Reserved");
+                        if (pci_type == 0xff)
+                                return;
+                        if (pci_type > 0xff)
+                                return;
+                break;
 
         }
 
@@ -753,9 +753,9 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
 /* Returns a kind of useless value I guess. */
 uint32_t PCI_Config_RW3(uint32_t p_bus, uint32_t p_device, uint32_t p_func, uint16_t p_offset)
 {
-		uint32_t address;
-		address = (uint32_t)(PCI_BUS(p_bus) | (PCI_DEVICE(p_device)) | PCI_FUNCTION(p_func) | (p_offset & 0xfc) | ((uint32_t)PCI_ENABLE));
-		return address;
+        uint32_t address;
+        address = (uint32_t)(PCI_BUS(p_bus) | (PCI_DEVICE(p_device)) | PCI_FUNCTION(p_func) | (p_offset & 0xfc) | ((uint32_t)PCI_ENABLE));
+        return address;
 }
 
 /* If the parameters will result in a valid space for a valid device
@@ -813,11 +813,11 @@ uint16_t PCI_Config_RW_Uhci(uint32_t p_bus, uint32_t p_device, uint32_t p_func, 
         preturn = inportl(PCI_CONFIG_DATA);
 
         if ((p_offset > 15) && (p_offset < 37)) {
-	            if((preturn & 0x00000001) == 1) {
-			            temp = (uint16_t)(preturn & (uint16_t)0xffe0);
-	            }
-	            else 
-		                temp = (uint16_t)((preturn >> ((p_offset & 2) * 8)) & (uint16_t)0xffff);
+                if((preturn & 0x00000001) == 1) {
+                        temp = (uint16_t)(preturn & (uint16_t)0xffe0);
+                }
+                else 
+                        temp = (uint16_t)((preturn >> ((p_offset & 2) * 8)) & (uint16_t)0xffff);
         }
 
         else
@@ -833,22 +833,22 @@ uint16_t PCI_Config_RW_Uhci(uint32_t p_bus, uint32_t p_device, uint32_t p_func, 
  */
 uint32_t PCI_Config_RW_Uhci2(uint32_t p_bus, uint32_t p_device, uint32_t p_func, uint16_t p_offset)
 {
-	    uint32_t address;
-	    uint32_t preturn;
+        uint32_t address;
+        uint32_t preturn;
 
-	    address = (uint32_t)(PCI_BUS(p_bus) | (PCI_DEVICE(p_device)) | PCI_FUNCTION(p_func) | (p_offset & 0xfc) | ((uint32_t)PCI_ENABLE));
+        address = (uint32_t)(PCI_BUS(p_bus) | (PCI_DEVICE(p_device)) | PCI_FUNCTION(p_func) | (p_offset & 0xfc) | ((uint32_t)PCI_ENABLE));
 
-	    outportl(PCI_CONFIG_ADDRESS, address);
-	    preturn = inportl(PCI_CONFIG_DATA);
+        outportl(PCI_CONFIG_ADDRESS, address);
+        preturn = inportl(PCI_CONFIG_DATA);
 
-	    if ((p_offset > 15) && (p_offset < 37)) {
-		        if((preturn & 0x00000001) == 1) {
+        if ((p_offset > 15) && (p_offset < 37)) {
+                if((preturn & 0x00000001) == 1) {
 
-            			preturn &= (uint32_t)0xffffffe0;
-		        }
-	    }
+                        preturn &= (uint32_t)0xffffffe0;
+                }
+        }
 
-	    return preturn;
+        return preturn;
 }
 
 
@@ -858,22 +858,22 @@ uint32_t PCI_Config_RW_Uhci2(uint32_t p_bus, uint32_t p_device, uint32_t p_func,
  */
 void PCI_Config_RW_ethernetc_io(uint32_t p_bus, uint32_t p_device, uint32_t p_func, uint16_t p_offset)
 {
-	    uint32_t address;
-	    uint32_t preturn;
-	    address = (uint32_t)(PCI_BUS(p_bus) | (PCI_DEVICE(p_device)) | PCI_FUNCTION(p_func) | (p_offset & 0xfc) | ((uint32_t)PCI_ENABLE));
+        uint32_t address;
+        uint32_t preturn;
+        address = (uint32_t)(PCI_BUS(p_bus) | (PCI_DEVICE(p_device)) | PCI_FUNCTION(p_func) | (p_offset & 0xfc) | ((uint32_t)PCI_ENABLE));
 
-	    outportl(PCI_CONFIG_ADDRESS, address);
-	    preturn = inportl(PCI_CONFIG_DATA);
+        outportl(PCI_CONFIG_ADDRESS, address);
+        preturn = inportl(PCI_CONFIG_DATA);
 
-	    if ((p_offset > 15) && (p_offset < 37)) {
-		        if((preturn & 0x00000001) == 1) {
-				        print("Kernel debug: bit 0 is set to 1, io is used.\n\n");
-            			preturn &= (uint32_t)0xfffffff8;
-				        ethernetc_io_address = (const uint32_t)preturn;
+        if ((p_offset > 15) && (p_offset < 37)) {
+                if((preturn & 0x00000001) == 1) {
+                        print("Kernel debug: bit 0 is set to 1, io is used.\n\n");
+                        preturn &= (uint32_t)0xfffffff8;
+                        ethernetc_io_address = (const uint32_t)preturn;
                 }
-		        else
-			        print("Bit 0 not set to 1. io is not used.\n\n");
-	    }
+                else
+                        print("Bit 0 not set to 1. io is not used.\n\n");
+        }
 }
 
 /* Returns offset 0, that is the vendor information of the device. */
@@ -897,8 +897,8 @@ void check_pci_devices(uint8_t bus, uint8_t device)
                 if( (pci_header_type & 0x80) != 0) {
                          /* It is a multi-function device, so check remaining functions */
                          for(function = 1; function < 8; function++) {
-                            	if(get_pci_VD(bus, device,0) != 0xFFFF)
-                                 	    check_pci_function(bus, device,0);
+                                 if(get_pci_VD(bus, device,0) != 0xFFFF)
+                                        check_pci_function(bus, device,0);
                   		 }
                 }
 
@@ -927,14 +927,13 @@ uint16_t get_pci_HeaderType(uint32_t bus, uint32_t device, uint32_t funct)
 {
 	    uint16_t pci_header_type;
 	    uint16_t vendor;
-	    if ((vendor = PCI_Config_RW(bus,device,0,0)) != 0xFFFF)
+        if ((vendor = PCI_Config_RW(bus,device,0,0)) != 0xFFFF)
                 /* The information about the header type is located at offset 14. */
-		        pci_header_type = (PCI_Config_RW(bus,device,funct,14) & 0x00ff);
-		    
-	    else
-		        pci_header_type = 512;
+                pci_header_type = (PCI_Config_RW(bus,device,funct,14) & 0x00ff);
+        else
+                pci_header_type = 512;
 
-	    return pci_header_type;
+        return pci_header_type;
 }
 
 /* Scans all available pci devices and display their type and function.
@@ -951,42 +950,36 @@ void pci_bscan_devices()
 
         for (uint32_t pbus = 0;pbus < 256; pbus++) {
 
-		        for (uint32_t pdevice = 0;pdevice < 32; pdevice++) {
+                for (uint32_t pdevice = 0;pdevice < 32; pdevice++) {
 
-				        if ((vendor = PCI_Config_RW(pbus,pdevice,0,0)) != 0xFFFF) {
-					        
-						        headerType= get_pci_HeaderType(pbus, pdevice,0);
-					        
-						        if( (headerType & 0x80) != 0) {
-								        
-								        print("\nBus: "); printi(pbus);
-								        print("\nDevice: "); printi(pdevice);
-								        print("\nMultifunction device");
-								        print("\n");
-							            for(function = 1; function < 8; function++) {
-                     							ptype = check_pci_type(pbus, pdevice, function);
-									            pprogif = check_pci_progif(pbus, pdevice, function);
-                         						pfunc = check_pci_function(pbus, pdevice, function);
-									            list_pci_devices(ptype, pfunc, pprogif, function);
-							            }
-							            function = 0;
-						        }
-					        
-						        else {
-								        print("\nBus: "); printi(pbus);
-								        print("\nDevice: "); printi(pdevice);
-								        print("\n");
+                        if ((vendor = PCI_Config_RW(pbus,pdevice,0,0)) != 0xFFFF) {
+                                headerType= get_pci_HeaderType(pbus, pdevice,0);
+                                if( (headerType & 0x80) != 0) {
+                                        print("\nBus: "); printi(pbus);
+                                        print("\nDevice: "); printi(pdevice);
+                                        print("\nMultifunction device");
+                                        print("\n");
+                                        for(function = 1; function < 8; function++) {
+                                                ptype = check_pci_type(pbus, pdevice, function);
+                                                pprogif = check_pci_progif(pbus, pdevice, function);
+                                                pfunc = check_pci_function(pbus, pdevice, function);
+                                                list_pci_devices(ptype, pfunc, pprogif, function);
+                                        }
+                                function = 0;
+                                }
 
-								        ptype = check_pci_type(pbus, pdevice, (uint32_t)0);
+                                else {
+                                        print("\nBus: "); printi(pbus);
+                                        print("\nDevice: "); printi(pdevice);
+                                        print("\n");
 
-								        pfunc = check_pci_function(pbus, pdevice, (uint32_t)0);
-								        pprogif = check_pci_progif(pbus, pdevice, (uint32_t)0);
-
-								        list_pci_devices(ptype, pfunc, pprogif, function);
-						        }
-				        }
-		        }
-			        
+                                        ptype = check_pci_type(pbus, pdevice, (uint32_t)0);
+                                        pfunc = check_pci_function(pbus, pdevice, (uint32_t)0);
+                                        pprogif = check_pci_progif(pbus, pdevice, (uint32_t)0);
+                                        list_pci_devices(ptype, pfunc, pprogif, function);
+                                }
+                        }
+                }
         }
 
         print("done");
