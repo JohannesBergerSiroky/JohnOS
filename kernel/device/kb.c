@@ -21,7 +21,7 @@
 
 
 uint32_t table[69] = {0, 27, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 45, 61, 8, 9, 113, 119, 101, 114, 116, 121, 117, 105, 111, 112, 91, 93, 13, 0, 97, 115, 100, 102, 103, 104, 106, 107, 108, 59, 
-        39, 96, 0, 92, 122, 120, 99, 118, 98, 110, 109, 44, 46, 47, 0, 42, 0, 32, 0, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68}; 
+                      39, 96, 0, 92, 122, 120, 99, 118, 98, 110, 109, 44, 46, 47, 0, 42, 0, 32, 0, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68}; 
 
 
 uint32_t scan_to_value[12] = {0,0,1,2,3,4,5,6,7,8,9,0};
@@ -36,36 +36,36 @@ uint32_t table3[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
 void keyboard_install()
 {
-    /* Installs 'keyboard_handler' to IRQ1 */
-    irq_install_handler(1, keyboard_handler);
+        /* Installs 'keyboard_handler' to IRQ1 */
+        irq_install_handler(1, keyboard_handler);
 }
 
 void set_kbvariables_zero()
 {
-	    buffstr = (int8_t*)kmem_4k_allocate();
-	    zero_usbms_mem_7(buffstr);
-	    buffstr2 = (int8_t*)kmem_4k_allocate();
-	    zero_usbms_mem_7(buffstr2);
-	    input = 0x00000000;
-	    kb_i = 0; 
-	    kb_temp_dir = (int8_t*)kmem_4k_allocate();
-	    zero_usbms_mem_7(kb_temp_dir);
+        buffstr = (int8_t*)kmem_4k_allocate();
+        zero_usbms_mem_7(buffstr);
+        buffstr2 = (int8_t*)kmem_4k_allocate();
+        zero_usbms_mem_7(buffstr2);
+        input = 0x00000000;
+        kb_i = 0; 
+        kb_temp_dir = (int8_t*)kmem_4k_allocate();
+        zero_usbms_mem_7(kb_temp_dir);
 
-	    kb_temp1 = 0;
-	    kb_temp2 = 0;
+        kb_temp1 = 0;
+        kb_temp2 = 0;
 }
 
 void keyboard_handler(struct regs* r)
 {
         check_root = 0;
-	    uint32_t fs_test_counter2 = 0;
-	    uint32_t fs_test_counter3 = 0;
-	    fs_string_match = 0;
-	    kb_temp_dir = (int8_t*)kmem_4k_allocate();
-	    zero_usbms_mem_7(kb_temp_dir);
+        uint32_t fs_test_counter2 = 0;
+        uint32_t fs_test_counter3 = 0;
+        fs_string_match = 0;
+        kb_temp_dir = (int8_t*)kmem_4k_allocate();
+        zero_usbms_mem_7(kb_temp_dir);
 
-	    kb_temp1 = 0;
-	    kb_temp2 = 0;
+        kb_temp1 = 0;
+        kb_temp2 = 0;
         reading = 1;
 
 
@@ -73,166 +73,140 @@ void keyboard_handler(struct regs* r)
          * memoryaddress (probably in the stack) represented by 
          * input, or copy the input value and store it in input
          */
-		input = inportb(0x60); 
-		switch (input) {
-		        /* if user presses enter, the keyboard input reading is finished */
-			    case 28:
-                                    
-				    
-				    *(buffstr + kb_i) = '\0'; 
-				    *(buffstr2 + kb_i) = '\0'; 
-				    reading = 0;
-			    break;
+        input = inportb(0x60); 
+        switch (input) {
+                /* if user presses enter, the keyboard input reading is finished */
+                case 28:
+
+                        *(buffstr + kb_i) = '\0'; 
+                        *(buffstr2 + kb_i) = '\0'; 
+                        reading = 0;
+                break;
                 /* backspace */
-	            case 14: 
-                		printch('\b', kb_i);
-                		if (kb_i > 0) 
-			                kb_i--;
-			    
-                		*(buffstr + kb_i) = 0;
-                		*(buffstr2 + kb_i) = 0;
-                	    break;
+                case 14: 
+                        printch('\b', kb_i);
+                        if (kb_i > 0) 
+                                kb_i--;
+                        *(buffstr + kb_i) = 0;
+                        *(buffstr2 + kb_i) = 0;
+                        break;
 
-			    case 0x48: 
-				    scrollDown();
-				    input = 0x00000000;
-				    break;
-			    case 0x50:
-				    scrollUp(1);
-				    input = 0x00000000;
-				    break;
+                case 0x48: 
+                        scrollDown();
+                        input = 0x00000000;
+                        break;
+                case 0x50:
+                        scrollUp(1);
+                        input = 0x00000000;
+                        break;
 
-		        default:
+                default:
 
-		    
-			    if (input < 69 && kb_i < 127) {
+                if (input < 69 && kb_i < 127) {
 
-				    printch((int8_t)table[input], 0);
-				    *(buffstr + kb_i) = (int8_t)table[input];
-				    *(buffstr2 + kb_i) = (int8_t)table[input];
-                    kb_i++;
-					    
-			    }
-				    
-		    break;
+                        printch((int8_t)table[input], 0);
+                        *(buffstr + kb_i) = (int8_t)table[input];
+                        *(buffstr2 + kb_i) = (int8_t)table[input];
+                        kb_i++;
+                }
+		        break;
         }
 
-		if (reading == 0) {
+        if (reading == 0) {
 
-	            fs_a = 0;
-	            fs_string_match = 0;
-	            kb_temp_dir = (int8_t*)kmem_4k_allocate();
-	            zero_usbms_mem_7(kb_temp_dir);
+                fs_a = 0;
+                fs_string_match = 0;
+                kb_temp_dir = (int8_t*)kmem_4k_allocate();
+                zero_usbms_mem_7(kb_temp_dir);
+                kb_temp1 = 0;
+                kb_temp2 = 0;
+                fs_c = 0;
+                uint16_t kb_str_length;
 
-	            kb_temp1 = 0;
-	            kb_temp2 = 0;
-	            fs_c = 0;
-	            uint16_t kb_str_length;
-
-	            fs_b = 0;
-	            kb_temp1 = 0;
-	            kb_temp2 = 0;
-	            uint16_t fs_p;
-	            uint32_t fs_q;
+                fs_b = 0;
+                kb_temp1 = 0;
+                kb_temp2 = 0;
+                uint16_t fs_p;
+                uint32_t fs_q;
                 int8_t* ch = buffstr;
                 int8_t* ch2 = buffstr2;
 
 
-	            /* go to where all the files are for that directory */		    
-	            while(!strEql(fs_current_directory_ptr, (fs_filenames + (fs_test_counter2*10))) && (fs_test_counter2 < 455))
-			            fs_test_counter2++;
-                 /* at the right dir now */
+                /* go to where all the files are for that directory */		    
+                while(!strEql(fs_current_directory_ptr, (fs_filenames + (fs_test_counter2*10))) && (fs_test_counter2 < 455))
+                        fs_test_counter2++;
+                /* at the right dir now */
                 fs_test_counter3 = fs_test_counter2;
-                
-
 	            fs_p = strlength(ch2);
 
+                fs_q = 0;
+                for(; fs_q < (uint32_t)fs_p; fs_q++) {
+                        if(((*(ch2 + fs_q)) > 0x60) && ((*(ch2 + fs_q)) < 0x7b))
+                                (*(ch2 + fs_q)) -= 0x20;
 
-			            fs_q = 0;
-			            for(; fs_q < (uint32_t)fs_p; fs_q++) {
-					            if(((*(ch2 + fs_q)) > 0x60) && ((*(ch2 + fs_q)) < 0x7b))
-						            (*(ch2 + fs_q)) -= 0x20;
+                }
+                (*(ch2 + fs_q)) = '\0';
 
+                while ((!strEql((fs_filenames + (fs_test_counter2*10)), "eod")) && (fs_test_counter2 < 409) && (check_root == 0) && (!strEql((fs_filenames + (fs_test_counter2*10)), ch2))) {
+                        fs_test_counter2++;
+                        if(strEql((fs_filenames + (fs_test_counter2*10)), ch2))
+                                check_root = 1;
+                }
 
-			            }
-			            (*(ch2 + fs_q)) = '\0';
-	            while ((!strEql((fs_filenames + (fs_test_counter2*10)), "eod")) && (fs_test_counter2 < 409) && (check_root == 0) && (!strEql((fs_filenames + (fs_test_counter2*10)), ch2))) {
-			            fs_test_counter2++;
-	                    if(strEql((fs_filenames + (fs_test_counter2*10)), ch2))
-		                        check_root = 1;
-	            } 
-
-			            
                 if (check_root == 1) {
-		                if((*(fs_filenames + (fs_test_counter2*10) + 8)) != 't')
-			                print("\nError: could not open file. Not a text file.");
-		                else {
-				                (*(fs_filenames + (fs_test_counter2*10) + 8)) = '\0';
-				                uint32_t test1 = (*(fs_filelocation_cluster_ptr + fs_test_counter2));
-				                uint32_t test2 = (*(fs_filelength + fs_test_counter2));
-				                read_fat16_file(test1, test2);
-				                (*(fs_filenames + (fs_test_counter2*10) + 8)) = 't';
+                        if((*(fs_filenames + (fs_test_counter2*10) + 8)) != 't')
+                                print("\nError: could not open file. Not a text file.");
+                        else {
+                                (*(fs_filenames + (fs_test_counter2*10) + 8)) = '\0';
+                                uint32_t test1 = (*(fs_filelocation_cluster_ptr + fs_test_counter2));
+                                uint32_t test2 = (*(fs_filelength + fs_test_counter2));
+                                read_fat16_file(test1, test2);
+                                (*(fs_filenames + (fs_test_counter2*10) + 8)) = 't';
                                 kb_i = 0;
-		                }
+                        }
 
-		                print("\n\n");
-		                print(csptr);
-                }  
-			            
-	            if(check_root == 0) {	
-		                if (strEql(ch, "help")) {
-				                print("\n\nList of available commands:\n");
-				                print("clear : Clears the screen.\nred : Changes textcolor.\n");
-				                print("Supported textcolors: green, blue, red \n");
-				                print("yellow, violet, magenta, light grey (type grey)\n");
-				                print("light green, light blue, light cyan\n");
-				                print("and white.\n\nshow memmap: Shows the memory map.\nType show memmap -e for a memory map without explaination.\n");
-				                print("list pci: Lists PCI Compatible Devices where \"bus\" means a PCI-bus.\n");
-				                print("ls: Looks at the available directories and files. \ncd: Changes directory. \"cd r\" or \"cd root\": Goes back to root directory.\n");
-				                print("cd b: Goes back to the former directory.\n");
+                        print("\n\n");
+                        print(csptr);
+                }
+
+                if(check_root == 0) {	
+                        if (strEql(ch, "help")) {
+                                print("\n\nList of available commands:\n");
+                                print("clear : Clears the screen.\nred : Changes textcolor.\n");
+                                print("Supported textcolors: green, blue, red \n");
+                                print("yellow, violet, magenta, light grey (type grey)\n");
+                                print("light green and white\n");
+                                print("\nshow memmap: Shows the memory map.\nType show memmap -e for a memory map without explaination.\n");
+                                print("list pci: Lists PCI Compatible Devices where \"bus\" means a PCI-bus.\n");
+                                print("ls: Looks at the available directories and files. \ncd: Changes directory. \"cd r\" or \"cd root\": Goes back to root directory.\n");
+                                print("cd b: Goes back to the former directory.\n");
                                 print("shutdown: Attempts to shut down the computer.\n\n");
-				                print(csptr);
-		                } 
-		                else if (strEql(ch, "clear")) {
-				                clearScreen();
-				                print(csptr);
-		                }
-		                else if (strEql(ch, "shutdown")) {
-				                check_shutdown_code();
-
-		                }
+                                print(csptr);
+                        }
+                        else if (strEql(ch, "clear")) {
+                                clearScreen();
+                                print(csptr);
+                        }
+                        else if (strEql(ch, "shutdown")) {
+                                check_shutdown_code();
+                        }
 
                         /* sc stands for screencolor and is defined in screen.c */
-		                else if (strEql(ch, "green")) {
-				                sc = 0x02; 
-				                print("\n");
-				                print(csptr);
-		                }
-		                else if (strEql(ch, "cyan")) {
-				                sc = 0x03; 
-				                print("\n");
-				                print(csptr);
-		                }
-		                else if (strEql(ch, "light cyan")) {
-				                sc = 0xB;
-				                print("\n"); 
-				                print(csptr);
-		                }
-		                else if (strEql(ch, "light blue")) {
-				                sc = 0x09; 
-				                print("\n");
-				                print(csptr);
-		                }
-		                else if (strEql(ch, "magenta")) {
-				                sc = 0x05; 
-				                print("\n");
-				                print(csptr);
-		                }
-		                else if (strEql(ch, "light green")) {
-				                sc = 0xA; 
-				                print("\n");
-				                print(csptr);
-		                }
+                        else if (strEql(ch, "green")) {
+                                sc = 0x02; 
+                                print("\n");
+                                print(csptr);
+                        }
+                        else if (strEql(ch, "magenta")) {
+                                sc = 0x05; 
+                                print("\n");
+                                print(csptr);
+                        }
+                        else if (strEql(ch, "light green")) {
+                                sc = 0xA; 
+                                print("\n");
+                                print(csptr);
+                        }
 		                else if (strEql(ch, "grey")) {
 				                sc = 0x07;
 				                print("\n");
