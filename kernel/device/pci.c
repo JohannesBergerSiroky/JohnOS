@@ -899,10 +899,8 @@ void check_pci_devices(uint8_t bus, uint8_t device)
                          for(function = 1; function < 8; function++) {
                                  if(get_pci_VD(bus, device,0) != 0xFFFF)
                                         check_pci_function(bus, device,0);
-                  		 }
+                         }
                 }
-
-           
 
         }
 }
@@ -914,19 +912,17 @@ uint16_t check_pci_function(uint32_t bus, uint32_t device, uint32_t funct)
         uint16_t vendor;
         /*functions: class ID, subclass ID, progIF. subclass = function */
         if ((vendor = PCI_Config_RW(bus,device,0,0)) != 0xFFFF)
-	            func = (PCI_Config_RW(bus,device,funct,10) & 0x00ff);
-		    
-	    else
-		        func = 512;
-	    
+                func = (PCI_Config_RW(bus,device,funct,10) & 0x00ff);
+        else
+                func = 512;
         return func;
 }
 
 /* Checks the header type of a device. */
 uint16_t get_pci_HeaderType(uint32_t bus, uint32_t device, uint32_t funct)
 {
-	    uint16_t pci_header_type;
-	    uint16_t vendor;
+        uint16_t pci_header_type;
+        uint16_t vendor;
         if ((vendor = PCI_Config_RW(bus,device,0,0)) != 0xFFFF)
                 /* The information about the header type is located at offset 14. */
                 pci_header_type = (PCI_Config_RW(bus,device,funct,14) & 0x00ff);
@@ -1030,7 +1026,7 @@ uint32_t* find_device(uint16_t f_class, uint16_t f_subclass, uint16_t f_pprogif)
                                                         return pci_device_array;
                                                 }
                                         }
-							            function = 0;
+                                        function = 0;
                                 }
                                 else {
 
