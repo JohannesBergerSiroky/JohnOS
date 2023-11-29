@@ -995,63 +995,55 @@ void keyboard_handler(struct regs* r)
  */
 void keyboard_handler2(struct regs* r)
 {
-	
-	    uint32_t reading2 = 1;
-	    
-	    input2 = inportb(0x60);
-		switch (input2) {
-	    
-		        case 28:
-                                    
-			        /* Commented code: print("\ni: ");
-			         * printi((uint32_t)i); 
-                     */
+        uint32_t reading2 = 1;
+        input2 = inportb(0x60);
+        switch (input2) {
 
-                    /* if user presses enter, the keyboard input reading is finished. */
-			        *(buffstr2 + kb_i) = '\0';
-			        // Commented code: buffstr2[i+1] = '\0';
-			        buffstr3[kb_i] = '\0';
-			        // Commented code: buffstr3[i+1] = '\0';
-			        reading2 = 0;
-		        break;
-                case 14: // backspace
-                		printch('\b', kb_i);
-                		if (kb_i > 0) 
-		                    kb_i--;
-		        
-                		*(buffstr2 + kb_i) = 0;
-				        buffstr3[kb_i] = 0;
-                	    break;
-
-
-
-	            default:
-
-	        
-
-		        if (((input2 > 1) && (input2 < 12))  && (kb_i < 5)) {
-				        printch((int8_t)table[input2], 0);
-				        *(buffstr2 + kb_i) = (int8_t)table[input2];
-				        buffstr3[kb_i] = scan_to_value[input2];
-				        /* Commented code: print("\nbuffstr3[i]: ");
-				         * printi(buffstr3[i]);
+                case 28:
+                        /* Commented code: print("\ni: ");
+                         * printi((uint32_t)i); 
                          */
-                        kb_i++;
-				        
-		        }
-			        
-	            break;
-        }
-	    if (reading2 == 0) {
-			    int8_t* ch2 = buffstr3;
-			    uint8_t i2 = kb_i - 1;
 
-			    mem_addr_result = read_mem_address((uint32_t*)ch2,i2);
-			    if (mem_addr_result < 43008) {
+                        /* if user presses enter, the keyboard input reading is finished. */
+                        *(buffstr2 + kb_i) = '\0';
+                        // Commented code: buffstr2[i+1] = '\0';
+                        buffstr3[kb_i] = '\0';
+                        // Commented code: buffstr3[i+1] = '\0';
+                        reading2 = 0;
+                        break;
+               case 14: // backspace
+                        printch('\b', kb_i);
+                        if (kb_i > 0) 
+                                kb_i--;
+                        *(buffstr2 + kb_i) = 0;
+                        buffstr3[kb_i] = 0;
+                        break;
+
+
+
+              default:
+
+                      if (((input2 > 1) && (input2 < 12))  && (kb_i < 5)) {
+                              printch((int8_t)table[input2], 0);
+                              *(buffstr2 + kb_i) = (int8_t)table[input2];
+                              buffstr3[kb_i] = scan_to_value[input2];
+                              /* Commented code: print("\nbuffstr3[i]: "); 
+                               * printi(buffstr3[i]);
+                               */
+                              kb_i++;
+                      }
+                      break;
+        }
+        if (reading2 == 0) {
+                int8_t* ch2 = buffstr3;
+                uint8_t i2 = kb_i - 1;
+
+                mem_addr_result = read_mem_address((uint32_t*)ch2,i2);
+                if (mem_addr_result < 43008) {
 
                         usbms_extra_data[0] = USB_BULKSTORAGE_SCSI_LBA;
                         usbms_extra_data[1] = mem_addr_result;
-				        volatile uint8_t* rma = prepare_usb_storage_bulk_transfer(USB_BULKSTORAGE_SCSI_READ10, USB_DEVICE_TO_HOST, 0, 512, usbms_extra_data);
+                        volatile uint8_t* rma = prepare_usb_storage_bulk_transfer(USB_BULKSTORAGE_SCSI_READ10, USB_DEVICE_TO_HOST, 0, 512, usbms_extra_data);
                         if (rma == (volatile uint8_t*)0x600000)
                                 goto exit;
                         print("\n");
@@ -1063,19 +1055,17 @@ void keyboard_handler2(struct regs* r)
                                         print("\n");
 
                         }
-			    }
-			    
-			    else {
-				        print("\nInvalid logical block address");
+                }
+
+                else {
+                        print("\nInvalid logical block address");
                 }
                 exit:
-			    irq_install_handler(1, keyboard_handler);
-			    print("\n\n");
-			    print(csptr);
-			    kb_i = 0;
-			    
-	    }
-		
+                irq_install_handler(1, keyboard_handler);
+                print("\n\n");
+                print(csptr);
+                kb_i = 0;
+        }
 }
 
 /* Attempts to read a memory address specified by
@@ -1084,63 +1074,56 @@ void keyboard_handler2(struct regs* r)
 void keyboard_handler3(struct regs* r)
 {
 	    
-	    uint32_t reading3 = 1;
-	    
-	    input3 = inportb(0x60);
-				switch (input3) {
-			
-				case 28:
+        uint32_t reading3 = 1;
+        input3 = inportb(0x60);
+        switch (input3) {
 
-					buffstr4[kb_i] = '\0'; 
+                case 28:
 
-					buffstr5[kb_i] = '\0';
-					reading3 = 0;
-				break;
-		        case 14: 
-                		printch('\b', kb_i);
-                		if (kb_i > 0) 
-				            kb_i--;
-				
-                		buffstr4[kb_i] = 0;
-						buffstr5[kb_i] = 0;
-                	    break;
+                        buffstr4[kb_i] = '\0'; 
+
+                        buffstr5[kb_i] = '\0';
+                        reading3 = 0;
+                        break;
+               case 14: 
+                        printch('\b', kb_i);
+                        if (kb_i > 0) 
+                                kb_i--;
+                        buffstr4[kb_i] = 0;
+                        buffstr5[kb_i] = 0;
+                        break;
 
 
-			    default:
+              default:
 
-			
-				if ((((input3 > 1) && (input3 < 12)) || (input3 == 18) || (input3 == 30) || ((input3 > 31) && (input3 < 34)) || (input3 == 46) || (input3 == 48)) && (kb_i < 8)) {
+                      if ((((input3 > 1) && (input3 < 12)) || (input3 == 18) || (input3 == 30) || ((input3 > 31) && (input3 < 34)) || (input3 == 46) || (input3 == 48)) && (kb_i < 8)) {
 
-						printch((int8_t)table[input3], 0);
-						buffstr4[kb_i] = (int8_t)table[input3];
-						buffstr5[kb_i] = scan_to_value[input3];
+                              printch((int8_t)table[input3], 0);
+                              buffstr4[kb_i] = (int8_t)table[input3];
+                              buffstr5[kb_i] = scan_to_value[input3];
 
-                        kb_i++;
-						
-				}
-					
-			    break;
-         }
-	    if ((reading3 == 0) && (kb_i == 8)) {
+                              kb_i++;
+                      }
+                      break;
+        }
+        if ((reading3 == 0) && (kb_i == 8)) {
 
-			int8_t* ch2 = buffstr5;
+                int8_t* ch2 = buffstr5;
 
-			mem_addr_offset = hex_to_dec((uint32_t*)ch2);
-			result = read_dword((const uint32_t)PCI_Config_RW2(0,6,0,16), (const uint32_t)mem_addr_offset);
-			result_addr = read_dword_addr((const uint32_t)PCI_Config_RW2(0,6,0,16), (const uint32_t)mem_addr_offset);
-				print("\nMemory address: ");
-				printi((uint32_t)result_addr);
-				print("\nAddress in hex: ");
-				print_hex((uint32_t)result_addr);
-				print("\nValue: ");
-				printi((uint32_t)result);
-				print("\nValue in hex: ");
-				print_hex((uint32_t)result);
-				irq_install_handler(1, keyboard_handler);
-				print("\n\n");
-				print(csptr);
-				kb_i = 0;
-		
-	    }
-		
+                mem_addr_offset = hex_to_dec((uint32_t*)ch2);
+                result = read_dword((const uint32_t)PCI_Config_RW2(0,6,0,16), (const uint32_t)mem_addr_offset);
+                result_addr = read_dword_addr((const uint32_t)PCI_Config_RW2(0,6,0,16), (const uint32_t)mem_addr_offset);
+                print("\nMemory address: ");
+                printi((uint32_t)result_addr);
+                print("\nAddress in hex: ");
+                print_hex((uint32_t)result_addr);
+                print("\nValue: ");
+                printi((uint32_t)result);
+                print("\nValue in hex: ");
+                print_hex((uint32_t)result);
+                irq_install_handler(1, keyboard_handler);
+                print("\n\n");
+                print(csptr);
+                kb_i = 0;
+        }
 }
