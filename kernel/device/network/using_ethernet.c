@@ -811,34 +811,34 @@ void rd_init()
 void td_init()
 {
         uint32_t tx_mem = kmem_4k_allocate();
-	    zero_usbms_mem_6((uint32_t*)tx_mem);
+        zero_usbms_mem_6((uint32_t*)tx_mem);
 
-	    for(uint32_t i = 0; i < 8; i++) {
+        for(uint32_t i = 0; i < 8; i++) {
 
-			    tx[i] = (struct e1000_tx_descriptor*)(tx_mem + (i*16));
-			    tx[i]->addr_low = 0;
-			    tx[i]->addr_high = 0;
-			    tx[i]->cmd = 0;
-			    tx[i]->status = 1;
+                tx[i] = (struct e1000_tx_descriptor*)(tx_mem + (i*16));
+                tx[i]->addr_low = 0;
+                tx[i]->addr_high = 0;
+                tx[i]->cmd = 0;
+                tx[i]->status = 1;
 
-	    }
+        }
 
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003800, (const uint32_t)tx_mem);
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003804, (const uint32_t)0x00000000);
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003800, (const uint32_t)tx_mem);
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003804, (const uint32_t)0x00000000);
 
         /* tx len */
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003808, (const uint32_t)(8*16)); 
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003808, (const uint32_t)(8*16)); 
 
         /* tx head */
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003810, (const uint32_t)0x00000000);
- 
-        /* tx tail */
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003818, (const uint32_t)0x00000000); 
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003810, (const uint32_t)0x00000000);
 
-	    uint32_t temp = (0 | ((1 << 1) | (1 << 3) | (15 << 4) | (64 << 12) | (1 << 24)));
+        /* tx tail */
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003818, (const uint32_t)0x00000000); 
+
+        uint32_t temp = (0 | ((1 << 1) | (1 << 3) | (15 << 4) | (64 << 12) | (1 << 24)));
 
         /* Writes to the transmit control register. */
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000400, (const uint32_t)temp); 
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000400, (const uint32_t)temp); 
 }
 
 /* Initializes the network card by using some
@@ -846,35 +846,35 @@ void td_init()
  */
 void init_ethernetc_controller()
 {
-	    print("\nInitializing ethernet controller.");
-	    read_mac_address();
-	    start_link();
-	    write_mta();
-	    write_ethernetc_intmask();
-	    write_ethernetc_intmaskclear();
-	    rd_init();
-	    td_init();
-	    print("\n\nCard initialized.");
+        print("\nInitializing ethernet controller.");
+        read_mac_address();
+        start_link();
+        write_mta();
+        write_ethernetc_intmask();
+        write_ethernetc_intmaskclear();
+        rd_init();
+        td_init();
+        print("\n\nCard initialized.");
 }
 
 /* Attempts to send a packet. */
 void send_packet(uint32_t tx_addr_low, uint16_t len)
 {
-	    tx[current_tx]->addr_low = tx_addr_low;
-	    tx[current_tx]->length = len;
-	    tx[current_tx]->cmd = (0 | (1 | 2 | (1 << 3) | (1 << 4)));
-	    tx[current_tx]->status = 0;
-	    handled_tx = current_tx;
-	    current_tx = ((current_tx + 1) % 8);
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003818, (const uint32_t)current_tx); // tx tail
-	    timer_install();
-	    asm("sti");
-	    timer_ticks = 0;
-	    while((!(tx[handled_tx]->status & 0xff)) && (timer_ticks < 36));
-	    if(!(tx[handled_tx]->status & 0xff))
-		        print("\n\nError: time out after sending network packet.");
-	    irq_uninstall_handler(0);
-	    asm("cli");
+        tx[current_tx]->addr_low = tx_addr_low;
+        tx[current_tx]->length = len;
+        tx[current_tx]->cmd = (0 | (1 | 2 | (1 << 3) | (1 << 4)));
+        tx[current_tx]->status = 0;
+        handled_tx = current_tx;
+        current_tx = ((current_tx + 1) % 8);
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003818, (const uint32_t)current_tx); // tx tail
+        timer_install();
+        asm("sti");
+        timer_ticks = 0;
+        while((!(tx[handled_tx]->status & 0xff)) && (timer_ticks < 36));
+        if(!(tx[handled_tx]->status & 0xff))
+                print("\n\nError: time out after sending network packet.");
+        irq_uninstall_handler(0);
+        asm("cli");
 }
 
 /* ************************************************************************************** interrupt handling ****************************************************************************** */
@@ -885,82 +885,82 @@ void send_packet(uint32_t tx_addr_low, uint16_t len)
  */
 void ethernetc_e1000_handler()
 {
-	    uint32_t good_threshold = 0;
-	    uint32_t temp1 = get_ethernetc_int();
+        uint32_t good_threshold = 0;
+        uint32_t temp1 = get_ethernetc_int();
 
-	    if ((temp1 & 0x4) == 0x4) {
-			    writeclear_ethernetc_linkstatuschange();
-			    print("\nWarning: link status changed. An error could have occurred.");
-	    }
-	    if ((temp1 & 0x8) == 0x8) {
-			    writeclear_ethernetc_rse();
-			    print("\nReceive sequence error.");
-	    }
+        if ((temp1 & 0x4) == 0x4) {
+                writeclear_ethernetc_linkstatuschange();
+                print("\nWarning: link status changed. An error could have occurred.");
+        }
+        if ((temp1 & 0x8) == 0x8) {
+                writeclear_ethernetc_rse();
+                print("\nReceive sequence error.");
+        }
 
-	    if ((temp1 & 0x10) == 0x10) {
-			    writeclear_ethernetc_goodthreshold();
-			    good_threshold = 1;
-	    }
+        if ((temp1 & 0x10) == 0x10) {
+                writeclear_ethernetc_goodthreshold();
+                good_threshold = 1;
+        }
 
-	    if ((temp1 & 0x40) == 0x40) {
-			    writeclear_ethernetc_rfifooverrun();
-			    print("\nReceive fifo overrun.");
-	    }
+        if ((temp1 & 0x40) == 0x40) {
+                writeclear_ethernetc_rfifooverrun();
+                print("\nReceive fifo overrun.");
+        }
 
-	    if ((temp1 & 0x80) == 0x80) {
+        if ((temp1 & 0x80) == 0x80) {
 
-			    writeclear_ethernetc_packetreceived();
-			    print("\n\nPacket received interrupt.");
+                writeclear_ethernetc_packetreceived();
+                print("\n\nPacket received interrupt.");
 
-			    if(good_threshold && (rx[current_rx]->status & 0x1)) {
+                if(good_threshold && (rx[current_rx]->status & 0x1)) {
 
-					    uint8_t* net_addr = (uint8_t*)rx[current_rx]->addr_low;
-					    memset2(net_addr, (uint8_t*)netmem, 4096);
-					    handled_rx = current_rx;
-					    rx[handled_rx]->status = 0;
-					    current_rx = ((current_rx + 1) % 32);
-					    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002818, (const uint32_t)handled_rx); // tail
-			    }
+                        uint8_t* net_addr = (uint8_t*)rx[current_rx]->addr_low;
+                        memset2(net_addr, (uint8_t*)netmem, 4096);
+                        handled_rx = current_rx;
+                        rx[handled_rx]->status = 0;
+                        current_rx = ((current_rx + 1) % 32);
+                        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002818, (const uint32_t)handled_rx); // tail
+                }
 
-			    else if(!good_threshold)
-				        print("\n\nError: No good threshold.");
-			    else
-				        print("\n\nError: rx status is not set.");
-	    }
+                else if(!good_threshold)
+                        print("\n\nError: No good threshold.");
+                else
+                        print("\n\nError: rx status is not set.");
+        }
 
 
 
-	    if ((temp1 & 0x200) == 0x200) {
-			    writeclear_ethernetc_mdac();
-			    if(phy_reg_flag)
-				        read_mdctl_phyreg_data(phy);
-	    }
+        if ((temp1 & 0x200) == 0x200) {
+                writeclear_ethernetc_mdac();
+                if(phy_reg_flag)
+                        read_mdctl_phyreg_data(phy);
+        }
 
-	    if ((temp1 & 0x400) == 0x400) {
-			    writeclear_ethernetc_rcorderedset();
-			    print("\nReceive ordered sets.");
-	    }
+        if ((temp1 & 0x400) == 0x400) {
+                writeclear_ethernetc_rcorderedset();
+                print("\nReceive ordered sets.");
+        }
 
-	    if ((temp1 & 0x1000) == 0x1000) {
-			    writeclear_ethernetc_phyinterrupt();
-			    print("\nPhy interrupt.");
-	    }
+        if ((temp1 & 0x1000) == 0x1000) {
+                writeclear_ethernetc_phyinterrupt();
+                print("\nPhy interrupt.");
+        }
 
-	    if ((temp1 & 0x2000) == 0x2000) {
-			    writeclear_ethernetc_gpint();
-			    print("\nGeneral purpose interrupt.");
-	    }
+        if ((temp1 & 0x2000) == 0x2000) {
+                writeclear_ethernetc_gpint();
+                print("\nGeneral purpose interrupt.");
+        }
 
-	    if ((temp1 & 0x8000) == 0x8000) {
-			    writeclear_ethernetc_txgoodthreshold();
-			    // Commented code: tx_good_threshold = 1;
-			    print("\ntx good threshold.");
-	    }
+        if ((temp1 & 0x8000) == 0x8000) {
+                writeclear_ethernetc_txgoodthreshold();
+                // Commented code: tx_good_threshold = 1;
+                print("\ntx good threshold.");
+        }
 
-	    if ((temp1 & 0x10000) == 0x10000) {
-			    writeclear_ethernetc_rshortpcktdetect();
-			    print("\nReceived short packet.");
-	    }
+        if ((temp1 & 0x10000) == 0x10000) {
+                writeclear_ethernetc_rshortpcktdetect();
+                print("\nReceived short packet.");
+        }
 }
 
 /* Clears the interrupt notification caused by
@@ -968,9 +968,9 @@ void ethernetc_e1000_handler()
  */
 void writeclear_ethernetc_mdac()
 {
-	    uint32_t temp2 = get_ethernetc_int();
-	    temp2 |= 0x200;
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
+        uint32_t temp2 = get_ethernetc_int();
+        temp2 |= 0x200;
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
 }
 
 /* Clears the interrupt notification caused by
@@ -978,9 +978,9 @@ void writeclear_ethernetc_mdac()
  */
 void writeclear_ethernetc_goodthreshold()
 {
-	    uint32_t temp2 = get_ethernetc_int();
-	    temp2 |= 0x10;
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
+        uint32_t temp2 = get_ethernetc_int();
+        temp2 |= 0x10;
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
 }
 
 /* Clears the interrupt notification caused by
@@ -988,9 +988,9 @@ void writeclear_ethernetc_goodthreshold()
  */
 void writeclear_ethernetc_packetreceived()
 {
-	    uint32_t temp2 = get_ethernetc_int();
-	    temp2 |= 0x80;
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
+        uint32_t temp2 = get_ethernetc_int();
+        temp2 |= 0x80;
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
 }
 
 /* Clears the interrupt notification caused by
@@ -998,9 +998,9 @@ void writeclear_ethernetc_packetreceived()
  */
 void writeclear_ethernetc_linkstatuschange()
 {
-	    uint32_t temp2 = get_ethernetc_int();
-	    temp2 |= 0x4;
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
+        uint32_t temp2 = get_ethernetc_int();
+        temp2 |= 0x4;
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
 }
 
 /* Clears the interrupt notification caused by
@@ -1008,9 +1008,9 @@ void writeclear_ethernetc_linkstatuschange()
  */
 void writeclear_ethernetc_rse() 
 {
-	    uint32_t temp2 = get_ethernetc_int();
-	    temp2 |= 0x8;
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
+        uint32_t temp2 = get_ethernetc_int();
+        temp2 |= 0x8;
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
 }
 
 /* Clears the interrupt notification caused by
@@ -1018,9 +1018,9 @@ void writeclear_ethernetc_rse()
  */
 void writeclear_ethernetc_rfifooverrun()
 {
-	    uint32_t temp2 = get_ethernetc_int();
-	    temp2 |= 0x40;
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
+        uint32_t temp2 = get_ethernetc_int();
+        temp2 |= 0x40;
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
 }
 
 /* Clears the interrupt notification which should happen
@@ -1029,9 +1029,9 @@ void writeclear_ethernetc_rfifooverrun()
  */
 void writeclear_ethernetc_rcorderedset()
 {
-	    uint32_t temp2 = get_ethernetc_int();
-	    temp2 |= 0x400;
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
+        uint32_t temp2 = get_ethernetc_int();
+        temp2 |= 0x400;
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
 }
 
 /* Clears the interrupt notification caused when
@@ -1039,9 +1039,9 @@ void writeclear_ethernetc_rcorderedset()
  */
 void writeclear_ethernetc_phyinterrupt()
 {
-	    uint32_t temp2 = get_ethernetc_int();
-	    temp2 |= 0x1000;
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
+        uint32_t temp2 = get_ethernetc_int();
+        temp2 |= 0x1000;
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
 }
 
 /* Clears the interrupt notification caused by
@@ -1049,9 +1049,9 @@ void writeclear_ethernetc_phyinterrupt()
  */
 void writeclear_ethernetc_gpint()
 {
-	    uint32_t temp2 = get_ethernetc_int();
-	    temp2 |= 0x2000;
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
+        uint32_t temp2 = get_ethernetc_int();
+        temp2 |= 0x2000;
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
 }
 
 /* Clears the interrupt notification caused when
@@ -1061,9 +1061,9 @@ void writeclear_ethernetc_gpint()
  */
 void writeclear_ethernetc_txgoodthreshold()
 {
-	    uint32_t temp2 = get_ethernetc_int();
-	    temp2 |= 0x8000;
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
+        uint32_t temp2 = get_ethernetc_int();
+        temp2 |= 0x8000;
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
 }
 
 /* Clears the interrupt notification caused when
@@ -1072,10 +1072,7 @@ void writeclear_ethernetc_txgoodthreshold()
  */
 void writeclear_ethernetc_rshortpcktdetect()
 {
-	    uint32_t temp2 = get_ethernetc_int();
-	    temp2 |= 0x10000;
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
+        uint32_t temp2 = get_ethernetc_int();
+        temp2 |= 0x10000;
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0, (const uint32_t)temp2);
 }
-
-
-
