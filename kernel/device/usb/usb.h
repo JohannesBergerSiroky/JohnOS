@@ -37,14 +37,14 @@ uint32_t hci_in_use;
 struct setup_data {
 
 
-	    volatile uint8_t RequestType;
-	    volatile uint8_t Request;
-	    volatile uint8_t value_low;
-	    volatile uint8_t value_high;
-	    volatile uint8_t index_low;
-	    volatile uint8_t index_high;
-	    volatile uint8_t length_low;
-	    volatile uint8_t length_high;
+        volatile uint8_t RequestType;
+        volatile uint8_t Request;
+        volatile uint8_t value_low;
+        volatile uint8_t value_high;
+        volatile uint8_t index_low;
+        volatile uint8_t index_high;
+        volatile uint8_t length_low;
+        volatile uint8_t length_high;
 
 
 } __attribute__((packed));

@@ -34,10 +34,10 @@ struct setup_data* fill_usb_setup_data(uint8_t requesttype, uint8_t req,
 
 void zero_device_descriptor(struct setup_data* dscrptr)
 {
-	    uint32_t counter;
-	    uint8_t* dsc_pointer = (uint8_t*)dscrptr;
-	    for(counter = 8; counter < 4096; counter++)
-		        *(dsc_pointer + counter) = 0x00;
+        uint32_t counter;
+        uint8_t* dsc_pointer = (uint8_t*)dscrptr;
+        for(counter = 8; counter < 4096; counter++)
+                *(dsc_pointer + counter) = 0x00;
 
 }
 
