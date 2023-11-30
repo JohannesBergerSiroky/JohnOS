@@ -47,13 +47,13 @@ uint32_t netmem;
 struct e1000_rx_descriptor {
 
 
-	    volatile uint32_t addr_low;
-	    volatile uint32_t addr_high;
-	    volatile uint16_t length;
-	    volatile uint16_t checksum;
-	    volatile uint8_t status;
-	    volatile uint8_t errors;
-	    volatile uint16_t special;
+        volatile uint32_t addr_low;
+        volatile uint32_t addr_high;
+        volatile uint16_t length;
+        volatile uint16_t checksum;
+        volatile uint8_t status;
+        volatile uint8_t errors;
+        volatile uint16_t special;
 
 
 } __attribute__((packed));
@@ -64,14 +64,14 @@ struct e1000_rx_descriptor* rx[32];
 struct e1000_tx_descriptor {
 
 
-	    volatile uint32_t addr_low;
-	    volatile uint32_t addr_high;
-	    volatile uint16_t length;
-	    volatile uint8_t cso; 
-	    volatile uint8_t cmd;
-	    volatile uint8_t status;
-	    volatile uint8_t css;
-	    volatile uint16_t special;
+        volatile uint32_t addr_low;
+        volatile uint32_t addr_high;
+        volatile uint16_t length;
+        volatile uint8_t cso; 
+        volatile uint8_t cmd;
+        volatile uint8_t status;
+        volatile uint8_t css;
+        volatile uint16_t special;
 
 
 } __attribute__((packed));
