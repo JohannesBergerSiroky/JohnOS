@@ -576,19 +576,19 @@ uint32_t get_ethernetc_mdictl()
 uint32_t get_eeprom_read_data(uint32_t eeprom_address)
 {
         uint32_t temp2;
-	    uint32_t read_complete = 0;
-	    set_eeprom_read(eeprom_address);
+        uint32_t read_complete = 0;
+        set_eeprom_read(eeprom_address);
 
         /* poll until read is complete */
-	    while(!read_complete) {
-			    temp2 = get_ethernetc_eeprom_read();
-			    if((temp2 & ETH_8254_EEPROM_READ_DONE_ANDMASK(temp2)))
-				        read_complete = 1;
-	    }
+        while(!read_complete) { 
+                temp2 = get_ethernetc_eeprom_read();
+                if((temp2 & ETH_8254_EEPROM_READ_DONE_ANDMASK(temp2)))
+                        read_complete = 1;
+        }
 
-	    temp2 = get_ethernetc_eeprom_read();
+        temp2 = get_ethernetc_eeprom_read();
         ETH_8254_EEPROM_GET_DATA(temp2);
-	    return temp2;
+        return temp2;
 }
 
 
@@ -597,49 +597,49 @@ uint32_t get_eeprom_read_data(uint32_t eeprom_address)
 /* Allows overall access to EEPROM. */
 void allow_read_eepromcmd()
 {
-	    timer_install();
+        timer_install();
 
-	    uint32_t temp2 = get_ethernetc_eeprom();
-	    temp2 |= (1 << 7);
-	    timer_phase(1000);
-	    asm("sti");
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000010, (const uint32_t)temp2);
-	    timer_ticks = 0;
-	    while(timer_ticks < 2);
-	    asm("cli");
-	    timer_phase(18);
-	    irq_uninstall_handler(0);
+        uint32_t temp2 = get_ethernetc_eeprom();
+        temp2 |= (1 << 7);
+        timer_phase(1000);
+        asm("sti");
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000010, (const uint32_t)temp2);
+        timer_ticks = 0;
+        while(timer_ticks < 2);
+        asm("cli");
+        timer_phase(18);
+        irq_uninstall_handler(0);
 }
 
 /* Disallow access to EEPROM. */
 void disallow_read_eepromcmd()
 {
-	    timer_install();
-	    uint32_t temp2 = get_ethernetc_eeprom();
-	    temp2 &= (~(1 | 2 | (1 << 2) | (1 << 6)));
-	    temp2 &= (~(1 << 7));
-	    timer_phase(1000);
-	    asm("sti");
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000010, (const uint32_t)temp2);
-	    timer_ticks = 0;
-	    while(timer_ticks < 2);
-	    asm("cli");
-	    timer_phase(18);
-	    irq_uninstall_handler(0);
+        timer_install();
+        uint32_t temp2 = get_ethernetc_eeprom();
+        temp2 &= (~(1 | 2 | (1 << 2) | (1 << 6)));
+        temp2 &= (~(1 << 7));
+        timer_phase(1000);
+        asm("sti");
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000010, (const uint32_t)temp2);
+        timer_ticks = 0;
+        while(timer_ticks < 2);
+        asm("cli");
+        timer_phase(18);
+        irq_uninstall_handler(0);
 }
 
 /* Toggles a value usually after a EEPROM read operation. */
 void toggle_eeprom()
 {
-	    uint32_t temp2 = get_ethernetc_eeprom();
+        uint32_t temp2 = get_ethernetc_eeprom();
 
 
-	    if((temp2 & 0x40))
-		    temp2 &= (~(0x40));
-	    else
-		    temp2 |= 0x40;
+        if((temp2 & 0x40))
+                temp2 &= (~(0x40));
+        else
+                temp2 |= 0x40;
 
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000010, (const uint32_t)temp2);
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000010, (const uint32_t)temp2);
 }
 
 
@@ -648,9 +648,9 @@ void toggle_eeprom()
 /* Starts the EEPROM read operation. */
 void start_eeprom_read() 
 {
-	    uint32_t temp2 = get_ethernetc_eeprom_read();
-	    temp2 |= 1;
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000014, (const uint32_t)temp2);
+        uint32_t temp2 = get_ethernetc_eeprom_read();
+        temp2 |= 1;
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000014, (const uint32_t)temp2);
 }
 
 /* Sets the address of the EEPROM that is to be read
@@ -658,34 +658,34 @@ void start_eeprom_read()
  */
 void set_eeprom_read(uint32_t address)
 {
-	    uint32_t temp2 = get_ethernetc_eeprom_read();
-	    temp2 &= 0x000000ff;
+        uint32_t temp2 = get_ethernetc_eeprom_read();
+        temp2 &= 0x000000ff;
         ETH_8254_EEPROM_READ_START(temp2, address);
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000014, (const uint32_t)temp2);
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000014, (const uint32_t)temp2);
 }
 
 /* Writes data to the Interrupt Mask Set/Read Register */
 void write_ethernetc_intmask()
 {
-	    uint32_t temp2 = get_ethernetc_intmask();
-	    temp2 |= 0x1f6dc;
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000d0, (const uint32_t)temp2);
+        uint32_t temp2 = get_ethernetc_intmask();
+        temp2 |= 0x1f6dc;
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000d0, (const uint32_t)temp2);
 }
 
 /* Writes data to the Interrupt Mask Clear Register. */
 void write_ethernetc_intmaskclear()
 {
-	    uint32_t temp2 = get_ethernetc_intmaskclear();
-	    temp2 = (0xFFFFFFFF & (~0x1f6dc));
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000d8, (const uint32_t)temp2);
+        uint32_t temp2 = get_ethernetc_intmaskclear();
+        temp2 = (0xFFFFFFFF & (~0x1f6dc));
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000d8, (const uint32_t)temp2);
 }
 
 /* Enables interrupt on the MDI control register. */
 void write_mdac_interruptenable()
 {
-	    uint32_t temp2 = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000020);
-	    temp2 |= (1 << 29);
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000020, (const uint32_t)temp2);
+        uint32_t temp2 = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000020);
+        temp2 |= (1 << 29);
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000020, (const uint32_t)temp2);
 }
 
 
@@ -699,24 +699,25 @@ void write_mdac_interruptenable()
 uint32_t read_mdctl_phyreg_data(uint32_t phy_reg)
 {
         /* get data from the mdictl register and set the read_complete variable to zero */
-	    uint32_t temp2 = get_ethernetc_mdictl();
+        uint32_t temp2 = get_ethernetc_mdictl();
         uint32_t read_complete = 0;
 
         /* check if the error bit is cleared. if not then clear it */
-	    if (ETH_8254_CHECK_MDICTL_ERROR_CLEARED(temp2)) {
+        if (ETH_8254_CHECK_MDICTL_ERROR_CLEARED(temp2)) {
                 goto read_mdictl_phy_continue;
-        } else {
+        } 
+        else {
                 ETH_8254_MDICTL_ERRORBIT_CLEAR(temp2);
         }
 
         read_mdictl_phy_continue:
 
         /* Check if the ready bit is set if it's set then clear it. */
-	    if(ETH_8254_CHECK_MDICTL_READYBIT_SET(temp2)) {
-		        uint32_t temp3 = temp2;
-		        ETH_8254_MDICTL_READYBIT_CLEAR(temp3);
-		        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)20, (const uint32_t)temp3);
-	    }
+        if(ETH_8254_CHECK_MDICTL_READYBIT_SET(temp2)) {
+                uint32_t temp3 = temp2;
+                ETH_8254_MDICTL_READYBIT_CLEAR(temp3);
+                write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)20, (const uint32_t)temp3);
+        }
 
         /* set the bits to make ready for a read */
         temp2 = get_ethernetc_mdictl();
@@ -733,7 +734,7 @@ uint32_t read_mdctl_phyreg_data(uint32_t phy_reg)
         }
 
         /* go and get the data read from the phy data locations and and mask it */
-	    temp2 = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)20);
+        temp2 = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)20);
         temp2 &= 0x0000FFFF;
 
         return temp2;
@@ -743,9 +744,9 @@ uint32_t read_mdctl_phyreg_data(uint32_t phy_reg)
 
 void write_mta() 
 {
-	    for(uint32_t i = 0; i < 0x80; i++) {
-			    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00005200 + (const uint32_t)i, (const uint32_t)0x00000000);
-	    }
+        for(uint32_t i = 0; i < 0x80; i++) {
+                write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00005200 + (const uint32_t)i, (const uint32_t)0x00000000);
+        }
 }
 
 
@@ -753,63 +754,63 @@ void write_mta()
 void start_link() 
 {
         /* get the total value from the card's command register (memory mapped hardware register). command register is at offset 0 from the card's base memory addr (memory mapped) */
-	    uint32_t temp2 = get_ethernetc_cmd(); 
+        uint32_t temp2 = get_ethernetc_cmd(); 
 
         /* sets bit number 6's value to 1. the other bits are unchanged. */
-	    ETH_CTL_START_LINK(temp2); 
+        ETH_CTL_START_LINK(temp2); 
 
         /* write back to the command register. Again, the command register is at offset 0 from the card's base mem address in the card's address range */
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000000, (const uint32_t)temp2);
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000000, (const uint32_t)temp2);
 }
 
 /* Initializes the abilities to receive packets. */
 void rd_init()
 {
-	    uint32_t rx_mem = kmem_4k_allocate();
-	    uint32_t rx_addr = kmem_4k_allocate();
-	    uint32_t mem_bit;
-	    zero_usbms_mem_6((uint32_t*)rx_mem);
-	    mem_bit = (rx_addr - 0x300000)/4096;
-	    for(uint32_t i = 0; i < 32; i++) {
+        uint32_t rx_mem = kmem_4k_allocate();
+        uint32_t rx_addr = kmem_4k_allocate();
+        uint32_t mem_bit;
+        zero_usbms_mem_6((uint32_t*)rx_mem);
+        mem_bit = (rx_addr - 0x300000)/4096;
+        for(uint32_t i = 0; i < 32; i++) {
 
-			    rx[i] = (struct e1000_rx_descriptor*)(rx_mem + (i*16));
-			    rx[i]->addr_low = (rx_addr + (i*8192) + (i*16));
-			    set_bit(mem_bit + i);
-			    set_bit(mem_bit + 32 + i);
-			    zero_usbms_mem_6((uint32_t*)rx[i]->addr_low);
-			    zero_usbms_mem_6((uint32_t*)(rx[i]->addr_low + 4096));
-			    zero_usbms_mem_6((uint32_t*)(rx[i]->addr_low + 8192));
-			    rx[i]->addr_high = 0;
-			    rx[i]->status = 0;
+                rx[i] = (struct e1000_rx_descriptor*)(rx_mem + (i*16));
+                rx[i]->addr_low = (rx_addr + (i*8192) + (i*16));
+                set_bit(mem_bit + i);
+                set_bit(mem_bit + 32 + i);
+                zero_usbms_mem_6((uint32_t*)rx[i]->addr_low);
+                zero_usbms_mem_6((uint32_t*)(rx[i]->addr_low + 4096));
+                zero_usbms_mem_6((uint32_t*)(rx[i]->addr_low + 8192));
+                rx[i]->addr_high = 0;
+                rx[i]->status = 0;
 
-	    }
-			    set_bit(mem_bit + 64);
+        }
+                set_bit(mem_bit + 64);
 
         /* rx addr low */
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002800, (const uint32_t)rx_mem); 
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002800, (const uint32_t)rx_mem); 
 
         /* rx addr high */
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002804, (const uint32_t)0x00000000); 
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002804, (const uint32_t)0x00000000); 
 
         /* rx len */
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002808, (const uint32_t)(32*16)); 
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002808, (const uint32_t)(32*16)); 
 
         /* rx head */
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002810, (const uint32_t)0x00000000);
- 
-        /* rx tail */
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002818, (const uint32_t)31); 
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002810, (const uint32_t)0x00000000);
 
-	    uint32_t temp = (0 | ((1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 15) | (1 << 26)));
+        /* rx tail */
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002818, (const uint32_t)31); 
+
+        uint32_t temp = (0 | ((1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 15) | (1 << 26)));
 
         /* Writes to the receive control register. */
-	    write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000100, (const uint32_t)temp); 
+        write_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000100, (const uint32_t)temp); 
 }
 
 /* Initializes the abilities to transmit packets. */
 void td_init()
 {
-	    uint32_t tx_mem = kmem_4k_allocate();
+        uint32_t tx_mem = kmem_4k_allocate();
 	    zero_usbms_mem_6((uint32_t*)tx_mem);
 
 	    for(uint32_t i = 0; i < 8; i++) {
