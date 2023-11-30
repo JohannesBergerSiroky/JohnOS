@@ -17,18 +17,18 @@
  */
 void set_ethernetc_commandreg()
 {
-		uint16_t temp_cmd = PCI_Config_RW(found_ethernetc_bus,found_ethernetc_device,found_ethernetc_function,4);
-		uint16_t temp_cmd2 = PCI_Config_RW(found_ethernetc_bus,found_ethernetc_device,found_ethernetc_function,6);
-		uint32_t temp_cmd3 = (uint32_t)(temp_cmd2*65536);
-		uint32_t temp_cmd4 = (uint32_t)temp_cmd;
+        uint16_t temp_cmd = PCI_Config_RW(found_ethernetc_bus,found_ethernetc_device,found_ethernetc_function,4);
+        uint16_t temp_cmd2 = PCI_Config_RW(found_ethernetc_bus,found_ethernetc_device,found_ethernetc_function,6);
+        uint32_t temp_cmd3 = (uint32_t)(temp_cmd2*65536);
+        uint32_t temp_cmd4 = (uint32_t)temp_cmd;
 
-		uint32_t temp_cmd5 = temp_cmd3 + temp_cmd4;
-	    temp_cmd5 &= (~(1));
-		temp_cmd5 |= 0x107;
+        uint32_t temp_cmd5 = temp_cmd3 + temp_cmd4;
+        temp_cmd5 &= (~(1));
+        temp_cmd5 |= 0x107;
 
-		uint32_t address = (uint32_t)((found_ethernetc_bus << 16) | (found_ethernetc_device << 11) | (found_ethernetc_function << 8) | (4 & 0xfc) | ((uint32_t)0x80000000));
-		outportl(0xCF8, address);
-		outportl(0xCFC, temp_cmd5);
+        uint32_t address = (uint32_t)((found_ethernetc_bus << 16) | (found_ethernetc_device << 11) | (found_ethernetc_function << 8) | (4 & 0xfc) | ((uint32_t)0x80000000));
+        outportl(0xCF8, address);
+        outportl(0xCFC, temp_cmd5);
 }
 
 
@@ -37,25 +37,25 @@ void set_ethernetc_commandreg()
 /* Initializes some memory regions. */
 void init_phy_location()
 {
-	    e1000_phy_location = kmem_4k_allocate();
-	    zero_usbms_mem_6((uint32_t*)e1000_phy_location);
-	    e1000_eeprom_read_addr = kmem_4k_allocate();
-	    zero_usbms_mem_6((uint32_t*)e1000_eeprom_read_addr);
+        e1000_phy_location = kmem_4k_allocate();
+        zero_usbms_mem_6((uint32_t*)e1000_phy_location);
+        e1000_eeprom_read_addr = kmem_4k_allocate();
+        zero_usbms_mem_6((uint32_t*)e1000_eeprom_read_addr);
 }
 
 /* Initializes some variables. */
 void init_mac_and_variables_netmem()
 {
-	    for(uint32_t a = 0;a < 6;a++) {
-		        mac[a] = 0;
+        for(uint32_t a = 0;a < 6;a++) {
+                mac[a] = 0;
         }
 
-	    current_rx = 0;
-	    handled_rx = 0;
-	    current_tx = 0;
-	    handled_tx = 0;
-	    netmem = kmem_4k_allocate();
-	    zero_usbms_mem_6((uint32_t*)netmem);
+        current_rx = 0;
+        handled_rx = 0;
+        current_tx = 0;
+        handled_tx = 0;
+        netmem = kmem_4k_allocate();
+        zero_usbms_mem_6((uint32_t*)netmem);
 }
 
 
@@ -67,9 +67,9 @@ void init_mac_and_variables_netmem()
  */
 void read_ethernetc_deviceinfo()
 {
-	    uint32_t temp = PCI_Config_RW(found_ethernetc_bus, found_ethernetc_device, found_ethernetc_function, 2);
-	    print("\n\nEthernet device info:\n");
-	    print_hex((uint32_t)temp);
+        uint32_t temp = PCI_Config_RW(found_ethernetc_bus, found_ethernetc_device, found_ethernetc_function, 2);
+        print("\n\nEthernet device info:\n");
+        print_hex((uint32_t)temp);
 }
 
 /* Prints the vendor info on the PCI Configuration Space.
@@ -77,9 +77,9 @@ void read_ethernetc_deviceinfo()
  */
 void read_ethernetc_vendorinfo()
 {
-	    uint32_t temp = PCI_Config_RW(found_ethernetc_bus, found_ethernetc_device, found_ethernetc_function, 0);
-	    print("\n\nEthernet vendor info:\n");
-	    print_hex((uint32_t)temp);
+        uint32_t temp = PCI_Config_RW(found_ethernetc_bus, found_ethernetc_device, found_ethernetc_function, 0);
+        print("\n\nEthernet vendor info:\n");
+        print_hex((uint32_t)temp);
 }
 
 /* Prints the device control register. It
@@ -87,9 +87,9 @@ void read_ethernetc_vendorinfo()
  */
 void read_ethernetc_cmd()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000000);
-	    print("\n\nEthernet cmd register:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000000);
+        print("\n\nEthernet cmd register:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the device status register. It
@@ -97,9 +97,9 @@ void read_ethernetc_cmd()
  */
 void read_ethernetc_sts()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000008);
-	    print("\n\nEthernet status register:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000008);
+        print("\n\nEthernet status register:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the EEPROM/Flash Control/Data register.
@@ -107,9 +107,9 @@ void read_ethernetc_sts()
  */
 void read_ethernetc_eeprom()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000010);
-	    print("\n\nEthernet eeprom:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000010);
+        print("\n\nEthernet eeprom:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the EEPROM Read register.
@@ -117,9 +117,9 @@ void read_ethernetc_eeprom()
  */
 void read_ethernetc_eeprom_read()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000014);
-	    print("\n\nEthernet eeprom read:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000014);
+        print("\n\nEthernet eeprom read:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the extended device control register.
@@ -127,9 +127,9 @@ void read_ethernetc_eeprom_read()
  */
 void read_ethernetc_cmdext()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000018);
-	    print("\n\nEthernet cmd ext:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000018);
+        print("\n\nEthernet cmd ext:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the Flow control address low register. 
@@ -138,9 +138,9 @@ void read_ethernetc_cmdext()
  */
 void read_ethernetc_fcal() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000028);
-	    print("\n\nEthernet fcal:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000028);
+        print("\n\nEthernet fcal:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the Flow control address high register. 
@@ -149,9 +149,9 @@ void read_ethernetc_fcal()
  */
 void read_ethernetc_fcah() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x0000002c);
-	    print("\n\nEthernet fcah:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x0000002c);
+        print("\n\nEthernet fcah:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the Receive configuration word register.
@@ -159,9 +159,9 @@ void read_ethernetc_fcah()
  */
 void read_ethernetc_rcfgw() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000180);
-	    print("\n\nEthernet receive control:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000180);
+        print("\n\nEthernet receive control:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the Transmit configuration word register.
@@ -169,9 +169,9 @@ void read_ethernetc_rcfgw()
  */
 void read_ethernetc_tcfgw() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000178);
-	    print("\n\nEthernet transmit control:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000178);
+        print("\n\nEthernet transmit control:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the Receive control register.
@@ -179,9 +179,9 @@ void read_ethernetc_tcfgw()
  */
 void read_ethernetc_rctrl() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000100);
-	    print("\n\nEthernet receive control:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000100);
+        print("\n\nEthernet receive control:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the Transmit control register.
@@ -189,9 +189,9 @@ void read_ethernetc_rctrl()
  */
 void read_ethernetc_tctrl() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000400);
-	    print("\n\nEthernet transmit control:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000400);
+        print("\n\nEthernet transmit control:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the Transmit IPG register.
@@ -199,9 +199,9 @@ void read_ethernetc_tctrl()
  */
 void read_ethernetc_tipg() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000410);
-	    print("\n\nEthernet transmit ipg:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000410);
+        print("\n\nEthernet transmit ipg:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the Receive Descriptor Base Low register.
@@ -209,9 +209,9 @@ void read_ethernetc_tipg()
  */
 void read_ethernetc_rdbl() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002800);
-	    print("\n\nEthernet receive descriptor base low:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002800);
+        print("\n\nEthernet receive descriptor base low:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the Receive Descriptor Base High register.
@@ -219,9 +219,9 @@ void read_ethernetc_rdbl()
  */
 void read_ethernetc_rdbh() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002804);
-	    print("\n\nEthernet receive descriptor base high:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002804);
+        print("\n\nEthernet receive descriptor base high:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the Receive Descriptor Length register.
@@ -229,9 +229,9 @@ void read_ethernetc_rdbh()
  */
 void read_ethernetc_rdl() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002808);
-	    print("\n\nEthernet receive descriptor length:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002808);
+        print("\n\nEthernet receive descriptor length:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the Receive Descriptor Head register.
@@ -239,9 +239,9 @@ void read_ethernetc_rdl()
  */
 void read_ethernetc_rdh() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002810);
-	    print("\n\nEthernet receive descriptor head:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002810);
+        print("\n\nEthernet receive descriptor head:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the Receive Descriptor Tail register.
@@ -249,9 +249,9 @@ void read_ethernetc_rdh()
  */
 void read_ethernetc_rdt() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002818);
-	    print("\n\nEthernet receive descriptor tail:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002818);
+        print("\n\nEthernet receive descriptor tail:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the Transmit Descriptor Base Low register.
@@ -259,9 +259,9 @@ void read_ethernetc_rdt()
  */
 void read_ethernetc_tdbl() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003800);
-	    print("\n\nEthernet transmit descriptor base low:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003800);
+        print("\n\nEthernet transmit descriptor base low:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the Transmit Descriptor Base High register.
@@ -269,9 +269,9 @@ void read_ethernetc_tdbl()
  */
 void read_ethernetc_tdbh() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003804);
-	    print("\n\nEthernet transmit descriptor base high:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003804);
+        print("\n\nEthernet transmit descriptor base high:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the Transmit Descriptor Length register.
@@ -279,9 +279,9 @@ void read_ethernetc_tdbh()
  */
 void read_ethernetc_tdl() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003808);
-	    print("\n\nEthernet transmit descriptor length:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003808);
+        print("\n\nEthernet transmit descriptor length:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the Transmit Descriptor Head register.
@@ -289,9 +289,9 @@ void read_ethernetc_tdl()
  */
 void read_ethernetc_tdh() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003810);
-	    print("\n\nEthernet transmit descriptor head:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003810);
+        print("\n\nEthernet transmit descriptor head:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the Transmit Descriptor Tail register.
@@ -299,9 +299,9 @@ void read_ethernetc_tdh()
  */
 void read_ethernetc_tdt() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003818);
-	    print("\n\nEthernet transmit descriptor tail:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003818);
+        print("\n\nEthernet transmit descriptor tail:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the Transmit Descriptor Control register.
@@ -309,9 +309,9 @@ void read_ethernetc_tdt()
  */
 void read_ethernetc_tdc() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003828);
-	    print("\n\nEthernet transmit descriptor control:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003828);
+        print("\n\nEthernet transmit descriptor control:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Attempts to read and print the 
@@ -319,37 +319,36 @@ void read_ethernetc_tdc()
  */
 void read_mac_address()
 {
-	    timer_install();
-	    asm("sti");
-	    uint32_t temp;
-	    temp = get_eeprom_read_data(0);
-	    mac[0] = (uint8_t)(temp & 0xff);
-	    mac[1] = (uint8_t)(temp >> 8);
+        timer_install();
+        asm("sti");
+        uint32_t temp;
+        temp = get_eeprom_read_data(0);
+        mac[0] = (uint8_t)(temp & 0xff);
+        mac[1] = (uint8_t)(temp >> 8);
 
-	    temp = get_eeprom_read_data(1);
-	    mac[2] = (uint8_t)(temp & 0xff);
-	    mac[3] = (uint8_t)(temp >> 8);
+        temp = get_eeprom_read_data(1);
+        mac[2] = (uint8_t)(temp & 0xff);
+        mac[3] = (uint8_t)(temp >> 8);
 
-	    temp = get_eeprom_read_data(2);
-	    mac[4] = (uint8_t)(temp & 0xff);
-	    mac[5] = (uint8_t)(temp >> 8);
+        temp = get_eeprom_read_data(2);
+        mac[4] = (uint8_t)(temp & 0xff);
+        mac[5] = (uint8_t)(temp >> 8);
 
-	    
-	    print("\n\nMac Address: ");
-	    print_hex_byte(mac[0]);
-	    print("-");
-	    print_hex_byte(mac[1]);
-	    print("-");
-	    print_hex_byte(mac[2]);
-	    print("-");
-	    print_hex_byte(mac[3]);
-	    print("-");
-	    print_hex_byte(mac[4]);
-	    print("-");
-	    print_hex_byte(mac[5]);
-	    asm("cli");
-	    irq_uninstall_handler(0);
-	    print("\n\n");
+        print("\n\nMac Address: ");
+        print_hex_byte(mac[0]);
+        print("-");
+        print_hex_byte(mac[1]);
+        print("-");
+        print_hex_byte(mac[2]);
+        print("-");
+        print_hex_byte(mac[3]);
+        print("-");
+        print_hex_byte(mac[4]);
+        print("-");
+        print_hex_byte(mac[5]);
+        asm("cli");
+        irq_uninstall_handler(0);
+        print("\n\n");
 
 }
 
@@ -359,9 +358,9 @@ void read_mac_address()
  */ 
 void read_ethernetc_ics() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0);
-	    print("\n\nEthernet interrupt causes set:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0);
+        print("\n\nEthernet interrupt causes set:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the interrupt clear register.
@@ -369,9 +368,9 @@ void read_ethernetc_ics()
  */ 
 void read_ethernetc_ic() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c8);
-	    print("\n\nEthernet interrupt clear:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c8);
+        print("\n\nEthernet interrupt clear:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the interrupt set mask register.
@@ -379,9 +378,9 @@ void read_ethernetc_ic()
  */
 void read_ethernetc_ism() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000d0);
-	    print("\n\nEthernet interrupt mask set:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000d0);
+        print("\n\nEthernet interrupt mask set:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 /* Prints the interrupt mask clear register.
@@ -389,9 +388,9 @@ void read_ethernetc_ism()
  */
 void read_ethernetc_icm() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000d8);
-	    print("\n\nEthernet interrupt mask clear:\n");
-	    dec_to_bin((uint32_t)temp);
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000d8);
+        print("\n\nEthernet interrupt mask clear:\n");
+        dec_to_bin((uint32_t)temp);
 }
 
 
@@ -400,36 +399,36 @@ void read_ethernetc_icm()
 /* Returns the device control register. */
 uint32_t get_ethernetc_cmd()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000000);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000000);
+        return (uint32_t)temp;
 }
 
 /* Returns the device status register. */
 uint32_t get_ethernetc_sts()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000008);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000008);
+        return (uint32_t)temp;
 }
 
 /* Returns the EEPROM/Flash Control/Data register. */
 uint32_t get_ethernetc_eeprom()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000010);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000010);
+        return (uint32_t)temp;
 }
 
 /* Returns the EEPROM read register. */
 uint32_t get_ethernetc_eeprom_read()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000014);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000014);
+        return (uint32_t)temp;
 }
 
 /* Returns the extended device control register. */
 uint32_t get_ethernetc_cmdext()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000018);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000018);
+        return (uint32_t)temp;
 }
 
 /* Returns the flow control address low register. 
@@ -437,8 +436,8 @@ uint32_t get_ethernetc_cmdext()
  */
 uint32_t get_ethernetc_fcal() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000028);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000028);
+        return (uint32_t)temp;
 }
 
 /* Returns the flow control address high register. 
@@ -446,127 +445,127 @@ uint32_t get_ethernetc_fcal()
  */
 uint32_t get_ethernetc_fcah() 
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x0000002c);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x0000002c);
+        return (uint32_t)temp;
 }
 
 /* Returns the Receive Descriptor Base Low register. */
 uint32_t get_ethernetc_rdbl()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002800);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002800);
+        return (uint32_t)temp;
 }
 
 /* Returns the Receive Descriptor Base High register. */
 uint32_t get_ethernetc_rdbh()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002804);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002804);
+        return (uint32_t)temp;
 }
 
 /* Returns the Receive Descriptor Length register. */
 uint32_t get_ethernetc_rdl()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002808);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002808);
+        return (uint32_t)temp;
 }
 
 /* Returns the Receive Descriptor Head register. */
 uint32_t get_ethernetc_rdh()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002810);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002810);
+        return (uint32_t)temp;
 }
 
 /* Returns the Receive Descriptor Tail register. */
 uint32_t get_ethernetc_rdt()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002818);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002818);
+        return (uint32_t)temp;
 }
 
 /* Returns the Transmit Descriptor Base Low register. */
 uint32_t get_ethernetc_tdbl()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003800);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003800);
+        return (uint32_t)temp;
 }
 
 /* Returns the Transmit Descriptor Base High register. */
 uint32_t get_ethernetc_tdbh()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003804);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003804);
+        return (uint32_t)temp;
 }
 
 /* Returns the Transmit Descriptor Length register. */
 uint32_t get_ethernetc_tdl()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003808);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003808);
+        return (uint32_t)temp;
 }
 
 /* Returns the Transmit Descriptor Head register. */
 uint32_t get_ethernetc_tdh()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003810);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003810);
+        return (uint32_t)temp;
 }
 
 /* Returns the Transmit Descriptor Tail register. */
 uint32_t get_ethernetc_tdt()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003818);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003818);
+        return (uint32_t)temp;
 }
 
 /* Returns the Transmit Descriptor Control register. */
 uint32_t get_ethernetc_tdc()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003828);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00003828);
+        return (uint32_t)temp;
 }
 
 /* Returns the Receive Descriptor Control register. */
 uint32_t get_ethernetc_rdc()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002828);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00002828);
+        return (uint32_t)temp;
 }
 
 /* Returns the Interrupt Cause Read register. */
 uint32_t get_ethernetc_int()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c0);
+        return (uint32_t)temp;
 }
 
 /* Returns the Interrupt Cause Set register. */
 uint32_t get_ethernetc_intclear()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c8);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000c8);
+        return (uint32_t)temp;
 }
 
 /* Returns the Interrupt Mask Set/Read register. */
 uint32_t get_ethernetc_intmask()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000d0);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000d0);
+        return (uint32_t)temp;
 }
 
 /* Returns the Interrupt Mask Clear register. */
 uint32_t get_ethernetc_intmaskclear()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000d8);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x000000d8);
+        return (uint32_t)temp;
 }
 
 /* Returns the Management Data Interface Control register. */
 uint32_t get_ethernetc_mdictl()
 {
-	    uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000020);
-	    return (uint32_t)temp;
+        uint32_t temp = read_dword((const uint32_t)ethernetc_mem_address, (const uint32_t)0x00000020);
+        return (uint32_t)temp;
 }
 
 /* This function reads the EEPROM register at offset 0x14.
@@ -576,7 +575,7 @@ uint32_t get_ethernetc_mdictl()
 */
 uint32_t get_eeprom_read_data(uint32_t eeprom_address)
 {
-	    uint32_t temp2;
+        uint32_t temp2;
 	    uint32_t read_complete = 0;
 	    set_eeprom_read(eeprom_address);
 
