@@ -314,10 +314,10 @@ void print_ehc_info_2(uint32_t addr)
 /* Toggles some data. */
 void check_transfer10noprint_data_toggles()
 {
-	    if(ehci_data_toggle1 == 0)
-		        ehci_data_toggle1 = 1;
-	    else if (ehci_data_toggle1 == 1)
-		        ehci_data_toggle1 = 0;
+        if(ehci_data_toggle1 == 0)
+                ehci_data_toggle1 = 1;
+        else if (ehci_data_toggle1 == 1)
+                ehci_data_toggle1 = 0;
 }
 
 /* Sets the ehc interrput unhandled variable to zero. */
@@ -329,17 +329,17 @@ void set_ehci_int_unhandled()
 /* Prints the HCSParams register */
 void read_ehci_hcparams()
 {
-	    uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)0x00000004);
-	    uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)0x00000004);
-	    print_ehc_info(ebaddr, ebaddr2);
+        uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)0x00000004);
+        uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)0x00000004);
+        print_ehc_info(ebaddr, ebaddr2);
 }
 
 /* Prints the HCCParams register */
 void read_ehci_hccparams()
 {
-	    uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)0x00000008);
-	    uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)0x00000008);
-	    print_ehc_info(ebaddr, ebaddr2);
+        uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)0x00000008);
+        uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)0x00000008);
+        print_ehc_info(ebaddr, ebaddr2);
 }
 
 /* Prints the USB CMD register */
@@ -353,127 +353,127 @@ void read_ehci_usbcmd()
 /* Prints the USB Status register */
 void print_ehci_usbsts()
 {
-	    uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000004));
-	    uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000004));
-	    print_ehc_info(ebaddr, ebaddr2);
+        uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000004));
+        uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000004));
+        print_ehc_info(ebaddr, ebaddr2);
 }
 
 /* Returns the USB Status register */
 uint32_t read_ehci_usbsts()
 {
-	    uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000004));
-	    return ebaddr;
+        uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000004));
+        return ebaddr;
 }
 
 /* Prints the USB Interrupt register */
 void read_ehci_usbint()
 {
-	    uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000008));
-	    uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000008));
-	    print_ehc_info(ebaddr, ebaddr2);
+        uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000008));
+        uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000008));
+        print_ehc_info(ebaddr, ebaddr2);
 }
 
 /* Prints the USB frame index register */
 void read_ehci_frindex()
 {
-	    uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x0000000c));
-	    uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x0000000c));
-	    print_ehc_info(ebaddr, ebaddr2);
+        uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x0000000c));
+        uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x0000000c));
+        print_ehc_info(ebaddr, ebaddr2);
 }
 /* Prints the Control Segment Register */
 void read_ehci_ctrldssegment()
 {
-	    uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000010));
-	    uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000010));
-	    print_ehc_info(ebaddr, ebaddr2);
+        uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000010));
+        uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000010));
+        print_ehc_info(ebaddr, ebaddr2);
 }
 
 /* Prints the Periodic List Base Address Register */
 void read_ehci_periodiclistbase()
 {
-	    uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000014));
-	    uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000014));
-	    print_ehc_info(ebaddr, ebaddr2);
+        uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000014));
+        uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000014));
+        print_ehc_info(ebaddr, ebaddr2);
 }
 
 /* Prints the Current Asynchronous List Address Register */
 void read_ehci_asynclistaddr()
 {
-	    uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000018));
-	    uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000018));
-	    print_ehc_info(ebaddr, ebaddr2);
+        uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000018));
+        uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000018));
+        print_ehc_info(ebaddr, ebaddr2);
 }
 
 /* Prints the Configure Flag Register */
 void read_ehci_configflag()
 {
-	    uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000040));
-	    uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000040));
-	    print_ehc_info(ebaddr, ebaddr2);
+        uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000040));
+        uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000040));
+        print_ehc_info(ebaddr, ebaddr2);
 }
 
 /* Prints Port 1 */
 void read_ehci_port1()
 {
-	    uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000044));
-	    uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000044));
-	    print_ehc_info(ebaddr, ebaddr2);
+        uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000044));
+        uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000044));
+        print_ehc_info(ebaddr, ebaddr2);
 }
 
 /* Prints Port 2 */
 void read_ehci_port2()
 {
-	    uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000048));
-	    uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset+ 0x00000048));
-	    print_ehc_info(ebaddr, ebaddr2);
+        uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000048));
+        uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset+ 0x00000048));
+        print_ehc_info(ebaddr, ebaddr2);
 }
 
 /* Prints Port 3 */
 void read_ehci_port3()
 {
-	    uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x0000004c));
-	    uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x0000004c));
-	    print_ehc_info(ebaddr, ebaddr2);
+        uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x0000004c));
+        uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x0000004c));
+        print_ehc_info(ebaddr, ebaddr2);
 }
 
 /* Prints Port 4 */
 void read_ehci_port4()
 {
-	    uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000050));
-	    uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000050));
-	    print_ehc_info(ebaddr, ebaddr2);
+        uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000050));
+        uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000050));
+        print_ehc_info(ebaddr, ebaddr2);
 }
 
 /* Prints Port 5 */
 void read_ehci_port5()
 {
-	uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000054));
-	uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000054));
-	print_ehc_info(ebaddr, ebaddr2);
+        uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000054));
+        uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000054));
+        print_ehc_info(ebaddr, ebaddr2);
 }
 
 /* Prints Port 6 */
 void read_ehci_port6()
 {
-	    uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000058));
-	    uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000058));
-	    print_ehc_info(ebaddr, ebaddr2);
+        uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000058));
+        uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000058));
+        print_ehc_info(ebaddr, ebaddr2);
 }
 
 /* Prints Port 7 */
 void read_ehci_port7()
 {
-	    uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x0000005c));
-	    uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x0000005c));
-	    print_ehc_info(ebaddr, ebaddr2);
+        uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x0000005c));
+        uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x0000005c));
+        print_ehc_info(ebaddr, ebaddr2);
 }
 
 /* Prints Port 8 */
 void read_ehci_port8()
 {
-	    uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000060));
-	    uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000060));
-	    print_ehc_info(ebaddr, ebaddr2);
+        uint32_t * ebaddr2 = read_dword_addr((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000060));
+        uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000060));
+        print_ehc_info(ebaddr, ebaddr2);
 }
 
 /* Resests the 0 bit in the USB Status Register after a completed
@@ -483,17 +483,17 @@ void read_ehci_port8()
  */
 void resetpc_ehci_usbstscmplt() 
 {
-	    uint32_t pc = get_ehci_usbsts();
-	    pc |= 0x1;
-	    write_dword((const uint32_t)PCI_Config_RW2(found_ehci_bus,found_ehci_device,found_ehci_function,16), (const uint32_t)(operational_offset + 0x00000004), (const uint32_t)pc);
+        uint32_t pc = get_ehci_usbsts();
+        pc |= 0x1;
+        write_dword((const uint32_t)PCI_Config_RW2(found_ehci_bus,found_ehci_device,found_ehci_function,16), (const uint32_t)(operational_offset + 0x00000004), (const uint32_t)pc);
 }
 
 /* Resets the port change detection bit */
 void resetpc_ehci_usbsts()
 {
-	    uint32_t pc = get_ehci_usbsts();
-	    pc |= 0x4;
-	    write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000004), (const uint32_t)pc);
+        uint32_t pc = get_ehci_usbsts();
+        pc |= 0x4;
+        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000004), (const uint32_t)pc);
 }
 
 /* Resets a bit when an error condition regarding a packet
@@ -501,26 +501,26 @@ void resetpc_ehci_usbsts()
  */
 void resetpc_ehci_usbstserr()
 {
-	    uint32_t pc = get_ehci_usbsts();
-	    pc |= 0x2;
-	    write_dword((const uint32_t)PCI_Config_RW2(found_ehci_bus,found_ehci_device,found_ehci_function,16), (const uint32_t)(operational_offset + 0x00000004), (const uint32_t)pc);
+        uint32_t pc = get_ehci_usbsts();
+        pc |= 0x2;
+        write_dword((const uint32_t)PCI_Config_RW2(found_ehci_bus,found_ehci_device,found_ehci_function,16), (const uint32_t)(operational_offset + 0x00000004), (const uint32_t)pc);
 }
 
 /* Resets a bit when a host system error is detected. */
 void resetpc_ehci_usbstshosterr()
 {
-	    uint32_t pc = get_ehci_usbsts();
-	    pc |= 0x10;
-	    write_dword((const uint32_t)PCI_Config_RW2(found_ehci_bus,found_ehci_device,found_ehci_function,16), (const uint32_t)(operational_offset + 0x00000004), (const uint32_t)pc);
+        uint32_t pc = get_ehci_usbsts();
+        pc |= 0x10;
+        write_dword((const uint32_t)PCI_Config_RW2(found_ehci_bus,found_ehci_device,found_ehci_function,16), (const uint32_t)(operational_offset + 0x00000004), (const uint32_t)pc);
 }
 
 /* Resets a bit when the async schedule is being advanced. */
 void resetpc_ehci_usbstsasyncadvance() 
 {
-	    uint32_t pc = get_ehci_usbsts();
-	    pc |= 0x20;
-	    write_dword((const uint32_t)PCI_Config_RW2(found_ehci_bus,found_ehci_device,found_ehci_function,16), (const uint32_t)(operational_offset + 0x00000004), (const uint32_t)pc);
-	    async_int_success = 0;
+        uint32_t pc = get_ehci_usbsts();
+        pc |= 0x20;
+        write_dword((const uint32_t)PCI_Config_RW2(found_ehci_bus,found_ehci_device,found_ehci_function,16), (const uint32_t)(operational_offset + 0x00000004), (const uint32_t)pc);
+        async_int_success = 0;
 }
 
 /* Acts as the general EHCI interrupt handler. Some of the
@@ -528,70 +528,70 @@ void resetpc_ehci_usbstsasyncadvance()
  */
 void ehci_usb_handler()
 {
-	    uint32_t usbsts = get_ehci_usbsts();
-	    if (((usbsts & 0x10) >> 4) == 1) {
-			    resetpc_ehci_usbstshosterr();
-			    stop_ehci();
-			    reset_ehci();		
-			    print("Host system error. Resetting the ehc.\n\n");
-			    print(csptr);
-	    }
-	    if (((usbsts & 0x2) >> 1) == 1) {
-			    resetpc_ehci_usbstserr();		
-			    print("Error during transaction\n\n");
-			    print(csptr);
-	    }
-	    if (((usbsts & 0x4) >> 2) == 1) {
-            		resetpc_ehci_usbsts();
-		            Get_Port_Status();
+        uint32_t usbsts = get_ehci_usbsts();
+        if (((usbsts & 0x10) >> 4) == 1) {
+                resetpc_ehci_usbstshosterr();
+                stop_ehci();
+                reset_ehci();		
+                print("Host system error. Resetting the ehc.\n\n");
+                print(csptr);
         }
-	    if ((usbsts & 0x1) == 1) {
-			    resetpc_ehci_usbstscmplt();
-
+        if (((usbsts & 0x2) >> 1) == 1) {
+                resetpc_ehci_usbstserr();		
+                print("Error during transaction\n\n");
+                print(csptr);
 	    }
-	    if (((usbsts & 0x20) >> 5) == 1) {
+        if (((usbsts & 0x4) >> 2) == 1) {
+                resetpc_ehci_usbsts();
+                Get_Port_Status();
+        }
+        if ((usbsts & 0x1) == 1) {
+                resetpc_ehci_usbstscmplt();
 
-			    resetpc_ehci_usbstsasyncadvance();
-			    print(csptr);
-	    }
+        }
+        if (((usbsts & 0x20) >> 5) == 1) {
+
+                resetpc_ehci_usbstsasyncadvance();
+                print(csptr);
+        }
 }
 
 /* Reads the intpin of the EHC from the PCI Configuration Space */
 void read_ehci_intpin(uint32_t bus, uint32_t device, uint32_t funct)
 {
-	    uint16_t vendor;
-	    uint16_t ebaddr;
-	    if ((vendor = PCI_Config_RW(bus,device,0,0)) != 0xFFFF) 
-		        ebaddr = ((PCI_Config_RW(bus,device,funct,0x3d) >> 8) & 0x00ff);
-	    else
-		        ebaddr = 512;
+        uint16_t vendor;
+        uint16_t ebaddr;
+        if ((vendor = PCI_Config_RW(bus,device,0,0)) != 0xFFFF) 
+                ebaddr = ((PCI_Config_RW(bus,device,funct,0x3d) >> 8) & 0x00ff);
+        else
+                ebaddr = 512;
 
-	    print_ehc_info_2((uint32_t)ebaddr);
+        print_ehc_info_2((uint32_t)ebaddr);
 }
 
 /* gets the address of the extra cap register from hccparams */
 uint32_t get_ehci_extracap()
 {
-	    uint32_t addr = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000008); 
-	    addr >>= 8;
-	    addr &= 0x000000ff;
-	    return addr;
+        uint32_t addr = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000008); 
+        addr >>= 8;
+        addr &= 0x000000ff;
+        return addr;
 }
 
 /* Gets the amount of ports from hcsparams */
 void set_ehci_port_n()
 {
-		uint32_t addr = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000004);
-		addr &= 0x0000000f;
-		ehci_port_num = addr;
+        uint32_t addr = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000004);
+        addr &= 0x0000000f;
+        ehci_port_num = addr;
 }
 
 
 /* Prints the extra cap register from hccparams. */
 void print_ehci_extracap()
 {
-		uint32_t addr = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000000); 
-		print_ehc_info_2((uint32_t)addr);
+        uint32_t addr = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000000); 
+        print_ehc_info_2((uint32_t)addr);
 }
 
 /* Prints the EHC's command register from 
@@ -599,15 +599,15 @@ void print_ehci_extracap()
  */
 void print_ehci_commandreg()
 {
-		uint16_t temp_cmd = PCI_Config_RW(found_ehci_bus,found_ehci_device,found_ehci_function,4);
-		uint32_t ehci_pci_cmd = (uint32_t)temp_cmd;
-		print("\n\n ehci pci commandreg low word");
-		print_ehc_info_2((uint32_t)ehci_pci_cmd);
-		
-		print("\n\n ehci pci commandreg high word");
-		temp_cmd = PCI_Config_RW(found_ehci_bus,found_ehci_device,found_ehci_function,6);
-		ehci_pci_cmd = (uint32_t)temp_cmd;
-		print_ehc_info_2((uint32_t)ehci_pci_cmd);
+        uint16_t temp_cmd = PCI_Config_RW(found_ehci_bus,found_ehci_device,found_ehci_function,4);
+        uint32_t ehci_pci_cmd = (uint32_t)temp_cmd;
+        print("\n\n ehci pci commandreg low word");
+        print_ehc_info_2((uint32_t)ehci_pci_cmd);
+
+        print("\n\n ehci pci commandreg high word");
+        temp_cmd = PCI_Config_RW(found_ehci_bus,found_ehci_device,found_ehci_function,6);
+        ehci_pci_cmd = (uint32_t)temp_cmd;
+        print_ehc_info_2((uint32_t)ehci_pci_cmd);
 }
 
 
@@ -618,19 +618,19 @@ void print_ehci_commandreg()
 void set_ehci_commandreg()
 {
         /* command */
-		uint16_t temp_cmd = PCI_Config_RW(found_ehci_bus,found_ehci_device,found_ehci_function,4); 
+        uint16_t temp_cmd = PCI_Config_RW(found_ehci_bus,found_ehci_device,found_ehci_function,4); 
         /* status */
-		uint16_t temp_cmd2 = PCI_Config_RW(found_ehci_bus,found_ehci_device,found_ehci_function,6); 
-		uint32_t temp_cmd3 = (uint32_t)(temp_cmd2*65536);
+        uint16_t temp_cmd2 = PCI_Config_RW(found_ehci_bus,found_ehci_device,found_ehci_function,6); 
+        uint32_t temp_cmd3 = (uint32_t)(temp_cmd2*65536);
 
-		uint32_t temp_cmd4 = (uint32_t)temp_cmd;
-		uint32_t temp_cmd5 = temp_cmd3 + temp_cmd4;
-		temp_cmd5 |= 0x107;
+        uint32_t temp_cmd4 = (uint32_t)temp_cmd;
+        uint32_t temp_cmd5 = temp_cmd3 + temp_cmd4;
+        temp_cmd5 |= 0x107;
 
 
-		uint32_t address = (uint32_t)((0 << 16) | (4 << 11) | (0 << 8) | ((1 << 2) & 0xfc) | ((uint32_t)0x80000000));
-		outportl(0xCF8, address);
-		outportl(0xCFC, temp_cmd5);
+        uint32_t address = (uint32_t)((0 << 16) | (4 << 11) | (0 << 8) | ((1 << 2) & 0xfc) | ((uint32_t)0x80000000));
+        outportl(0xCF8, address);
+        outportl(0xCFC, temp_cmd5);
 }
 
 
@@ -640,35 +640,33 @@ void set_ehci_commandreg()
 void disable_ehci_legacy()
 {
         /* get extra cap register from hccparams */
-		uint16_t ehci_ext_cap_offset = (uint16_t)get_ehci_extracap(); 
-		ehci_ext_cap_offset += 4;
-		uint32_t address = (uint32_t)((0 << 16) | (4 << 11) | (0 << 8) | (ehci_ext_cap_offset & 0xfc) | ((uint32_t)0x80000000));
+        uint16_t ehci_ext_cap_offset = (uint16_t)get_ehci_extracap(); 
+        ehci_ext_cap_offset += 4;
+        uint32_t address = (uint32_t)((0 << 16) | (4 << 11) | (0 << 8) | (ehci_ext_cap_offset & 0xfc) | ((uint32_t)0x80000000));
 
-		outportl(0xCF8, address);
-		outportl(0xCFC, (const uint32_t)0x00000000);
+        outportl(0xCF8, address);
+        outportl(0xCFC, (const uint32_t)0x00000000);
 }
 
 /* Prints the legacy register of the EHC */
 void print_ehci_legacy()
 {
         /* hccparams */
-		uint32_t addr = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000008); 
-		addr >>= 8;
-		addr &= 0x000000ff;
-		uint16_t addr2 = (uint16_t)addr;
+        uint32_t addr = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000008); 
+        addr >>= 8;
+        addr &= 0x000000ff;
+        uint16_t addr2 = (uint16_t)addr;
 
-		addr2 += 4;
- 
-		uint16_t ebaddr = PCI_Config_RW(found_ehci_bus,found_ehci_device,found_ehci_function,addr2);
-		
-		
-		print("\n\nlegacy register low word");
-		print_ehc_info_2((uint32_t)ebaddr);
-		addr2 += 2;
-		ebaddr = PCI_Config_RW(found_ehci_bus,found_ehci_device,found_ehci_function,addr2);
-		print("\n\nlegacy register high word");
-		print_ehc_info_2((uint32_t)ebaddr);
-		print("\n");
+        addr2 += 4;
+
+        uint16_t ebaddr = PCI_Config_RW(found_ehci_bus,found_ehci_device,found_ehci_function,addr2);		
+        print("\n\nlegacy register low word");
+        print_ehc_info_2((uint32_t)ebaddr);
+        addr2 += 2;
+        ebaddr = PCI_Config_RW(found_ehci_bus,found_ehci_device,found_ehci_function,addr2);
+        print("\n\nlegacy register high word");
+        print_ehc_info_2((uint32_t)ebaddr);
+        print("\n");
 }
 
 
@@ -676,29 +674,29 @@ void print_ehci_legacy()
 void bios_hand_off()
 {
         /* get extra cap register from hccparams */
-		uint16_t ehci_ext_cap_offset = (uint16_t)get_ehci_extracap(); 
-		uint16_t temp_hand_off = PCI_Config_RW(found_ehci_bus,found_ehci_device,found_ehci_function,ehci_ext_cap_offset);
-		ehci_ext_cap_offset += 2;
+        uint16_t ehci_ext_cap_offset = (uint16_t)get_ehci_extracap(); 
+        uint16_t temp_hand_off = PCI_Config_RW(found_ehci_bus,found_ehci_device,found_ehci_function,ehci_ext_cap_offset);
+        ehci_ext_cap_offset += 2;
 
-		uint16_t temp_hand_off2 = PCI_Config_RW(found_ehci_bus,found_ehci_device,found_ehci_function,ehci_ext_cap_offset); 
-		uint32_t temp_hand_off3 = (uint32_t)(temp_hand_off2*65536);
-		uint32_t temp_hand_off4 = (uint32_t)temp_hand_off;
-		uint32_t temp_hand_off5 = temp_hand_off3 + temp_hand_off4; 
+        uint16_t temp_hand_off2 = PCI_Config_RW(found_ehci_bus,found_ehci_device,found_ehci_function,ehci_ext_cap_offset); 
+        uint32_t temp_hand_off3 = (uint32_t)(temp_hand_off2*65536);
+        uint32_t temp_hand_off4 = (uint32_t)temp_hand_off;
+        uint32_t temp_hand_off5 = temp_hand_off3 + temp_hand_off4; 
 
         /* and write 32 bits to the config space */
-		temp_hand_off5 |= (1 << 24);
-		ehci_ext_cap_offset -= 2;
-		uint32_t address = (uint32_t)((0 << 16) | (4 << 11) | (0 << 8) | (ehci_ext_cap_offset & 0xfc) | ((uint32_t)0x80000000));
-		outportl(0xCF8, address);
-		outportl(0xCFC, temp_hand_off5);
+        temp_hand_off5 |= (1 << 24);
+        ehci_ext_cap_offset -= 2;
+        uint32_t address = (uint32_t)((0 << 16) | (4 << 11) | (0 << 8) | (ehci_ext_cap_offset & 0xfc) | ((uint32_t)0x80000000));
+        outportl(0xCF8, address);
+        outportl(0xCFC, temp_hand_off5);
 }
 
 
 /* Returns the contents of the USB CMD register. */
 uint32_t get_ehci_usbcmd()
 {
-    uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000000));
-    return ebaddr;
+        uint32_t ebaddr = read_dword((const uint32_t)ehci_mem_address,(const uint32_t)(operational_offset + 0x00000000));
+        return ebaddr;
 }
 
 
