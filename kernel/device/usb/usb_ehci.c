@@ -18,23 +18,23 @@
 /* Prints the enhanced host controller's base address */
 void read_ehci_baddr2()
 {
-	    uint32_t * ebaddr2 = read_dword_addr((const uint32_t)PCI_Config_RW2(0,4,0,16),(const uint32_t)0x00000000);
-	    uint32_t ebaddr = read_dword((const uint32_t)PCI_Config_RW2(0,4,0,16),(const uint32_t)0x00000000);
-	    print("\n");
-	    print("Base address: ");
-	    printi((uint32_t)&ebaddr2);
-	    print("\n");
-	    print("In hex: ");
-	    print_hex((uint32_t)&ebaddr2);
-	    print("\n");
-	    print("Value: ");
-	    printi((uint32_t)ebaddr);
-	    print("\n");
-	    print("In hex: ");
-	    print_hex((uint32_t)ebaddr);
-	    print("\n");
-	    print("In binary: ");
-	    dec_to_bin((uint32_t)ebaddr);
+        uint32_t * ebaddr2 = read_dword_addr((const uint32_t)PCI_Config_RW2(0,4,0,16),(const uint32_t)0x00000000);
+        uint32_t ebaddr = read_dword((const uint32_t)PCI_Config_RW2(0,4,0,16),(const uint32_t)0x00000000);
+        print("\n");
+        print("Base address: ");
+        printi((uint32_t)&ebaddr2);
+        print("\n");
+        print("In hex: ");
+        print_hex((uint32_t)&ebaddr2);
+        print("\n");
+        print("Value: ");
+        printi((uint32_t)ebaddr);
+        print("\n");
+        print("In hex: ");
+        print_hex((uint32_t)ebaddr);
+        print("\n");
+        print("In binary: ");
+        dec_to_bin((uint32_t)ebaddr);
 }
 
 /* Initalizes some variables. */
@@ -76,55 +76,55 @@ void init_ehci_stuff()
 void init_queue_heads()
 {
 
-	    QHhead19 = (struct queue_head*)kmem_4k_allocate();
-	    QHhead20 = (struct queue_head*)kmem_4k_allocate();
-	    QHhead21 = (struct queue_head*)kmem_4k_allocate();
-	    QHhead22 = (struct queue_head*)kmem_4k_allocate();
+        QHhead19 = (struct queue_head*)kmem_4k_allocate();
+        QHhead20 = (struct queue_head*)kmem_4k_allocate();
+        QHhead21 = (struct queue_head*)kmem_4k_allocate();
+        QHhead22 = (struct queue_head*)kmem_4k_allocate();
 
-	    qtd29 = (struct queue_transfer_descriptor*)kmem_4k_allocate();
-	    qtd30 = (struct queue_transfer_descriptor*)kmem_4k_allocate();
-	    qtd31 = (struct queue_transfer_descriptor*)kmem_4k_allocate();
-	    qtd32 = (struct queue_transfer_descriptor*)kmem_4k_allocate();
-	    qtd33 = (struct queue_transfer_descriptor*)kmem_4k_allocate();
-	    qtd34 = (struct queue_transfer_descriptor*)kmem_4k_allocate();
+        qtd29 = (struct queue_transfer_descriptor*)kmem_4k_allocate();
+        qtd30 = (struct queue_transfer_descriptor*)kmem_4k_allocate();
+        qtd31 = (struct queue_transfer_descriptor*)kmem_4k_allocate();
+        qtd32 = (struct queue_transfer_descriptor*)kmem_4k_allocate();
+        qtd33 = (struct queue_transfer_descriptor*)kmem_4k_allocate();
+        qtd34 = (struct queue_transfer_descriptor*)kmem_4k_allocate();
 
         /* so we got 4 QHs and 5 qts to work with */
 
         /* pointing to itself to start with so that it becomes useless. */
-	    QHhead19->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead19 | 2); 
-	    QHhead19->qhcurrent_qtd_ptr = (struct queue_transfer_descriptor*)0;
-	    QHhead19->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)1;
+        QHhead19->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead19 | 2); 
+        QHhead19->qhcurrent_qtd_ptr = (struct queue_transfer_descriptor*)0;
+        QHhead19->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)1;
         /* 1 means that the host controller ignores it */
-	    QHhead19->qhalternate_qtd_ptr = (struct queue_transfer_descriptor*)1; 
-	    QHhead19->endpointch1 = (volatile uint32_t)(0 | (1 << 15));
-	    QHhead19->endpointch2 = (volatile uint32_t)0;
-	    QHhead19->qhtransfer_info = (volatile uint32_t)0;
-	    QHhead19->qhbuffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
-	    QHhead19->qhbuffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
-	    QHhead19->qhbuffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
-	    QHhead19->qhbuffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
-	    QHhead19->qhbuffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
+        QHhead19->qhalternate_qtd_ptr = (struct queue_transfer_descriptor*)1; 
+        QHhead19->endpointch1 = (volatile uint32_t)(0 | (1 << 15));
+        QHhead19->endpointch2 = (volatile uint32_t)0;
+        QHhead19->qhtransfer_info = (volatile uint32_t)0;
+        QHhead19->qhbuffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
+        QHhead19->qhbuffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
+        QHhead19->qhbuffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
+        QHhead19->qhbuffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
+        QHhead19->qhbuffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
 
-	    zero_usbms_mem_1(QHhead19->qhbuffer_ptr0, QHhead19->qhbuffer_ptr1, QHhead19->qhbuffer_ptr2, QHhead19->qhbuffer_ptr3, QHhead19->qhbuffer_ptr4);
-
-
-	    QHhead20->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead19 | 2);
-	    QHhead20->qhcurrent_qtd_ptr = (struct queue_transfer_descriptor*)0;
-	    QHhead20->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)1;
-	    QHhead20->qhalternate_qtd_ptr = (struct queue_transfer_descriptor *)((15 << 1) | 1);
-	    QHhead20->endpointch1 = (volatile uint32_t)0;
-	    QHhead20->endpointch2 = (volatile uint32_t)(0 | (1 << 30));
-	    QHhead20->qhtransfer_info = (volatile uint32_t)0;
-	    QHhead20->qhbuffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
-	    QHhead20->qhbuffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
-	    QHhead20->qhbuffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
-	    QHhead20->qhbuffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
-	    QHhead20->qhbuffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
-
-	    QHhead20->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead19 | 2); 
+        zero_usbms_mem_1(QHhead19->qhbuffer_ptr0, QHhead19->qhbuffer_ptr1, QHhead19->qhbuffer_ptr2, QHhead19->qhbuffer_ptr3, QHhead19->qhbuffer_ptr4);
 
 
-	    zero_usbms_mem_1(QHhead20->qhbuffer_ptr0, QHhead20->qhbuffer_ptr1, QHhead20->qhbuffer_ptr2, QHhead20->qhbuffer_ptr3, QHhead20->qhbuffer_ptr4);
+        QHhead20->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead19 | 2);
+        QHhead20->qhcurrent_qtd_ptr = (struct queue_transfer_descriptor*)0;
+        QHhead20->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)1;
+        QHhead20->qhalternate_qtd_ptr = (struct queue_transfer_descriptor *)((15 << 1) | 1);
+        QHhead20->endpointch1 = (volatile uint32_t)0;
+        QHhead20->endpointch2 = (volatile uint32_t)(0 | (1 << 30));
+        QHhead20->qhtransfer_info = (volatile uint32_t)0;
+        QHhead20->qhbuffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
+        QHhead20->qhbuffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
+        QHhead20->qhbuffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
+        QHhead20->qhbuffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
+        QHhead20->qhbuffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
+
+        QHhead20->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead19 | 2); 
+
+
+        zero_usbms_mem_1(QHhead20->qhbuffer_ptr0, QHhead20->qhbuffer_ptr1, QHhead20->qhbuffer_ptr2, QHhead20->qhbuffer_ptr3, QHhead20->qhbuffer_ptr4);
 
         QHhead20->endpointch1 = (volatile uint32_t)(0x00000000 | (0 << 27) | EHCI_QH_MAX_NAK_COUNTER | EHCI_QH_USE_QTD_TOGGLE | EHCI_QH_MAX_PACKET_SIZE(64) | (2 << 12) | EHCI_QH_DEVICE_ADDRESS(0));
         QHhead19->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead19 | 2);
@@ -132,108 +132,108 @@ void init_queue_heads()
         //EHCI_QH_USE_QTD_TOGGLE | 
 
 
-	    QHhead21->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead21 | 2);
-	    QHhead21->qhcurrent_qtd_ptr = (struct queue_transfer_descriptor*)0;
-	    QHhead21->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)1;
-	    QHhead21->qhalternate_qtd_ptr = (struct queue_transfer_descriptor *)((15 << 1) | 1);
-	    QHhead21->endpointch1 = (volatile uint32_t)0;
-	    QHhead21->endpointch2 = (volatile uint32_t)(0 | (1 << 30));
-	    QHhead21->qhtransfer_info = (volatile uint32_t)0;
-	    QHhead21->qhbuffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
-	    QHhead21->qhbuffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
-	    QHhead21->qhbuffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
-	    QHhead21->qhbuffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
-	    QHhead21->qhbuffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
+        QHhead21->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead21 | 2);
+        QHhead21->qhcurrent_qtd_ptr = (struct queue_transfer_descriptor*)0;
+        QHhead21->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)1;
+        QHhead21->qhalternate_qtd_ptr = (struct queue_transfer_descriptor *)((15 << 1) | 1);
+        QHhead21->endpointch1 = (volatile uint32_t)0;
+        QHhead21->endpointch2 = (volatile uint32_t)(0 | (1 << 30));
+        QHhead21->qhtransfer_info = (volatile uint32_t)0;
+        QHhead21->qhbuffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
+        QHhead21->qhbuffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
+        QHhead21->qhbuffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
+        QHhead21->qhbuffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
+        QHhead21->qhbuffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
 
 
-	    zero_usbms_mem_1(QHhead21->qhbuffer_ptr0, QHhead21->qhbuffer_ptr1, QHhead21->qhbuffer_ptr2, QHhead21->qhbuffer_ptr3, QHhead21->qhbuffer_ptr4);
+        zero_usbms_mem_1(QHhead21->qhbuffer_ptr0, QHhead21->qhbuffer_ptr1, QHhead21->qhbuffer_ptr2, QHhead21->qhbuffer_ptr3, QHhead21->qhbuffer_ptr4);
 
 
-	    QHhead22->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead22 | 2);
-	    QHhead22->qhcurrent_qtd_ptr = (struct queue_transfer_descriptor*)0;
-	    QHhead22->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)1;
-	    QHhead22->qhalternate_qtd_ptr = (struct queue_transfer_descriptor *)((15 << 1) | 1);
-	    QHhead22->endpointch1 = (volatile uint32_t)0;
-	    QHhead22->endpointch2 = (volatile uint32_t)(0 | (1 << 30));
-	    QHhead22->qhtransfer_info = (volatile uint32_t)0;
-	    QHhead22->qhbuffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
-	    QHhead22->qhbuffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
-	    QHhead22->qhbuffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
-	    QHhead22->qhbuffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
-	    QHhead22->qhbuffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
+        QHhead22->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead22 | 2);
+        QHhead22->qhcurrent_qtd_ptr = (struct queue_transfer_descriptor*)0;
+        QHhead22->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)1;
+        QHhead22->qhalternate_qtd_ptr = (struct queue_transfer_descriptor *)((15 << 1) | 1);
+        QHhead22->endpointch1 = (volatile uint32_t)0;
+        QHhead22->endpointch2 = (volatile uint32_t)(0 | (1 << 30));
+        QHhead22->qhtransfer_info = (volatile uint32_t)0;
+        QHhead22->qhbuffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
+        QHhead22->qhbuffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
+        QHhead22->qhbuffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
+        QHhead22->qhbuffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
+        QHhead22->qhbuffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
 
 
-	    zero_usbms_mem_1(QHhead22->qhbuffer_ptr0, QHhead22->qhbuffer_ptr1, QHhead22->qhbuffer_ptr2, QHhead22->qhbuffer_ptr3, QHhead22->qhbuffer_ptr4);
+        zero_usbms_mem_1(QHhead22->qhbuffer_ptr0, QHhead22->qhbuffer_ptr1, QHhead22->qhbuffer_ptr2, QHhead22->qhbuffer_ptr3, QHhead22->qhbuffer_ptr4);
 
 
-	    qtd29->next_qtd_ptr = (struct queue_transfer_descriptor *)1; 
-	    qtd29->alternate_qtd_ptr = (struct queue_transfer_descriptor *)1;
-	    qtd29->transfer_info = (volatile uint32_t)0;
-	    qtd29->buffer_ptr0 = (uint8_t*)kmem_4k_allocate();
-	    qtd29->buffer_ptr1 = (uint8_t*)kmem_4k_allocate();
-	    qtd29->buffer_ptr2 = (uint8_t*)kmem_4k_allocate();
-	    qtd29->buffer_ptr3 = (uint8_t*)kmem_4k_allocate();
-	    qtd29->buffer_ptr4 = (uint8_t*)kmem_4k_allocate();
+        qtd29->next_qtd_ptr = (struct queue_transfer_descriptor *)1; 
+        qtd29->alternate_qtd_ptr = (struct queue_transfer_descriptor *)1;
+        qtd29->transfer_info = (volatile uint32_t)0;
+        qtd29->buffer_ptr0 = (uint8_t*)kmem_4k_allocate();
+        qtd29->buffer_ptr1 = (uint8_t*)kmem_4k_allocate();
+        qtd29->buffer_ptr2 = (uint8_t*)kmem_4k_allocate();
+        qtd29->buffer_ptr3 = (uint8_t*)kmem_4k_allocate();
+        qtd29->buffer_ptr4 = (uint8_t*)kmem_4k_allocate();
 
-	    qtd30->next_qtd_ptr = (struct queue_transfer_descriptor *)1;
-	    qtd30->alternate_qtd_ptr = (struct queue_transfer_descriptor *)1;
-	    qtd30->transfer_info = (volatile uint32_t)0;
-	    qtd30->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
-	    qtd30->buffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
-	    qtd30->buffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
-	    qtd30->buffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
-	    qtd30->buffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
-
-
-	    zero_usbms_mem_1(qtd30->buffer_ptr0, qtd30->buffer_ptr1, qtd30->buffer_ptr2, qtd30->buffer_ptr3, qtd30->buffer_ptr4);
+        qtd30->next_qtd_ptr = (struct queue_transfer_descriptor *)1;
+        qtd30->alternate_qtd_ptr = (struct queue_transfer_descriptor *)1;
+        qtd30->transfer_info = (volatile uint32_t)0;
+        qtd30->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
+        qtd30->buffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
+        qtd30->buffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
+        qtd30->buffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
+        qtd30->buffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
 
 
-	    qtd31->next_qtd_ptr = (struct queue_transfer_descriptor *)1;
-	    qtd31->alternate_qtd_ptr = (struct queue_transfer_descriptor *)1;
-	    qtd31->transfer_info = (volatile uint32_t)0;
-	    qtd31->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
-	    qtd31->buffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
-	    qtd31->buffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
-	    qtd31->buffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
-	    qtd31->buffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
+        zero_usbms_mem_1(qtd30->buffer_ptr0, qtd30->buffer_ptr1, qtd30->buffer_ptr2, qtd30->buffer_ptr3, qtd30->buffer_ptr4);
 
 
-	    zero_usbms_mem_1(qtd31->buffer_ptr0, qtd31->buffer_ptr1, qtd31->buffer_ptr2, qtd31->buffer_ptr3, qtd31->buffer_ptr4);
+        qtd31->next_qtd_ptr = (struct queue_transfer_descriptor *)1;
+        qtd31->alternate_qtd_ptr = (struct queue_transfer_descriptor *)1;
+        qtd31->transfer_info = (volatile uint32_t)0;
+        qtd31->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
+        qtd31->buffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
+        qtd31->buffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
+        qtd31->buffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
+        qtd31->buffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
 
 
-	    qtd32->next_qtd_ptr = (struct queue_transfer_descriptor *)1;
-	    qtd32->alternate_qtd_ptr = (struct queue_transfer_descriptor *)1;
-	    qtd32->transfer_info = (volatile uint32_t)0;
-	    qtd32->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
-	    qtd32->buffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
-	    qtd32->buffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
-	    qtd32->buffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
-	    qtd32->buffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
+        zero_usbms_mem_1(qtd31->buffer_ptr0, qtd31->buffer_ptr1, qtd31->buffer_ptr2, qtd31->buffer_ptr3, qtd31->buffer_ptr4);
 
 
-	    zero_usbms_mem_1(qtd32->buffer_ptr0, qtd32->buffer_ptr1, qtd32->buffer_ptr2, qtd32->buffer_ptr3, qtd32->buffer_ptr4);
+        qtd32->next_qtd_ptr = (struct queue_transfer_descriptor *)1;
+        qtd32->alternate_qtd_ptr = (struct queue_transfer_descriptor *)1;
+        qtd32->transfer_info = (volatile uint32_t)0;
+        qtd32->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
+        qtd32->buffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
+        qtd32->buffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
+        qtd32->buffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
+        qtd32->buffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
 
 
-	    qtd33->next_qtd_ptr = (struct queue_transfer_descriptor *)1;
-	    qtd33->alternate_qtd_ptr = (struct queue_transfer_descriptor *)1;
-	    qtd33->transfer_info = (volatile uint32_t)0;
-	    qtd33->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
-	    qtd33->buffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
-	    qtd33->buffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
-	    qtd33->buffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
-	    qtd33->buffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
-
-	    qtd34->next_qtd_ptr = (struct queue_transfer_descriptor *)1;
-	    qtd34->alternate_qtd_ptr = (struct queue_transfer_descriptor *)1;
-	    qtd34->transfer_info = (volatile uint32_t)0;
-	    qtd34->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
-	    qtd34->buffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
-	    qtd34->buffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
-	    qtd34->buffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
-	    qtd34->buffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
+        zero_usbms_mem_1(qtd32->buffer_ptr0, qtd32->buffer_ptr1, qtd32->buffer_ptr2, qtd32->buffer_ptr3, qtd32->buffer_ptr4);
 
 
-	    zero_usbms_mem_1(qtd33->buffer_ptr0, qtd33->buffer_ptr1, qtd33->buffer_ptr2, qtd33->buffer_ptr3, qtd33->buffer_ptr4);
+        qtd33->next_qtd_ptr = (struct queue_transfer_descriptor *)1;
+        qtd33->alternate_qtd_ptr = (struct queue_transfer_descriptor *)1;
+        qtd33->transfer_info = (volatile uint32_t)0;
+        qtd33->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
+        qtd33->buffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
+        qtd33->buffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
+        qtd33->buffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
+        qtd33->buffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
+
+        qtd34->next_qtd_ptr = (struct queue_transfer_descriptor *)1;
+        qtd34->alternate_qtd_ptr = (struct queue_transfer_descriptor *)1;
+        qtd34->transfer_info = (volatile uint32_t)0;
+        qtd34->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
+        qtd34->buffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
+        qtd34->buffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
+        qtd34->buffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
+        qtd34->buffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
+
+
+        zero_usbms_mem_1(qtd33->buffer_ptr0, qtd33->buffer_ptr1, qtd33->buffer_ptr2, qtd33->buffer_ptr3, qtd33->buffer_ptr4);
 
 }
 
@@ -280,35 +280,35 @@ uint8_t read_ehci_64bit_enabled()
 /* Prints a register in decimal, hex and binary notation */
 void print_ehc_info(uint32_t addr, uint32_t* addr2)
 {
-	    print("\n");
-	    print("Base address: ");
-	    printi((uint32_t)&addr2);
-	    print("\n");
-	    print("In hex: ");
-	    print_hex((uint32_t)&addr2);
-	    print("\n");
-	    print("Value: ");
-	    printi((uint32_t)addr);
-	    print("\n");
-	    print("In hex: ");
-	    print_hex((uint32_t)addr);
-	    print("\n");
-	    print("In binary: ");
-	    dec_to_bin((uint32_t)addr);	
+        print("\n");
+        print("Base address: ");
+        printi((uint32_t)&addr2);
+        print("\n");
+        print("In hex: ");
+        print_hex((uint32_t)&addr2);
+        print("\n");
+        print("Value: ");
+        printi((uint32_t)addr);
+        print("\n");
+        print("In hex: ");
+        print_hex((uint32_t)addr);
+        print("\n");
+        print("In binary: ");
+        dec_to_bin((uint32_t)addr);	
 }
 
 /* Prints addresses. */
 void print_ehc_info_2(uint32_t addr)
 {
-	    print("\n");
-	    print("Value: ");
-	    printi((uint32_t)addr);
-	    print("\n");
-	    print("In hex: ");
-	    print_hex((uint32_t)addr);
-	    print("\n");
-	    print("In binary: ");
-	    dec_to_bin((uint32_t)addr);	
+        print("\n");
+        print("Value: ");
+        printi((uint32_t)addr);
+        print("\n");
+        print("In hex: ");
+        print_hex((uint32_t)addr);
+        print("\n");
+        print("In binary: ");
+        dec_to_bin((uint32_t)addr);	
 }
 
 /* Toggles some data. */
