@@ -705,96 +705,94 @@ uint32_t get_ehci_usbcmd()
 */
 uint8_t init_ehci(struct queue_head * head)
 {
-		asm("sti");
-		uint32_t* temp_1 = (uint32_t*)0x600000;
+        asm("sti");
+        uint32_t* temp_1 = (uint32_t*)0x600000;
 
-		irq_uninstall_handler(0);
+        irq_uninstall_handler(0);
         init_ehci_stuff();
         set_ehci_operationaloffset();
         set_ehci_port_n();
-		asm("cli");
-		timer_install();
-		asm("sti");
-		bios_hand_off();
-		stop_ehci();
-		timer_ticks = 0;
-		while(timer_ticks < 1);
-		reset_ehci();
-		timer_ticks = 0;
-		while(timer_ticks < 1);
-		uint32_t tempinit = read_ehci_usbsts();
+        asm("cli");
+        timer_install();
+        asm("sti");
+        bios_hand_off();
+        stop_ehci();
+        timer_ticks = 0;
+        while(timer_ticks < 1);
+        reset_ehci();
+        timer_ticks = 0;
+        while(timer_ticks < 1);
+        uint32_t tempinit = read_ehci_usbsts();
 
-		if (((tempinit & 0x4) >> 2) == 1) {
-			tempinit |= 0x4;
-			write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000004), (const uint32_t)tempinit);
-		}
+        if (((tempinit & 0x4) >> 2) == 1) {
+                tempinit |= 0x4;
+                write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000004), (const uint32_t)tempinit);
+        }
 
-		write_ehci_ctrldssegment();
-		write_ehci_usbint();
-		write_ehci_usbcmd2();
-		write_ehci_configflag();
+        write_ehci_ctrldssegment();
+        write_ehci_usbint();
+        write_ehci_usbcmd2();
+        write_ehci_configflag();
 
-		timer_ticks = 0;
-		while(timer_ticks < 1);
-		irq_uninstall_handler(0);
-		asm("cli");
+        timer_ticks = 0;
+        while(timer_ticks < 1);
+        irq_uninstall_handler(0);
+        asm("cli");
 
-		temp_1 = port_reset();
+        temp_1 = port_reset();
 
-		if(!(*(temp_1))) {
+        if(!(*(temp_1))) {
 
-				print("Error: could not enable port ");
+                print("Error: could not enable port ");
                 printi((uint32_t)(*(temp_1 + 1)));
                 print(". Ehc stopped. Reset your computer.");
-				stop_ehci();
-				reset_ehci();
-				return 0;
+                stop_ehci();
+                reset_ehci();
+                return 0;
 
-		}
+        }
 
         ehci_port_busy = 0;
         /* Commented code: if (ehci_int_unhandled == 1) {
                 ehci_int_unhandled = 0; 
                 Get_Port_Status();
         } */
-				
-		timer_install();
-		asm("sti");
-		irq_uninstall_handler(0);
-		asm("cli");
-		asm("sti");
+        timer_install();
+        asm("sti");
+        irq_uninstall_handler(0);
+        asm("cli");
+        asm("sti");
 
-		write_async_addr(head);
-		enable_async();
-		print("\n");
-		asm("cli");
-							
-		return 1;
+        write_async_addr(head);
+        enable_async();
+        print("\n");
+        asm("cli");
+        return 1;
 }
 
 /* This function should not be in use, I guess. */
 void write_ehci_ctrldssegment()
 {
-		write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000010), (const uint32_t)0x00000000);
+        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000010), (const uint32_t)0x00000000);
 }
 
 /* Enables some interrupts. Interrupt on async advance is excluded */
 void write_ehci_usbint()
 {
-		write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000008), (const uint32_t)0x00000017);
+        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000008), (const uint32_t)0x00000017);
 }
 
 /* periodicframebase = 0xf00000, base for itds are f02000 */
 void write_ehci_periodicbase()
 {
-		write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000014), (const uint32_t)0x01000000); 
+        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000014), (const uint32_t)0x01000000); 
 
 }
 
 /* Sets the configuration flag to 1 */
 void write_ehci_configflag()
 {
-		write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000040), (const uint32_t)0x00000001);
+        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000040), (const uint32_t)0x00000001);
 
 }
 
@@ -807,102 +805,102 @@ void fill_ehci_periodiclistbase()
 /* Disables the periodic list and the asynchronous schedule */
 void write_ehci_usbcmd2()
 {
-		uint32_t tmp = get_ehci_usbcmd();
-		tmp &= (~(1 << 4));
-		write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000000), (const uint32_t)tmp);
-		tmp = get_ehci_usbcmd();
-		tmp &= (~(1 << 5));
-		write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000000), (const uint32_t)tmp);
+        uint32_t tmp = get_ehci_usbcmd();
+        tmp &= (~(1 << 4));
+        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000000), (const uint32_t)tmp);
+        tmp = get_ehci_usbcmd();
+        tmp &= (~(1 << 5));
+        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000000), (const uint32_t)tmp);
 }
 
 /* Sets the maximum interrupt interval to 8 micro-frames */
 void write_ehci_usbcmd()
 {
-		write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000000), (const uint32_t)0x00080020);
+        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000000), (const uint32_t)0x00080020);
 }
 
 /* Writes a one to the doorbell bit regarding the asynchronous schedule */
 void write_ehci_async_interrupt()
 {
-	    uint32_t temp2 = get_ehci_usbsts();
+        uint32_t temp2 = get_ehci_usbsts();
 
         /* if async enabled */
-	    if (((temp2  & (1 << 15)) >> 15) == 1) { 
-			    uint32_t temp = get_ehci_usbcmd();
-			    temp |= (1 << 6);
-			    write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000000), (const uint32_t)temp);
-	    }
-	    else
-		        print("\n\nError: Could not enable async interrupt on usbcmd register.");
+        if (((temp2  & (1 << 15)) >> 15) == 1) { 
+                uint32_t temp = get_ehci_usbcmd();
+                temp |= (1 << 6);
+                write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000000), (const uint32_t)temp);
+        }
+        else
+                print("\n\nError: Could not enable async interrupt on usbcmd register.");
 }
 
 /* Halts the EHC. */
 void stop_ehci()
 {
-		uint32_t temp;
-		uint32_t temp2;
-		temp = get_ehci_usbsts();
+        uint32_t temp;
+        uint32_t temp2;
+        temp = get_ehci_usbsts();
 
         /* ehc halted = 0 = running */
-		if (((temp & (1 << 12)) >> 12) == 0) {
-				temp2 = get_ehci_usbcmd();
-				temp2 &= ~(1);
-				write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000000), (const uint32_t)temp2);
-		}
+        if (((temp & (1 << 12)) >> 12) == 0) {
+                temp2 = get_ehci_usbcmd();
+                temp2 &= ~(1);
+                write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000000), (const uint32_t)temp2);
+        }
 }
 
 /* Resets the EHC. */
 uint8_t reset_ehci()
 {
-		uint8_t reset_error = 0;
-		uint32_t temp;
-		temp = get_ehci_usbcmd();
-		uint32_t temp2;
-		temp2 = get_ehci_usbsts();
+        uint8_t reset_error = 0;
+        uint32_t temp;
+        temp = get_ehci_usbcmd();
+        uint32_t temp2;
+        temp2 = get_ehci_usbsts();
 
         /* if halted is 1. */
-		if (((temp2 & (1 << 12)) >> 12) == 1) {
-				temp |= 2;
-				write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000000), (const uint32_t)temp);
-		}
-		else {
-			print("\n\nError: Could not reset the ehc.\n\n");
-			reset_error++;
-		}
+        if (((temp2 & (1 << 12)) >> 12) == 1) {
+                temp |= 2;
+                write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000000), (const uint32_t)temp);
+        }
+        else {
+                print("\n\nError: Could not reset the ehc.\n\n");
+                reset_error++;
+        }
 
-		return reset_error;
+        return reset_error;
 }
 
 /* Resets the EHC. */
 void reset_ehci_2()
 {
-		uint32_t temp;
-		temp = get_ehci_usbcmd();
-		uint32_t temp2;
-		temp2 = get_ehci_usbsts();
+        uint32_t temp;
+        temp = get_ehci_usbcmd();
+        uint32_t temp2;
+        temp2 = get_ehci_usbsts();
 
         /* if halted is 1. */
-		if (((temp2 & (1 << 12)) >> 12) == 1) {
-				temp |= 2;
-				write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000000), (const uint32_t)temp);
-		}
+        if (((temp2 & (1 << 12)) >> 12) == 1) {
+                temp |= 2;
+                write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000000), (const uint32_t)temp);
+        }
 		else {
-		    	print("\n\nError: Could not reset the ehc.\n\n");
-		}
+                print("\n\nError: Could not reset the ehc.\n\n");
+        }
 }
 
 /* Starts the EHC. */
 void start_ehci()
 {
-	    uint32_t checksts;
-	    uint32_t checkcmd = get_ehci_usbcmd();
-	    checksts = read_ehci_usbsts();
+        uint32_t checksts;
+        uint32_t checkcmd = get_ehci_usbcmd();
+        checksts = read_ehci_usbsts();
 
-	    if ( (((checksts & (1 << 12)) >> 12) == 1) && ((checkcmd & 0x00000001) == 0)) {
-			    checkcmd = get_ehci_usbcmd();
-			    checkcmd |= 1;
-			    write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000000), (const uint32_t)checkcmd);
-	    }
+        if ( (((checksts & (1 << 12)) >> 12) == 1) && ((checkcmd & 0x00000001) == 0)) {
+                checkcmd = get_ehci_usbcmd();
+                checkcmd |= 1;
+                write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000000), (const uint32_t)checkcmd);
+        }
 }
 
 
@@ -911,15 +909,15 @@ void start_ehci()
  */
 uint32_t get_reclamation_bit() 
 {
-		uint32_t return_value;
-		uint32_t tmp = get_ehci_usbsts();
+        uint32_t return_value;
+        uint32_t tmp = get_ehci_usbsts();
 
-		if(((tmp >> 13) & 0x00000001) == 1)
-			    return_value = 1;
-		else
-			    return_value = 0;
+        if(((tmp >> 13) & 0x00000001) == 1)
+                return_value = 1;
+        else
+                return_value = 0;
 
-		return return_value;
+        return return_value;
 }
 
 /* Enables the async schedule. The async schedule can be
@@ -927,30 +925,30 @@ uint32_t get_reclamation_bit()
  */
 void enable_async() 
 {
-		uint32_t temp_async = get_ehci_usbsts();
-		uint32_t temp_async2 = get_ehci_usbcmd();
+        uint32_t temp_async = get_ehci_usbsts();
+        uint32_t temp_async2 = get_ehci_usbcmd();
 
         /* if async is disabled */
-		if ((((temp_async >> 15) & 0x00000001) == 0) && (((temp_async2 >> 5) & 0x00000001) == 0)) {
-				uint32_t tmp = get_ehci_usbcmd();
-				tmp |= (1 << 5);
-				write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000000), (const uint32_t)tmp);
-		}
-		else
-			print("\nCould not enable async or async already enabled");
+        if ((((temp_async >> 15) & 0x00000001) == 0) && (((temp_async2 >> 5) & 0x00000001) == 0)) {
+                uint32_t tmp = get_ehci_usbcmd();
+                tmp |= (1 << 5);
+                write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000000), (const uint32_t)tmp);
+        }
+        else
+                print("\nCould not enable async or async already enabled");
 }
 
 /* Disables the async schedule */
 void disable_async()
 {
-		uint32_t temp_async = get_ehci_usbsts();
+        uint32_t temp_async = get_ehci_usbsts();
 
         /* if async is enabled */
-		if (((temp_async >> 15) & 0x00000001) == 1) {
-				uint32_t tmp = get_ehci_usbcmd();
-				tmp &= (~(1 << 5));
-				write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000000), (const uint32_t)tmp);
-		}
+        if (((temp_async >> 15) & 0x00000001) == 1) {
+                uint32_t tmp = get_ehci_usbcmd();
+                tmp &= (~(1 << 5));
+                write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000000), (const uint32_t)tmp);
+        }
 }
 
 
@@ -960,24 +958,23 @@ void disable_async()
  */
 void write_async_addr(struct queue_head* q) 
 {
-		timer_install();
-		asm("sti");
-		disable_async();
-		timer_ticks = 0;
-		while(timer_ticks < 1);
-		uint32_t temp_async = get_ehci_usbsts();
-			
+        timer_install();
+        asm("sti");
+        disable_async();
+        timer_ticks = 0;
+        while(timer_ticks < 1);
+        uint32_t temp_async = get_ehci_usbsts();
+
         /* if async is disabled */
-		if (((temp_async >> 15) & 0x00000001) == 0)
-			{
-				write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000018), (const uint32_t)q);
+        if (((temp_async >> 15) & 0x00000001) == 0) {
+                write_dword((const uint32_t)ehci_mem_address, (const uint32_t)(operational_offset + 0x00000018), (const uint32_t)q);
 
-			}
-		else
-			print("\nCould not write qh to async addr.");
+        }
+        else
+                print("\nCould not write qh to async addr.");
 
-		irq_uninstall_handler(0);
-		asm("cli");
+        irq_uninstall_handler(0);
+        asm("cli");
 } 
 
 /* This is a test function to test whether the async schedule
@@ -985,31 +982,29 @@ void write_async_addr(struct queue_head* q)
  */
 uint32_t async_advance()
 {
-	    timer_install();
-	    asm("sti");
-	    write_ehci_async_interrupt();
+        timer_install();
+        asm("sti");
+        write_ehci_async_interrupt();
+        uint32_t count = 0;
+        while(count++ < 2000);
 
-		    uint32_t count = 0;
-		    while(count++ < 2000);
 
+        if (async_int_success == 0) {
+                print("\n\nasync advanced\n\n");
+                irq_uninstall_handler(0);
+                asm("cli");
+                return 1;
+        }
+        else {
+                print("Error: time out. Async did not advance.");
+                irq_uninstall_handler(0);
+                asm("cli");
+                return 0;
+        }
 
-	    if (async_int_success == 0) {
-			    print("\n\nasync advanced\n\n");
-			    irq_uninstall_handler(0);
-			    asm("cli");
-			    return 1;
-	    }
-	    else {
-			    print("Error: time out. Async did not advance.");
-			    irq_uninstall_handler(0);
-			    asm("cli");
-			    return 0;
-	    }
-
-	    irq_uninstall_handler(0);
-	    asm("cli");
-	    
-	    return 1;
+        irq_uninstall_handler(0);
+        asm("cli");
+        return 1;
 }
 
 /* Makes an USB transaction on the asynchronous schedule
@@ -1087,16 +1082,16 @@ uint32_t* port_reset()
         /* suggestion: use pointer to a function (get_ehci_port1) and the 0x000000074, for example, as arguments. with control statements */
         ehci_port_busy = 1;
         uint32_t* temp_ptr = ehci_port_array;
-		timer_install();
-		asm("sti");
+        timer_install();
+        asm("sti");
         uint32_t attached_to_usb2_port = 0;
         /* uint32_t temp = 0; */
         uint32_t temp = 0;
-		uint32_t temp2 = 0;
-		uint32_t tempsts2 = 0;
+        uint32_t temp2 = 0;
+        uint32_t tempsts2 = 0;
         uint32_t usb_port_n = operational_offset + 0x00000040;
 
-		temp = ehci_port_num;
+        temp = ehci_port_num;
 
         for(uint32_t i = 0; (i < temp) && (attached_to_usb2_port == 0); i++) {
                 usb_port_n += 4;
@@ -1109,79 +1104,78 @@ uint32_t* port_reset()
         printi((uint32_t)((usb_port_n - (operational_offset + 0x00000040)) / 4));
         /* Commented code: temp2 = (uint32_t)read_dword((const uint32_t)
                            ehci_mem_address, (const uint32_t)usb_port_n);
-		                   if((temp2 & 0x00000001) == 0) {
-				                   irq_uninstall_handler(0);
-				                   asm("cli");
+                                   if((temp2 & 0x00000001) == 0) {
+                                   irq_uninstall_handler(0);
+                                   asm("cli");
                                    *(temp_ptr) = 0;
                                    *(temp_ptr + 1) = ((usb_port_n - (operational_offset + 0x00000040)) / 4);
-				                   return temp_ptr;
-		                   } */
+                                   return temp_ptr;
+                           } */
         temp = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port_n);
         temp &= 0x00000004;
         if(temp != 4) {
 
                 /* attempt to reset the port */
-		        tempsts2 = read_ehci_usbsts();
-		        if(tempsts2 & (1 << 12)) {
-				        start_ehci();
-				        timer_ticks = 0;
-				        while(timer_ticks < 1);
-		        }
+                tempsts2 = read_ehci_usbsts();
+                if(tempsts2 & (1 << 12)) {
+                        start_ehci();
+                        timer_ticks = 0;
+                        while(timer_ticks < 1);
+                }
 
-		        tempsts2 = read_ehci_usbsts();
+                tempsts2 = read_ehci_usbsts();
                 /* HCHalted must be zero = running */
-		        if((tempsts2 & (1 << 12)) == 0)  {
+                if((tempsts2 & (1 << 12)) == 0)  {
                         print("\nAttempting to enable the port..\n");
-		                temp2 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port_n);
+                        temp2 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port_n);
                         /* reset and enable change */
-		                temp2 |= ((1 << 8) | (1 << 3)); 
+                        temp2 |= ((1 << 8) | (1 << 3)); 
                         /* reset and port enable change */
-		                write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port_n, (const uint32_t)temp2); 
-		                timer_ticks = 0;
+                        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port_n, (const uint32_t)temp2); 
+                        timer_ticks = 0;
 
-		                while(timer_ticks < 8); 		        
-		                temp2 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port_n);
+                        while(timer_ticks < 8); 		        
+                        temp2 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port_n);
 
-		                if(temp2 & (1 << 8)) {
+                        if(temp2 & (1 << 8)) {
 
                                 /* write a zero to bit 8 = port reset */
-		                        temp2 &= (~(1 << 8)); 
+                                temp2 &= (~(1 << 8)); 
                                 /* port reset */
-		                        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port_n, (const uint32_t)temp2); 
+                                write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port_n, (const uint32_t)temp2); 
                                 kernel_delay_100(25);
-		                }
+                        }
 
-		                temp2 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port_n);
+                        temp2 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port_n);
                         /* if port enable change detect = 1 and port reset = 0 */
-		                if((temp2 & (1 << 3)) && (((temp2 & (1 << 8)) == 0)))  {
+                        if((temp2 & (1 << 3)) && (((temp2 & (1 << 8)) == 0)))  {
                                 /* write clear. writing to it causes it to go to zero */
-				                temp2 |= (1 << 3); 
+                                temp2 |= (1 << 3); 
                                 /* write zero to port enable change detect */
-				                write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port_n, (const uint32_t)temp2); 
+                                write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port_n, (const uint32_t)temp2); 
                                 kernel_delay_100(10);
-		                }
+                        }
 
-		        }
+                }
 
 
-		        temp2 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port_n);
-		        if((temp2 & (1 << 2))) {
+                temp2 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port_n);
+                if((temp2 & (1 << 2))) {
                         irq_uninstall_handler(0);
                         asm("cli");
                         *(temp_ptr) = 1;
                         *(temp_ptr + 1) = ((usb_port_n - (operational_offset + 0x00000040)) / 4);
                         return temp_ptr;
 
-		        }
+                }
 
         }
 
-                                        
-		        irq_uninstall_handler(0);
-		        asm("cli");
+                irq_uninstall_handler(0);
+                asm("cli");
                 *(temp_ptr) = 0;
                 *(temp_ptr + 1) = ((usb_port_n - (operational_offset + 0x00000040)) / 4);
-		        return temp_ptr;
+                return temp_ptr;
 
 }
 
