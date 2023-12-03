@@ -1071,7 +1071,7 @@ void usb_ehci_get_descriptor(volatile uint8_t descriptor_type, volatile uint8_t 
         pointr = (volatile uint8_t*)device_descriptor;
         free_mem_uint((uint32_t)pointr);
 
-         QHhead19->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead19 | EHCI_QH_TYPE_QH);
+        QHhead19->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead19 | EHCI_QH_TYPE_QH);
 
 
 }
@@ -1104,7 +1104,7 @@ uint32_t* port_reset()
         printi((uint32_t)((usb_port_n - (operational_offset + 0x00000040)) / 4));
         /* Commented code: temp2 = (uint32_t)read_dword((const uint32_t)
                            ehci_mem_address, (const uint32_t)usb_port_n);
-                                   if((temp2 & 0x00000001) == 0) {
+                           if((temp2 & 0x00000001) == 0) {
                                    irq_uninstall_handler(0);
                                    asm("cli");
                                    *(temp_ptr) = 0;
@@ -1171,11 +1171,11 @@ uint32_t* port_reset()
 
         }
 
-                irq_uninstall_handler(0);
-                asm("cli");
-                *(temp_ptr) = 0;
-                *(temp_ptr + 1) = ((usb_port_n - (operational_offset + 0x00000040)) / 4);
-                return temp_ptr;
+        irq_uninstall_handler(0);
+        asm("cli");
+        *(temp_ptr) = 0;
+        *(temp_ptr + 1) = ((usb_port_n - (operational_offset + 0x00000040)) / 4);
+        return temp_ptr;
 
 }
 
