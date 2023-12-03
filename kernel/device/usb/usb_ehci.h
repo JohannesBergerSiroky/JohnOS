@@ -43,18 +43,18 @@ void ehci_usb_handler();
 
 
 struct queue_head {
-	    struct queue_head * Horizontalpointer;
+        struct queue_head * Horizontalpointer;
         volatile uint32_t endpointch1;
         volatile uint32_t endpointch2;
         struct queue_transfer_descriptor* qhcurrent_qtd_ptr;
-	    struct queue_transfer_descriptor * qhnext_qtd_ptr;
-	    struct queue_transfer_descriptor * qhalternate_qtd_ptr;
-	    volatile uint32_t qhtransfer_info;
-	    volatile uint8_t* qhbuffer_ptr0;
-	    volatile uint8_t* qhbuffer_ptr1;
-	    volatile uint8_t* qhbuffer_ptr2;
-	    volatile uint8_t* qhbuffer_ptr3;
-	    volatile uint8_t* qhbuffer_ptr4;
+        struct queue_transfer_descriptor * qhnext_qtd_ptr;
+        struct queue_transfer_descriptor * qhalternate_qtd_ptr;
+        volatile uint32_t qhtransfer_info;
+        volatile uint8_t* qhbuffer_ptr0;
+        volatile uint8_t* qhbuffer_ptr1;
+        volatile uint8_t* qhbuffer_ptr2;
+        volatile uint8_t* qhbuffer_ptr3;
+        volatile uint8_t* qhbuffer_ptr4;
         volatile uint32_t qh_extended_buffers[5];
         struct queue_head* p_back;
         struct queue_transfer_descriptor* qtd_middle;
@@ -63,14 +63,14 @@ struct queue_head {
 
 
 struct queue_transfer_descriptor {
-	    struct queue_transfer_descriptor * next_qtd_ptr;
-	    struct queue_transfer_descriptor * alternate_qtd_ptr;
-	    volatile uint32_t transfer_info;
-	    volatile uint8_t* buffer_ptr0;
-	    volatile uint8_t* buffer_ptr1;
-	    volatile uint8_t* buffer_ptr2;
-	    volatile uint8_t* buffer_ptr3;
-	    volatile uint8_t* buffer_ptr4;
+        struct queue_transfer_descriptor * next_qtd_ptr;
+        struct queue_transfer_descriptor * alternate_qtd_ptr;
+        volatile uint32_t transfer_info;
+        volatile uint8_t* buffer_ptr0;
+        volatile uint8_t* buffer_ptr1;
+        volatile uint8_t* buffer_ptr2;
+        volatile uint8_t* buffer_ptr3;
+        volatile uint8_t* buffer_ptr4;
         volatile uint32_t qt_extended_buffers[5];
         uint32_t zero;
         struct queue_transfer_descriptor* qtd_back;
