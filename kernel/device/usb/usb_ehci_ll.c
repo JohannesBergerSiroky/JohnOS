@@ -396,11 +396,11 @@ void set_qt(volatile uint32_t qh_index, volatile uint32_t cq_index,  volatile ui
                 if(cqhp_temp > 20) {
                 /* qh_index = chosen index. cq = where it is now. */
 	                    if(qh_index >= cq_index) {
-			                    Qh1 = Qh_middle_node;
+                                Qh1 = Qh_middle_node;
                                 /* if an index is set to the middle of the list then maybe it should stay there if the value of current_pointes is high */
-			                    for(uint32_t i = cq_index; i <= qh_index;i++) {
+                                for(uint32_t i = cq_index; i <= qh_index;i++) {
 					                    if(i != qh_index)
-						                        Qh1 = Qh1->Horizontalpointer;
+                                                Qh1 = Qh1->Horizontalpointer;
 			                    }
 	                    }
                         else if(qh_index <= cq_index) {
@@ -831,43 +831,43 @@ void add_qh(volatile uint32_t qh_index, volatile uint32_t cqhp_temp, volatile ui
                         Qh_firstnode->qhnext_qtd_ptr->qt_extended_buffers[2] = (volatile uint32_t)0;
                         Qh_firstnode->qhnext_qtd_ptr->qt_extended_buffers[3] = (volatile uint32_t)0;
                         Qh_firstnode->qhnext_qtd_ptr->qt_extended_buffers[4] = (volatile uint32_t)0;
-			            Qh_firstnode->qhnext_qtd_ptr->zero = 0;
-			            Qh_firstnode->qhnext_qtd_ptr->qtd_back = 0;
-			            Qh_temp = Qh_firstnode;
-			            Qh1 = Qh_firstnode;
+                        Qh_firstnode->qhnext_qtd_ptr->zero = 0;
+                        Qh_firstnode->qhnext_qtd_ptr->qtd_back = 0;
+                        Qh_temp = Qh_firstnode;
+                        Qh1 = Qh_firstnode;
 	            } 
-	            if (qh_index > 1) {
+                if (qh_index > 1) {
 
-	                    if(cqhp_temp > 20) {
+                        if(cqhp_temp > 20) {
                                 /* qh_index = chosen index. cq = where it is now. */
-			                    if(qh_index >= cq_index) {
+                                if(qh_index >= cq_index) {
 
-					                    Qh1 = Qh_middle_node;
+                                        Qh1 = Qh_middle_node;
                                         /* if an index is set to the middle of the list then maybe it should stay there if the value of current_pointes is high */
-					                    for(uint32_t i = cq_index; i <= qh_index;i++) {
-							                    if(i != qh_index)
-								                        Qh1 = Qh1->Horizontalpointer;
-					                    }
+                                        for(uint32_t i = cq_index; i <= qh_index;i++) {
+                                                if(i != qh_index)
+                                                        Qh1 = Qh1->Horizontalpointer;
+                                        }
 
-			                    }
+                                }
 
-			                    else if(qh_index <= cq_index) {
-					                    Qh1 = Qh_middle_node;
+                                else if(qh_index <= cq_index) {
+                                        Qh1 = Qh_middle_node;
 
-					                    for(uint32_t i = cq_index; i >= qh_index;i--) {
-							                    if(i != qh_index)
-								                        Qh1 = Qh1->p_back;
-					                    }
+                                        for(uint32_t i = cq_index; i >= qh_index;i--) {
+                                                if(i != qh_index)
+                                                        Qh1 = Qh1->p_back;
+                                        }
 
-			                    }
-	                    }
+                                }
+                        }
 
                         else {
 
-	                            Qh1 = Qh_firstnode;
-	                            for(uint32_t i = 1; i <= qh_index;i++) {
-			                            if(i != qh_index)
-				                            Qh1 = Qh1->Horizontalpointer;
+                                Qh1 = Qh_firstnode;
+                                for(uint32_t i = 1; i <= qh_index;i++) {
+                                        if(i != qh_index)
+                                                Qh1 = Qh1->Horizontalpointer;
                                 }
 
 
