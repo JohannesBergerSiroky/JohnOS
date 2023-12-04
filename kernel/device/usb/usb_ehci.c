@@ -1,5 +1,5 @@
-/* This code is EHCI code. An ehc is an enhanced
- * host controller usually for USB 2.
+/* This code is EHCI code. An EHC is an Enhanced
+ * Host Controller usually for USB 2.
  */
 
 #include "../../types.h"
