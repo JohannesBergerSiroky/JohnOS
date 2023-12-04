@@ -881,7 +881,7 @@ void add_qh(volatile uint32_t qh_index, volatile uint32_t cqhp_temp, volatile ui
                                 zero_usbms_mem_6((uint32_t*)Qh1->Horizontalpointer);
                                 Qh1 = Qh1->Horizontalpointer;
                                 Qh1->Horizontalpointer = 0;
-			                    Qh1->p_back = Qh_temp;
+                                Qh1->p_back = Qh_temp;
                                 Qh1->endpointch1 = 0;
                                 Qh1->endpointch2 = 0;
                                 Qh1->qhtransfer_info = 0;
@@ -928,7 +928,7 @@ void add_qh(volatile uint32_t qh_index, volatile uint32_t cqhp_temp, volatile ui
                                 Qh1->endpointch1 = 0;
                                 Qh1->endpointch2 = 0;
                                 Qh1->qhtransfer_info = 0;
-			                    Qh1->amount_of_qts = 1;
+                                Qh1->amount_of_qts = 1;
                                 /* set the Qh pointers */
                                 Qh1->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)kmem_4k_allocate(); 
                                 zero_usbms_mem_6((uint32_t*)Qh1->qhnext_qtd_ptr);
