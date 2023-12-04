@@ -12,19 +12,19 @@
  * values there.
  */
 void init_qhs(int amount) 
-{ 
+{
 
-	    Qh1 = (struct queue_head*)kmem_4k_allocate();
+        Qh1 = (struct queue_head*)kmem_4k_allocate();
         zero_usbms_mem_4((volatile uint8_t*)Qh1);
-	    Qh_firstnode = Qh1;
-	    Qh_temp2 = Qh1;
-	    Qh1->p_back = 0;
+        Qh_firstnode = Qh1;
+        Qh_temp2 = Qh1;
+        Qh1->p_back = 0;
 
         Qh1->Horizontalpointer = Qh1;
-	    Qh1->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)kmem_4k_allocate();
+        Qh1->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)kmem_4k_allocate();
         zero_usbms_mem_6((uint32_t*)(Qh1->qhnext_qtd_ptr));
-	    Qh1->qhnext_qtd_ptr->transfer_info = 0;
-	    Qh1->qhnext_qtd_ptr->next_qtd_ptr = 0;
+        Qh1->qhnext_qtd_ptr->transfer_info = 0;
+        Qh1->qhnext_qtd_ptr->next_qtd_ptr = 0;
         Qh1->qhnext_qtd_ptr->alternate_qtd_ptr = 0;
         Qh1->qhnext_qtd_ptr->buffer_ptr0 = 0;
         Qh1->qhnext_qtd_ptr->buffer_ptr1 = 0;
@@ -41,8 +41,8 @@ void init_qhs(int amount)
         Qh1->qh_extended_buffers[2] = 0;
         Qh1->qh_extended_buffers[3] = 0;
         Qh1->qh_extended_buffers[4] = 0;
-	    Qh1->qhnext_qtd_ptr->zero = 0;
-	    Qh1->qhnext_qtd_ptr->qtd_back = 0;
+        Qh1->qhnext_qtd_ptr->zero = 0;
+        Qh1->qhnext_qtd_ptr->qtd_back = 0;
         Qh1->qhalternate_qtd_ptr = 0;
         Qh1->qhbuffer_ptr0 = 0;
         Qh1->qhbuffer_ptr1 = 0;
@@ -50,42 +50,40 @@ void init_qhs(int amount)
         Qh1->qhbuffer_ptr3 = 0;
         Qh1->qhbuffer_ptr4 = 0;
         Qh1->qhnext_qtd_ptr = Qh1->qhnext_qtd_ptr->next_qtd_ptr;
-	    qt_temp2 = Qh1->qhnext_qtd_ptr;
-	    qt_temp = Qh1->qhnext_qtd_ptr;
-	    qt_temp3 = Qh1->qhnext_qtd_ptr;
+        qt_temp2 = Qh1->qhnext_qtd_ptr;
+        qt_temp = Qh1->qhnext_qtd_ptr;
+        qt_temp3 = Qh1->qhnext_qtd_ptr;
 
         /* first qh node */
-	    for(int i = 1; i <= amount;i++) {
-			    
-			    Qh_temp = Qh1;
-			    if(i != amount) {
-					    Qh1->Horizontalpointer = (struct queue_head*)kmem_4k_allocate();
+        for(int i = 1; i <= amount;i++) {
+                Qh_temp = Qh1;
+                if(i != amount) {
+                        Qh1->Horizontalpointer = (struct queue_head*)kmem_4k_allocate();
                         zero_usbms_mem_6((uint32_t*)Qh1->Horizontalpointer);
-			    }
+                }
+                else
+                        Qh1->Horizontalpointer = 0;
+                if(i == 1) {
 
-			    else
-				    Qh1->Horizontalpointer = 0;
-			    if(i == 1) {
-
-					    Qh1->endpointch1 = 0;
+                        Qh1->endpointch1 = 0;
                         Qh1->endpointch2 = 0;
                         Qh1->qhtransfer_info = 0;
                         Qh1->amount_of_qts = 0;
-			    }
-			    else {
-				        Qh1->endpointch1 = 0;
+                }
+                else {
+                        Qh1->endpointch1 = 0;
                         Qh1->endpointch2 = 0;
                         Qh1->qhtransfer_info = 0;
                 }
 
-			    Qh1->amount_of_qts = 1;
-			    if((amount > 20) && (i == (int)(amount/2)))
-				        Qh_middle_node = Qh1; 
+                Qh1->amount_of_qts = 1;
+                if((amount > 20) && (i == (int)(amount/2)))
+                        Qh_middle_node = Qh1; 
 
-			    if(i != amount) {
-					    Qh1 = Qh1->Horizontalpointer; 
-					    Qh1->p_back = Qh_temp;
-					    Qh1->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)kmem_4k_allocate();
+                if(i != amount) {
+                        Qh1 = Qh1->Horizontalpointer; 
+                        Qh1->p_back = Qh_temp;
+                        Qh1->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)kmem_4k_allocate();
                         Qh1->qhalternate_qtd_ptr = (struct queue_transfer_descriptor*)kmem_4k_allocate();
                         Qh1->qhbuffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
                         Qh1->qhbuffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
@@ -93,11 +91,11 @@ void init_qhs(int amount)
                         Qh1->qhbuffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
                         Qh1->qhbuffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
                         zero_usbms_mem_6((uint32_t*)Qh1->qhnext_qtd_ptr);
-					    if(i == 2)
-						        Qh1->qhnext_qtd_ptr->transfer_info = 0;
-					    else
-						        Qh1->qhnext_qtd_ptr->transfer_info = 0;
-					    Qh1->qhnext_qtd_ptr->next_qtd_ptr = 0;
+                        if(i == 2)
+                                Qh1->qhnext_qtd_ptr->transfer_info = 0;
+                        else
+                                Qh1->qhnext_qtd_ptr->transfer_info = 0;
+                        Qh1->qhnext_qtd_ptr->next_qtd_ptr = 0;
                         Qh1->qhnext_qtd_ptr->alternate_qtd_ptr = 0;
                         Qh1->qhnext_qtd_ptr->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
                         Qh1->qhnext_qtd_ptr->buffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
@@ -109,26 +107,26 @@ void init_qhs(int amount)
                         Qh1->qhnext_qtd_ptr->qt_extended_buffers[2] = (volatile uint32_t)kmem_4k_allocate();
                         Qh1->qhnext_qtd_ptr->qt_extended_buffers[3] = (volatile uint32_t)kmem_4k_allocate();
                         Qh1->qhnext_qtd_ptr->qt_extended_buffers[4] = (volatile uint32_t)kmem_4k_allocate();
-					    Qh1->qhnext_qtd_ptr->zero = 0;
-					    Qh1->qhnext_qtd_ptr->qtd_back = 0;
-			    }
-			    else {
-					    Qh_temp = Qh_firstnode;
-			    } 
+                        Qh1->qhnext_qtd_ptr->zero = 0;
+                        Qh1->qhnext_qtd_ptr->qtd_back = 0;
+                }
+                else {
+                        Qh_temp = Qh_firstnode;
+                }
 
-	    }
+        }
 
-	    current_queue_head_pointers = amount;
+        current_queue_head_pointers = amount;
 
         /* set Qh to either first node or middle node */
-	    if((amount > 20)) {
-			    current_qh_index = (int)(current_queue_head_pointers/2);
-			    Qh1 = Qh_middle_node; 
-	    }
-	    else {
-			    Qh1 = Qh_firstnode;
-			    current_qh_index = 1;
-	    }
+        if((amount > 20)) {
+                current_qh_index = (int)(current_queue_head_pointers/2);
+                Qh1 = Qh_middle_node; 
+        }
+        else {
+                Qh1 = Qh_firstnode;
+                current_qh_index = 1;
+        }
 
 }
 
@@ -139,183 +137,21 @@ void init_qhs(int amount)
 void init_queue_transfer_descriptors(volatile uint32_t active_qhs, volatile uint32_t amount) 
 {
 
-	    if(active_qhs == current_queue_head_pointers) {
+        if(active_qhs == current_queue_head_pointers) {
 
-	    Qh1 = Qh_firstnode;
+        Qh1 = Qh_firstnode;
 
 
-	    for(uint32_t i = 1; i <= active_qhs;i++) {
-			    qt_temp2 = Qh1->qhnext_qtd_ptr;
-			    for(uint32_t a = 1; a <= amount; a++) {
-					    qt_temp = Qh1->qhnext_qtd_ptr;
-					    if((i == 2) && (a == 2))
-						        Qh1->qhnext_qtd_ptr->transfer_info = 1; 
-					    else {
-						        Qh1->qhnext_qtd_ptr->transfer_info = 0;
+                for(uint32_t i = 1; i <= active_qhs;i++) {
+                        qt_temp2 = Qh1->qhnext_qtd_ptr;
+                        for(uint32_t a = 1; a <= amount; a++) {
+                                qt_temp = Qh1->qhnext_qtd_ptr;
+                                if((i == 2) && (a == 2))
+                                        Qh1->qhnext_qtd_ptr->transfer_info = 1; 
+                                else {
+                                        Qh1->qhnext_qtd_ptr->transfer_info = 0;
 
-					    }
-                        Qh1->qhnext_qtd_ptr->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
-                        Qh1->qhnext_qtd_ptr->buffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
-                        Qh1->qhnext_qtd_ptr->buffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
-                        Qh1->qhnext_qtd_ptr->buffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
-                        Qh1->qhnext_qtd_ptr->buffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
-                        Qh1->qhnext_qtd_ptr->qt_extended_buffers[0] = (volatile uint32_t)kmem_4k_allocate();
-                        Qh1->qhnext_qtd_ptr->qt_extended_buffers[1] = (volatile uint32_t)kmem_4k_allocate();
-                        Qh1->qhnext_qtd_ptr->qt_extended_buffers[2] = (volatile uint32_t)kmem_4k_allocate();
-                        Qh1->qhnext_qtd_ptr->qt_extended_buffers[3] = (volatile uint32_t)kmem_4k_allocate();
-                        Qh1->qhnext_qtd_ptr->qt_extended_buffers[4] = (volatile uint32_t)kmem_4k_allocate();
-					    Qh1->qhnext_qtd_ptr->zero = 0;
-
-					    if((a != amount)) {
-
-		                        if((amount >= 800) && (a == (uint32_t)(amount/2))) {
-                                        Qh1->qtd_middle = Qh1->qhnext_qtd_ptr;
                                 }
-			                             
-
-					            Qh1->qhnext_qtd_ptr->next_qtd_ptr = (struct queue_transfer_descriptor*)kmem_4k_allocate();
-                                Qh1->qhnext_qtd_ptr->alternate_qtd_ptr = (struct queue_transfer_descriptor*)kmem_4k_allocate();
-                                zero_usbms_mem_6((uint32_t*)Qh1->qhnext_qtd_ptr->next_qtd_ptr);
-                                zero_usbms_mem_6((uint32_t*)Qh1->qhnext_qtd_ptr->alternate_qtd_ptr);
-					            Qh1->qhnext_qtd_ptr = Qh1->qhnext_qtd_ptr->next_qtd_ptr; 
-					            Qh1->qhnext_qtd_ptr->qtd_back = qt_temp; 
-
-					    }
-					    else {
-							    Qh1->qhnext_qtd_ptr->next_qtd_ptr = 0;
-                                Qh1->qhnext_qtd_ptr->alternate_qtd_ptr = 0;
-							    Qh1->qhnext_qtd_ptr = qt_temp2;
-							    qt_temp = qt_temp2;
-					    }
-
-			    }
-			    Qh1->amount_of_qts = amount;
-			    if(i != active_qhs) {
-
-					    Qh1 = Qh1->Horizontalpointer;
-			    }
-
-	    }
-                /* set Qh to either first node or middle node */
-			    if((current_queue_head_pointers > 20))  {
-					    Qh1 = Qh_middle_node;
-					    qt_temp2 = Qh1->qhnext_qtd_ptr;
-			    }
-			    else {
-					    Qh1 = Qh_firstnode;
-					    qt_temp2 = Qh1->qhnext_qtd_ptr;
-					    qt_temp = qt_temp2;
-					    qt_temp3 = qt_temp;
-					    current_qh_index = 1;
-			    }
-	    }
-		    else
-			        print("\nError: Function does not allow an amount that is not\nequal to the current amount of Queue Heads.");
-		    print("\nend of set qts");
-
-} 
-
-
-/* This function makes a chosen amount of qt pointers in a chosen qh. cq_index could be current_qh_index or 1
- * aoq means amount of queue transfer descriptors to be put into the qh. cq_index is the current qh node.
- * qh index is the qh index to be chosen, and qh_c is the value to be put into the endpointch1 of the
- * chosen qh. cqhp_temp is the current amount of qhs in the linked list.
- */
-void set_qh(volatile uint32_t qh_index, volatile uint32_t qh_c, volatile uint32_t aoq, volatile uint32_t cq_index, volatile uint32_t cqhp_temp)
-{
-
-	    volatile uint32_t d;
-        volatile uint32_t e;
-	    if((qh_index <= current_queue_head_pointers) && (qh_index >= 1)) {
-	            if(cqhp_temp > 20) {
-                        /* qh_index = chosen index. cq = where it is now. */
-	                    if(qh_index >= cq_index) {
-			                    Qh1 = Qh_middle_node;
-                                /* if an index is set to the middle of the list then maybe it should stay there if the value of current_pointes is high */
-			                    for(uint32_t i = cq_index; i <= qh_index;i++)  {
-					                    if(i != qh_index)
-						                        Qh1 = Qh1->Horizontalpointer;
-			                    }
-	                    }
-	                    else if(qh_index <= cq_index) {
-			                    Qh1 = Qh_middle_node;
-			                    for(uint32_t i = cq_index; i >= qh_index;i--) {
-					                    if(i != qh_index)
-						                        Qh1 = Qh1->p_back;
-			                    }
-
-	                    }
-	            }
-	            else {
-			            Qh1 = Qh_firstnode;
-			            for(uint32_t i = 1; i <= qh_index;i++)
-				            {
-					            if(i != qh_index)
-						            Qh1 = Qh1->Horizontalpointer;
-				            }
-
-
-	            }
-		        qt_temp2 = Qh1->qhnext_qtd_ptr;
-	            /* now set qts accordingly */
-	            if (Qh1->amount_of_qts > aoq) { 
-			            d = Qh1->amount_of_qts;
-                        if(Qh1->amount_of_qts >= 800) {
-                                Qh1->qhnext_qtd_ptr = Qh1->qtd_middle;
-                                d = (volatile uint32_t)d/2;
-                        }
-			            for (uint32_t i = 0; i < d;i++) {
-                                /* goes to the last qt element in selected qh */
-				                Qh1->qhnext_qtd_ptr = Qh1->qhnext_qtd_ptr->next_qtd_ptr;
-
-			            }
-			            qt_temp = Qh1->qhnext_qtd_ptr;
-			            d = Qh1->amount_of_qts - aoq;
-			            for(uint32_t a = 1; a <= d ;a++) {
-
-					            Qh1->qhnext_qtd_ptr = Qh1->qhnext_qtd_ptr->qtd_back;
-					            free_mem_uint((uint32_t)qt_temp);
-					            qt_temp = Qh1->qhnext_qtd_ptr;
-
-			            }
-                        if((aoq >= 800)) {
-                               Qh1->qhnext_qtd_ptr = qt_temp2;
-                               e = (volatile uint32_t)aoq/2;
-                               for (uint32_t i = 0; i < e;i++) {
-                                       Qh1->qhnext_qtd_ptr = Qh1->qhnext_qtd_ptr->next_qtd_ptr;
-                                    
-                               }
-	                           Qh1->qtd_middle = Qh1->qhnext_qtd_ptr; 
-
-
-                       }
-		               Qh1->qhnext_qtd_ptr->next_qtd_ptr = 0;
-                       Qh1->qhnext_qtd_ptr->alternate_qtd_ptr = 0;
-                }
-	            /* Qh1->amount_of_qts = aoq */
-	            else if (Qh1->amount_of_qts < aoq) {
-			            d = Qh1->amount_of_qts;
-                        if(Qh1->amount_of_qts >= 800) {
-                                Qh1->qhnext_qtd_ptr = Qh1->qtd_middle;
-                                d = (volatile uint32_t)d/2;
-                        }
-			            for (uint32_t i = 0; i < d;i++) {
-                                /* again, goes to the last qt element in selected qh */
-				                Qh1->qhnext_qtd_ptr = Qh1->qhnext_qtd_ptr->next_qtd_ptr;
-			            }
-			            qt_temp = Qh1->qhnext_qtd_ptr;
-			            d = aoq - Qh1->amount_of_qts;
-			            for(uint32_t a = 1; a <= d ;a++) {
-
-					            Qh1->qhnext_qtd_ptr->next_qtd_ptr = (struct queue_transfer_descriptor*)kmem_4k_allocate();
-                                Qh1->qhnext_qtd_ptr->alternate_qtd_ptr = (struct queue_transfer_descriptor*)kmem_4k_allocate();
-                                zero_usbms_mem_6((uint32_t*)Qh1->qhnext_qtd_ptr->next_qtd_ptr);
-                                zero_usbms_mem_6((uint32_t*)Qh1->qhnext_qtd_ptr->alternate_qtd_ptr);
-					            Qh1->qhnext_qtd_ptr = Qh1->qhnext_qtd_ptr->next_qtd_ptr;
-					            Qh1->qhnext_qtd_ptr->qtd_back = qt_temp;
-					            Qh1->qhnext_qtd_ptr->next_qtd_ptr = 0;
-                                Qh1->qhnext_qtd_ptr->alternate_qtd_ptr = 0;
-					            Qh1->qhnext_qtd_ptr->transfer_info = 0;
                                 Qh1->qhnext_qtd_ptr->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
                                 Qh1->qhnext_qtd_ptr->buffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
                                 Qh1->qhnext_qtd_ptr->buffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
@@ -326,30 +162,186 @@ void set_qh(volatile uint32_t qh_index, volatile uint32_t qh_c, volatile uint32_
                                 Qh1->qhnext_qtd_ptr->qt_extended_buffers[2] = (volatile uint32_t)kmem_4k_allocate();
                                 Qh1->qhnext_qtd_ptr->qt_extended_buffers[3] = (volatile uint32_t)kmem_4k_allocate();
                                 Qh1->qhnext_qtd_ptr->qt_extended_buffers[4] = (volatile uint32_t)kmem_4k_allocate();
-					            Qh1->qhnext_qtd_ptr->zero = 0;
-					            qt_temp = Qh1->qhnext_qtd_ptr;
+                                Qh1->qhnext_qtd_ptr->zero = 0;
+
+                                if((a != amount)) {
+
+                                        if((amount >= 800) && (a == (uint32_t)(amount/2))) {
+                                                Qh1->qtd_middle = Qh1->qhnext_qtd_ptr;
+                                        }
+
+                                        Qh1->qhnext_qtd_ptr->next_qtd_ptr = (struct queue_transfer_descriptor*)kmem_4k_allocate();
+                                        Qh1->qhnext_qtd_ptr->alternate_qtd_ptr = (struct queue_transfer_descriptor*)kmem_4k_allocate();
+                                        zero_usbms_mem_6((uint32_t*)Qh1->qhnext_qtd_ptr->next_qtd_ptr);
+                                        zero_usbms_mem_6((uint32_t*)Qh1->qhnext_qtd_ptr->alternate_qtd_ptr);
+                                        Qh1->qhnext_qtd_ptr = Qh1->qhnext_qtd_ptr->next_qtd_ptr; 
+                                        Qh1->qhnext_qtd_ptr->qtd_back = qt_temp; 
+
+                                }
+                                else {
+                                        Qh1->qhnext_qtd_ptr->next_qtd_ptr = 0;
+                                        Qh1->qhnext_qtd_ptr->alternate_qtd_ptr = 0;
+                                        Qh1->qhnext_qtd_ptr = qt_temp2;
+                                        qt_temp = qt_temp2;
+                                }
+
+                        }
+                        Qh1->amount_of_qts = amount;
+                        if(i != active_qhs) {
+
+                                Qh1 = Qh1->Horizontalpointer;
+                        }
+
+                }
+                /* set Qh to either first node or middle node */
+                if((current_queue_head_pointers > 20))  {
+                        Qh1 = Qh_middle_node;
+                        qt_temp2 = Qh1->qhnext_qtd_ptr;
+                }
+                else {
+                        Qh1 = Qh_firstnode;
+                        qt_temp2 = Qh1->qhnext_qtd_ptr;
+                        qt_temp = qt_temp2;
+                        qt_temp3 = qt_temp;
+                        current_qh_index = 1;
+                }
+        }
+        else
+                print("\nError: Function does not allow an amount that is not\nequal to the current amount of Queue Heads.");
+        print("\nend of set qts");
+
+}
 
 
-			            }
+/* This function makes a chosen amount of qt pointers in a chosen qh. cq_index could be current_qh_index or 1
+ * aoq means amount of queue transfer descriptors to be put into the qh. cq_index is the current qh node.
+ * qh index is the qh index to be chosen, and qh_c is the value to be put into the endpointch1 of the
+ * chosen qh. cqhp_temp is the current amount of qhs in the linked list.
+ */
+void set_qh(volatile uint32_t qh_index, volatile uint32_t qh_c, volatile uint32_t aoq, volatile uint32_t cq_index, volatile uint32_t cqhp_temp)
+{
+
+        volatile uint32_t d;
+        volatile uint32_t e;
+        if((qh_index <= current_queue_head_pointers) && (qh_index >= 1)) {
+                if(cqhp_temp > 20) {
+                        /* qh_index = chosen index. cq = where it is now. */
+                        if(qh_index >= cq_index) {
+                                Qh1 = Qh_middle_node;
+                                /* if an index is set to the middle of the list then maybe it should stay there if the value of current_pointes is high */
+                                for(uint32_t i = cq_index; i <= qh_index;i++)  {
+                                        if(i != qh_index)
+                                                Qh1 = Qh1->Horizontalpointer;
+                                }
+                        }
+                        else if(qh_index <= cq_index) {
+                                Qh1 = Qh_middle_node;
+                                for(uint32_t i = cq_index; i >= qh_index;i--) {
+                                        if(i != qh_index)
+                                                Qh1 = Qh1->p_back;
+                                }
+                        }
+                }
+                else {
+                        Qh1 = Qh_firstnode;
+                        for(uint32_t i = 1; i <= qh_index;i++) {
+                                if(i != qh_index)
+                                        Qh1 = Qh1->Horizontalpointer;
+                        }
+
+
+                }
+                qt_temp2 = Qh1->qhnext_qtd_ptr;
+                /* now set qts accordingly */
+                if (Qh1->amount_of_qts > aoq) { 
+                        d = Qh1->amount_of_qts;
+                        if(Qh1->amount_of_qts >= 800) {
+                                Qh1->qhnext_qtd_ptr = Qh1->qtd_middle;
+                                d = (volatile uint32_t)d/2;
+                        }
+                        for (uint32_t i = 0; i < d;i++) {
+                                /* goes to the last qt element in selected qh */
+                                Qh1->qhnext_qtd_ptr = Qh1->qhnext_qtd_ptr->next_qtd_ptr;
+
+                        }
+                        qt_temp = Qh1->qhnext_qtd_ptr;
+                        d = Qh1->amount_of_qts - aoq;
+                        for(uint32_t a = 1; a <= d ;a++) {
+
+                                Qh1->qhnext_qtd_ptr = Qh1->qhnext_qtd_ptr->qtd_back;
+                                free_mem_uint((uint32_t)qt_temp);
+                                qt_temp = Qh1->qhnext_qtd_ptr;
+
+                        }
+                        if((aoq >= 800)) {
+                               Qh1->qhnext_qtd_ptr = qt_temp2;
+                               e = (volatile uint32_t)aoq/2;
+                               for (uint32_t i = 0; i < e;i++) {
+                                       Qh1->qhnext_qtd_ptr = Qh1->qhnext_qtd_ptr->next_qtd_ptr;
+                               }
+                               Qh1->qtd_middle = Qh1->qhnext_qtd_ptr; 
+
+
+                       }
+                       Qh1->qhnext_qtd_ptr->next_qtd_ptr = 0;
+                       Qh1->qhnext_qtd_ptr->alternate_qtd_ptr = 0;
+                }
+                /* Qh1->amount_of_qts = aoq */
+                else if (Qh1->amount_of_qts < aoq) {
+                        d = Qh1->amount_of_qts;
+                        if(Qh1->amount_of_qts >= 800) {
+                                Qh1->qhnext_qtd_ptr = Qh1->qtd_middle;
+                                d = (volatile uint32_t)d/2;
+                        }
+                        for (uint32_t i = 0; i < d;i++) {
+                                /* again, goes to the last qt element in selected qh */
+                                Qh1->qhnext_qtd_ptr = Qh1->qhnext_qtd_ptr->next_qtd_ptr;
+                        }
+                        qt_temp = Qh1->qhnext_qtd_ptr;
+                        d = aoq - Qh1->amount_of_qts;
+                        for(uint32_t a = 1; a <= d ;a++) {
+
+                                Qh1->qhnext_qtd_ptr->next_qtd_ptr = (struct queue_transfer_descriptor*)kmem_4k_allocate();
+                                Qh1->qhnext_qtd_ptr->alternate_qtd_ptr = (struct queue_transfer_descriptor*)kmem_4k_allocate();
+                                zero_usbms_mem_6((uint32_t*)Qh1->qhnext_qtd_ptr->next_qtd_ptr);
+                                zero_usbms_mem_6((uint32_t*)Qh1->qhnext_qtd_ptr->alternate_qtd_ptr);
+                                Qh1->qhnext_qtd_ptr = Qh1->qhnext_qtd_ptr->next_qtd_ptr;
+                                Qh1->qhnext_qtd_ptr->qtd_back = qt_temp;
+                                Qh1->qhnext_qtd_ptr->next_qtd_ptr = 0;
+                                Qh1->qhnext_qtd_ptr->alternate_qtd_ptr = 0;
+                                Qh1->qhnext_qtd_ptr->transfer_info = 0;
+                                Qh1->qhnext_qtd_ptr->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
+                                Qh1->qhnext_qtd_ptr->buffer_ptr1 = (volatile uint8_t*)kmem_4k_allocate();
+                                Qh1->qhnext_qtd_ptr->buffer_ptr2 = (volatile uint8_t*)kmem_4k_allocate();
+                                Qh1->qhnext_qtd_ptr->buffer_ptr3 = (volatile uint8_t*)kmem_4k_allocate();
+                                Qh1->qhnext_qtd_ptr->buffer_ptr4 = (volatile uint8_t*)kmem_4k_allocate();
+                                Qh1->qhnext_qtd_ptr->qt_extended_buffers[0] = (volatile uint32_t)kmem_4k_allocate();
+                                Qh1->qhnext_qtd_ptr->qt_extended_buffers[1] = (volatile uint32_t)kmem_4k_allocate();
+                                Qh1->qhnext_qtd_ptr->qt_extended_buffers[2] = (volatile uint32_t)kmem_4k_allocate();
+                                Qh1->qhnext_qtd_ptr->qt_extended_buffers[3] = (volatile uint32_t)kmem_4k_allocate();
+                                Qh1->qhnext_qtd_ptr->qt_extended_buffers[4] = (volatile uint32_t)kmem_4k_allocate();
+                                Qh1->qhnext_qtd_ptr->zero = 0;
+                                qt_temp = Qh1->qhnext_qtd_ptr;
+
+
+                         }
                          if((aoq >= 800)) {
                                 Qh1->qhnext_qtd_ptr = qt_temp2;
                                 e = (volatile uint32_t)aoq/2;
                                 for (uint32_t i = 0; i < e;i++) {
                                         Qh1->qhnext_qtd_ptr = Qh1->qhnext_qtd_ptr->next_qtd_ptr;
-                                        
                                 }
-		                        Qh1->qtd_middle = Qh1->qhnext_qtd_ptr; 
+                                Qh1->qtd_middle = Qh1->qhnext_qtd_ptr;
 
 
                         }
-                    
-	            }
+                }
                 /* back to root */
-	            qt_temp = qt_temp2; 
-	            Qh1->qhnext_qtd_ptr = qt_temp2;
-	            Qh1->amount_of_qts = aoq;
+                qt_temp = qt_temp2; 
+                Qh1->qhnext_qtd_ptr = qt_temp2;
+                Qh1->amount_of_qts = aoq;
 
-	            Qh1->endpointch1 = qh_c;
+                Qh1->endpointch1 = qh_c;
                 Qh1->endpointch2 = 0;
                 Qh1->qhtransfer_info = 0;
                 Qh1->qhalternate_qtd_ptr = 0;
@@ -369,17 +361,17 @@ void set_qh(volatile uint32_t qh_index, volatile uint32_t qh_c, volatile uint32_
                 }
 
                 /* set Qh to either first node or middle node */
-	            if((current_queue_head_pointers > 20)) {
-			            Qh1 = Qh_middle_node;
-	            }
-	            else {
-			            Qh1 = Qh_firstnode;
-			            current_qh_index = 1;
-	            }
-	    }
+                if((current_queue_head_pointers > 20)) {
+                        Qh1 = Qh_middle_node;
+                }
+                else {
+                        Qh1 = Qh_firstnode;
+                        current_qh_index = 1;
+                }
+        }
 
-	    else
-		    print("\nError: Invalid Queue Head Index.");
+        else
+                print("\nError: Invalid Queue Head Index.");
 
 }
 
@@ -400,8 +392,8 @@ void set_qt(volatile uint32_t qh_index, volatile uint32_t cq_index,  volatile ui
         volatile uint32_t f = 0;
         volatile uint32_t e;
         /* will use the qtd_middle here */
-	    if((qh_index <= current_queue_head_pointers) && (qh_index >= 1)) {
-	            if(cqhp_temp > 20) {
+        if((qh_index <= current_queue_head_pointers) && (qh_index >= 1)) {
+                if(cqhp_temp > 20) {
                 /* qh_index = chosen index. cq = where it is now. */
 	                    if(qh_index >= cq_index) {
 			                    Qh1 = Qh_middle_node;
@@ -411,27 +403,27 @@ void set_qt(volatile uint32_t qh_index, volatile uint32_t cq_index,  volatile ui
 						                        Qh1 = Qh1->Horizontalpointer;
 			                    }
 	                    }
-	                    else if(qh_index <= cq_index) {
-			                    Qh1 = Qh_middle_node;
-			                    for(uint32_t i = cq_index; i >= qh_index;i--) {
-					                    if(i != qh_index)
-						                        Qh1 = Qh1->p_back;
-			                    }
+                        else if(qh_index <= cq_index) {
+                                Qh1 = Qh_middle_node;
+                                for(uint32_t i = cq_index; i >= qh_index;i--) {
+                                        if(i != qh_index)
+                                                Qh1 = Qh1->p_back;
+                                }
 
-	                    }
+                        }
 
                 }
-	            else {
-			            Qh1 = Qh_firstnode;
-			            for(uint32_t i = 1; i <= qh_index;i++) {
-					            if(i != qh_index)
-						                Qh1 = Qh1->Horizontalpointer;
-			            }
+                else {
+                        Qh1 = Qh_firstnode;
+                        for(uint32_t i = 1; i <= qh_index;i++) {
+                                if(i != qh_index)
+                                        Qh1 = Qh1->Horizontalpointer;
+                        }
 
-		        }
-	            qt_temp = Qh1->qhnext_qtd_ptr;
-	            /* now we are at the selected Qh */
-	            /* check if the amount of qts in the current Qh is equal or more than qt_index */
+                }
+                qt_temp = Qh1->qhnext_qtd_ptr;
+                /* now we are at the selected Qh */
+                /* check if the amount of qts in the current Qh is equal or more than qt_index */
                 if(Qh1->amount_of_qts >= 800) {
                         Qh1->qhnext_qtd_ptr = Qh1->qtd_middle;
                         /* middle set */
@@ -442,11 +434,11 @@ void set_qt(volatile uint32_t qh_index, volatile uint32_t cq_index,  volatile ui
                         d = qt_index;
                 }
 
-	            if((Qh1->amount_of_qts >= qt_index) && (qt_index >= 1)) {
-			            print("\namount of qts in qh: ");
+                if((Qh1->amount_of_qts >= qt_index) && (qt_index >= 1)) {
+                        print("\namount of qts in qh: ");
                         printi((uint32_t)Qh1->amount_of_qts);
                         if (f == 0) {
-			                    for(uint32_t a = 0; a < d; a++) {
+                                for(uint32_t a = 0; a < d; a++) {
 					                    if(a != qt_index) {
 							                    Qh1->qhnext_qtd_ptr = Qh1->qhnext_qtd_ptr->next_qtd_ptr;
 					                    }
