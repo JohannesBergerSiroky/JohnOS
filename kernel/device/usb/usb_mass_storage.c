@@ -1655,7 +1655,7 @@ uint8_t sequence_1()
                                 stop_ehci();
                                 reset_ehci();
                         }
-					    else {
+                        else {
                                 /* request sense */
                                 asm("cli");
                                 usbms_extra_data[0] = USB_BULKSTORAGE_SCSI_CTL;
