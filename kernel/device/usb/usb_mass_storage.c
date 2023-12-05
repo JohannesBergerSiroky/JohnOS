@@ -115,7 +115,7 @@ struct inquiry* set_inquiry()
         inq2->zero_8 = (volatile uint8_t)0x00;
         inq2->zero_9 = (volatile uint8_t)0x00;
         inq2->zero_10 = (volatile uint8_t)0x00;
-	    return inq2;
+        return inq2;
 }
 
 /* Sets the values correctly in a structure so that it later can
@@ -204,7 +204,7 @@ struct read_capacity_10* set_read_capacity()
         read_capacity->zero_4 = 0x00;
         read_capacity->zero_5 = 0x00;
         read_capacity->zero_6 = 0x00;
-	    return read_capacity;
+        return read_capacity;
 }
 
 /* Sets the values correctly in a structure so that it later can
@@ -246,7 +246,7 @@ struct read_capacity_16* set_read_capacity_16()
         r_capacity_16->allocation_length_low2 = 0x00;
         r_capacity_16->allocation_length_high = 0x08;
         r_capacity_16->pmi = 0x00;
-	    return r_capacity_16;
+        return r_capacity_16;
 }
 
 /* Sets the values correctly in a structure so that it later can
@@ -472,7 +472,7 @@ struct test_unit_ready* set_tur()
         tur->zero_8 = 0x00;
         tur->zero_9 = 0x00;
         tur->zero_10 = 0x00;
-	    return tur;
+        return tur;
 }
 
 /* Sets the values correctly in a structure so that it later can
@@ -516,7 +516,7 @@ struct identify* set_identify()
         idtf->zero_8 = 0x00;
         idtf->zero_9 = 0x00;
         idtf->zero_10 = 0x00;
-	    return idtf;
+        return idtf;
 }
 
 /* Prepares a device for a bulk transfer. */
@@ -529,14 +529,14 @@ volatile uint8_t* prepare_usb_storage_bulk_transfer(uint8_t transfer_type, uint8
         volatile uint8_t* d_area;
         volatile uint8_t cbw_length_low0 = (volatile uint8_t)(length % (uint32_t)256);
         memsetbyte((uint8_t*)usd, 0x00, 64);
-	    usd->signature_low = 0x55;
-	    usd->signature_low2 = 0x53;
-	    usd->signature_low3 = 0x42;
-	    usd->signature_high = 0x43;
-	    usd->tag_low = 0xbb;
-	    usd->tag_low2 = 0xcc;
-	    usd->tag_low3 = 0xbb;
-	    usd->tag_high = 0xdd;
+        usd->signature_low = 0x55;
+        usd->signature_low2 = 0x53;
+        usd->signature_low3 = 0x42;
+        usd->signature_high = 0x43;
+        usd->tag_low = 0xbb;
+        usd->tag_low2 = 0xcc;
+        usd->tag_low3 = 0xbb;
+        usd->tag_high = 0xdd;
         usd->data_transfer_length_low3 = 0x00;
         usd->data_transfer_length_high = 0x00;
 
@@ -567,9 +567,9 @@ volatile uint8_t* prepare_usb_storage_bulk_transfer(uint8_t transfer_type, uint8
 
                 usd->data_transfer_length_low = cbw_length_low0;
                 usd->data_transfer_length_low2 = cbw_length_low1;
-	            usd->extra_data[3] = lba_high;
-	            usd->extra_data[4] = lba_low; 
-	            usd->extra_data[7] = cbwcw_length_read10;
+                usd->extra_data[3] = lba_high;
+                usd->extra_data[4] = lba_low; 
+                usd->extra_data[7] = cbwcw_length_read10;
 
 
         }
@@ -610,7 +610,7 @@ volatile uint8_t* prepare_usb_storage_bulk_transfer(uint8_t transfer_type, uint8
                 print("\nUSB Mass Storage: unexpected value of usd_extra_data[0]. Halting.");
                 stop_ehci();
                 asm("hlt");
-            }
+        }
 
         if(hci_in_use == HCI_EHCI) {
 
@@ -634,27 +634,27 @@ volatile uint8_t* prepare_usb_storage_bulk_transfer(uint8_t transfer_type, uint8
 /* Extracts the lba low data from the block value. */
 uint8_t select_lba_low(uint32_t l)
 {
-	    return (uint8_t)(l % 255);
+        return (uint8_t)(l % 255);
 }
 
 /* Extracts the lba low high data from the block value. */
 uint8_t select_lba_low2(uint32_t l)
 {
-	    uint8_t a = 0;
+        uint8_t a = 0;
 
-	    if (l > 255)
-		        a = (uint8_t)(l/((uint32_t)255));
+        if (l > 255)
+                a = (uint8_t)(l/((uint32_t)255));
 
-	    return a;
+        return a;
 }
 
 /* Extracts the lba high data from the block value. */
 uint8_t select_lba_high(uint32_t l)
 {
-	    uint8_t a = 0;
-	    while((l /= 256) > 0) 
-		        a++;		
-	    return a;
+        uint8_t a = 0;
+        while((l /= 256) > 0) 
+                a++;		
+        return a;
 }
 
 /* Prepares for a get max lun command. */
@@ -946,9 +946,9 @@ uint8_t set_addr()
          */
          
         if ((volatile uint32_t)(qtd30->transfer_info & (volatile uint32_t)0x000000ff) < (volatile uint32_t)0x00000002)
-		        addr_success++;
+                addr_success++;
         if ((volatile uint32_t)(qtd31->transfer_info & (volatile uint32_t)0x000000ff) < (volatile uint32_t)0x00000002)
-		        addr_success++; 
+                addr_success++; 
         
 
         QHhead19->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead19 | EHCI_QH_TYPE_QH);
@@ -1027,9 +1027,9 @@ uint8_t set_config()
          
 
         if ((volatile uint32_t)(qtd30->transfer_info & (volatile uint32_t)0x000000ff) < (volatile uint32_t)0x00000002)
-		        addr_success++;
+                addr_success++;
         if ((volatile uint32_t)(qtd31->transfer_info & (volatile uint32_t)0x000000ff) < (volatile uint32_t)0x00000002)
-		        addr_success++; 
+                addr_success++; 
 
         // Commented code: zero_usbms_mem_4(qtd31->buffer_ptr2);
 
@@ -1052,8 +1052,8 @@ uint8_t set_config()
         QHhead21->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead19 | EHCI_QH_TYPE_QH);
         QHhead22->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead19 | EHCI_QH_TYPE_QH);
         // Commented code: QHhead19->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead21 | EHCI_QH_TYPE_QH);
-	    qtd30->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
-	    qtd31->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
+        qtd30->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
+        qtd31->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
 
         irq_uninstall_handler(0);
         asm("cli");
@@ -1107,7 +1107,7 @@ uint8_t confirm_data()
 
 
         qtd31->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(1) | EHCI_QTD_BYTES_TTRANSFER(1) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(1) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_IN_TOKEN | EHCI_QTD_SET_ACTIVE));
-           qtd32->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(1) | EHCI_QTD_BYTES_TTRANSFER(0) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(2) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_OUT_TOKEN | EHCI_QTD_SET_ACTIVE));
+        qtd32->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(1) | EHCI_QTD_BYTES_TTRANSFER(0) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(2) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_OUT_TOKEN | EHCI_QTD_SET_ACTIVE));
 
 
         qtd30->buffer_ptr0 = (volatile uint8_t*)device_descriptor;;
@@ -1131,11 +1131,11 @@ uint8_t confirm_data()
          
         
         if ((volatile uint32_t)(qtd30->transfer_info & (volatile uint32_t)0x000000ff) < (volatile uint32_t)0x00000002)
-		        addr_success++;
+                addr_success++;
         if ((volatile uint32_t)(qtd31->transfer_info & (volatile uint32_t)0x000000ff) < (volatile uint32_t)0x00000002)
-		        addr_success++; 
+                addr_success++; 
         if ((volatile uint32_t)(qtd32->transfer_info & (volatile uint32_t)0x000000ff) < (volatile uint32_t)0x00000002)
-		        addr_success++;
+                addr_success++;
 
 
         /*  Commented code: print("\naddress success value is now: ");
@@ -1146,7 +1146,7 @@ uint8_t confirm_data()
         temp = (uint32_t)device_descriptor;
         free_mem_uint(temp);
 
-         print("\nthe value of the configuration: ");
+        print("\nthe value of the configuration: ");
         print_hex_byte((uint8_t)(*(qtd31->buffer_ptr1)));
         print("\n"); 
 
@@ -1160,8 +1160,8 @@ uint8_t confirm_data()
         QHhead21->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead19 | EHCI_QH_TYPE_QH);
         QHhead22->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead19 | EHCI_QH_TYPE_QH);
         // Commented code: QHhead19->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead21 | EHCI_QH_TYPE_QH);
-	    qtd30->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
-	    qtd31->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
+        qtd30->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
+        qtd31->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
 
 	        
         irq_uninstall_handler(0);
@@ -1175,17 +1175,16 @@ uint8_t confirm_data()
 volatile uint8_t* ehci_transfer_bulkstorage_data(struct usb_storage_data* data)
 {
 
-	    timer_install();
-	    asm("sti");
+        timer_install();
+        asm("sti");
         volatile uint32_t temp;
-	    volatile uint8_t* pointr;
+        volatile uint8_t* pointr;
 
         ehci_data_toggle1 ^= 1;
         ehci_data_toggle2 ^= 1; 
-        
 
-	    volatile uint32_t data_toggle_3 = 0;
-	    volatile uint32_t addr_success = 0;
+        volatile uint32_t data_toggle_3 = 0;
+        volatile uint32_t addr_success = 0;
 
         data_toggle_3 = ehci_data_toggle2 ^ 1;
 
@@ -1225,7 +1224,7 @@ volatile uint8_t* ehci_transfer_bulkstorage_data(struct usb_storage_data* data)
         uint32_t btt = (data->data_transfer_length_low2 * 256) + (data->data_transfer_length_low);
 
 
-	    qtd30->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(ehci_data_toggle1) | EHCI_QTD_BYTES_TTRANSFER(31) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(0) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_OUT_TOKEN | EHCI_QTD_SET_ACTIVE));
+        qtd30->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(ehci_data_toggle1) | EHCI_QTD_BYTES_TTRANSFER(31) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(0) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_OUT_TOKEN | EHCI_QTD_SET_ACTIVE));
         if (data->operation_code != 0) {
 	            qtd31->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(ehci_data_toggle2) | EHCI_QTD_BYTES_TTRANSFER(btt) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(1) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_IN_TOKEN | EHCI_QTD_SET_ACTIVE));
                 // Commented code: QHhead22->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd31;
@@ -1234,90 +1233,88 @@ volatile uint8_t* ehci_transfer_bulkstorage_data(struct usb_storage_data* data)
         if (data->operation_code == 0) {
 
                 QHhead22->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd32;
-	            qtd32->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(ehci_data_toggle2) | EHCI_QTD_BYTES_TTRANSFER(13) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(1) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_IN_TOKEN | EHCI_QTD_SET_ACTIVE));
+                qtd32->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(ehci_data_toggle2) | EHCI_QTD_BYTES_TTRANSFER(13) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(1) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_IN_TOKEN | EHCI_QTD_SET_ACTIVE));
 
         }
         else {
 
-	            QHhead22->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd31;
+                QHhead22->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd31;
         }
 
-	    QHhead21->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd30;
+        QHhead21->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd30;
         QHhead22->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd31;
         
         QHhead19->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead21 | EHCI_QH_TYPE_QH);
 
-	    kernel_delay_100(8);
+        kernel_delay_100(8);
         /* Commented code: QHhead19->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead19 | EHCI_QH_TYPE_QH);
         QHhead22->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd31;
         QHhead19->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead22 | EHCI_QH_TYPE_QH); */
-	    // Commented code: timer_ticks = 0;
+        // Commented code: timer_ticks = 0;
         QHhead19->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead22 | EHCI_QH_TYPE_QH);
-	    kernel_delay_100(8);
+        kernel_delay_100(8);
         QHhead19->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead19 | EHCI_QH_TYPE_QH);
 
         /* Now either a data token in has been sent or the status data token */
-	    if ((qtd30->transfer_info & (volatile uint32_t)0x000000ff) < 2)
-			    addr_success++;
+        if ((qtd30->transfer_info & (volatile uint32_t)0x000000ff) < 2)
+                addr_success++;
         if (data->operation_code == 0) {
-	            if (((qtd32->transfer_info & (volatile uint32_t)0x000000ff) < 2))
-			            addr_success++;
+                if (((qtd32->transfer_info & (volatile uint32_t)0x000000ff) < 2))
+                        addr_success++;
         }
         else {
                 if (((qtd31->transfer_info & (volatile uint32_t)0x000000ff) < 2))
-			            addr_success++;
-	            qtd32->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(data_toggle_3) | EHCI_QTD_BYTES_TTRANSFER(13) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(2) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_IN_TOKEN | EHCI_QTD_SET_ACTIVE));
+                        addr_success++;
+                qtd32->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(data_toggle_3) | EHCI_QTD_BYTES_TTRANSFER(13) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(2) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_IN_TOKEN | EHCI_QTD_SET_ACTIVE));
                 /* Commented code: qtd31->next_qtd_ptr = (struct queue_transfer_descriptor*)qtd32; */
                 QHhead22->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd32;
                 QHhead19->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead22 | EHCI_QH_TYPE_QH);
-	            kernel_delay_100(8);
+                kernel_delay_100(8);
 
 
-	            if ((qtd32->transfer_info & (volatile uint32_t)0x000000ff) < 2)
-			            addr_success++;
-                
+                if ((qtd32->transfer_info & (volatile uint32_t)0x000000ff) < 2)
+                        addr_success++;
         }
 
         timer_phase(18);
 
         if (ehci_64bit_e == 0) {
-	            pointr = qtd31->buffer_ptr1;
+                pointr = qtd31->buffer_ptr1;
         }
         else {
                 pointr = (volatile uint8_t*)(qtd31->qt_extended_buffers[1]);
         }
         /* Commented code: if (data->operation_code == USB_BULKSTORAGE_SCSI_READ10) {
 
-	            print("\n\nTrying to read the cbw data:\n");
-	            for (uint32_t read = 0;read < 32;read++) {
-		                if((read % 22) == 0)
-			                    print("\n");
-		                print(" ");
-		                print_hex_byte((uint8_t)(*(pointr + read)));
-	            }
+                print("\n\nTrying to read the cbw data:\n");
+                for (uint32_t read = 0;read < 32;read++) {
+                        if((read % 22) == 0)
+                                print("\n");
+                        print(" ");
+                        print_hex_byte((uint8_t)(*(pointr + read)));
+                }
 
-	            pointr = qtd31->buffer_ptr1;
-	            print("\n\nTrying to read the returned data:\n");
-	            for (uint32_t read = 0;read < btt;read++) {
-		                if((read % 24) == 0)
-			                    print("\n");
-		                print(" ");
-		                print_hex_byte((uint8_t)(*(pointr + read)));
-	            }
+                pointr = qtd31->buffer_ptr1;
+                print("\n\nTrying to read the returned data:\n");
+                for (uint32_t read = 0;read < btt;read++) {
+                        if((read % 24) == 0)
+                                print("\n");
+                        print(" ");
+                        print_hex_byte((uint8_t)(*(pointr + read)));
+                }
 
-	            pointr = qtd32->buffer_ptr2;
-	            print("\n\nTrying to read the csw data:\n");
-	            for (uint32_t read = 0;read < 13;read++) {
-		                if((read % 24) == 0)
-			                    print("\n");
-		                print(" ");
-		                print_hex_byte((uint8_t)(*(pointr + read)));
-	            }
+                pointr = qtd32->buffer_ptr2;
+                print("\n\nTrying to read the csw data:\n");
+                for (uint32_t read = 0;read < 13;read++) {
+                        if((read % 24) == 0)
+                                print("\n");
+                        print(" ");
+                        print_hex_byte((uint8_t)(*(pointr + read)));
+                }
 
 
         } */
 
-        
 
         /* Commented code: print("\naddr success for inquiry: ");
         printi((uint32_t)addr_success);
@@ -1328,27 +1325,24 @@ volatile uint8_t* ehci_transfer_bulkstorage_data(struct usb_storage_data* data)
         QHhead19->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead19 | EHCI_QH_TYPE_QH);
         // Commented code: QHhead22->Horizontalpointer = (struct queue_head*)((uint32_t)QHhead21 | EHCI_QH_TYPE_QH);
 
-	    if (addr_success == 3 || ((data->operation_code == 0) && (addr_success == 2)) ) {
-
-			    irq_uninstall_handler(0);
-			    asm("cli");
+        if (addr_success == 3 || ((data->operation_code == 0) && (addr_success == 2)) ) {
+                irq_uninstall_handler(0);
+                asm("cli");
                 if (data->operation_code != 0) {
-			            return pointr;
+                        return pointr;
                 }
                 else {
                         return 0;
-                
                 }
-	    }
-	    else {
+        }
+        else {
 
+                irq_uninstall_handler(0);
+                asm("cli");
 
-			    irq_uninstall_handler(0);
-			    asm("cli");
+        }
 
-	    }
-
-	    return ((volatile uint8_t*)0x600000);
+        return ((volatile uint8_t*)0x600000);
 
 }
 
