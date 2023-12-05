@@ -1352,222 +1352,214 @@ volatile uint8_t* ehci_transfer_bulkstorage_data(struct usb_storage_data* data)
 uint8_t transfer_data_10(struct cbw_read_10* cbw_data_10, volatile uint32_t data_toggle_1, volatile uint32_t data_toggle_2)
 {
 
-	    timer_install();
-	    asm("sti");
+        timer_install();
+        asm("sti");
 
-	    volatile uint8_t* pointr;
-	    volatile uint8_t* pointr2;
+        volatile uint8_t* pointr;
+        volatile uint8_t* pointr2;
 
-	    volatile uint8_t* pointr3;
-	    volatile uint8_t* pointr4;
+        volatile uint8_t* pointr3;
+        volatile uint8_t* pointr4;
 
-	    uint32_t temp1;
+        uint32_t temp1;
 
-	    //uint32_t async_success;
-	    uint8_t addr_success = 0;
-	    volatile uint32_t data_toggle_3 = 0;
-	    if (data_toggle_2 == 1)
-		        data_toggle_3 = 0;
-	    else if (data_toggle_2 == 0)
-		        data_toggle_3 = 1;
-
-
-	    struct cbw_read_10* cbw_1 = cbw_data_10;
-	    pointr = (volatile uint8_t*) cbw_1;
-
-	    qtd30->buffer_ptr1 = pointr;
-
-	    qtd30->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
-	    pointr2 = qtd30->buffer_ptr0;
-
-	    qtd31->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
-	    pointr3 = qtd31->buffer_ptr0;
-
-	    qtd32->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
-	    pointr4 = qtd32->buffer_ptr0;
-
-	    qtd31->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
-	    qtd32->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
-	    qtd30->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
-
-	    qtd30->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(data_toggle_1) | EHCI_QTD_BYTES_TTRANSFER(31) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(1) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_OUT_TOKEN | EHCI_QTD_SET_ACTIVE));
-	    qtd31->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(data_toggle_2) | EHCI_QTD_BYTES_TTRANSFER(512) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(2) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_IN_TOKEN | EHCI_QTD_SET_ACTIVE)); 
-	    qtd32->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(data_toggle_3) | EHCI_QTD_BYTES_TTRANSFER(13) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(3) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_IN_TOKEN | EHCI_QTD_SET_ACTIVE));
-
-	    QHhead22->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd31;
-	    QHhead21->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd30;
-
-	    timer_ticks = 0;
-	    while(timer_ticks < 3);
-
-	    if ((qtd30->transfer_info & (volatile uint32_t)0x000000ff) == 0)
-			    addr_success++;
-	    if ((qtd31->transfer_info & (volatile uint32_t)0x000000ff) == 0)
-			    addr_success++;
-
-	    print("\nReading qtd32 transfer info: ");
-	    print_hex((uint32_t)qtd30->transfer_info);
-
-	    print("\nReading qtd32 transfer info: ");
-	    print_hex((uint32_t)qtd31->transfer_info);
-
-	    QHhead22->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd32;
-
-	    timer_ticks = 0;
-	    while(timer_ticks < 2);
-
-	    if ((qtd32->transfer_info & (volatile uint32_t)0x000000ff) == 0)
-			    addr_success++;
-
-	    print("\nReading qtd32 transfer info: ");
-	    print_hex((uint32_t)qtd32->transfer_info);
+        // Commented code: uint32_t async_success;
+        uint8_t addr_success = 0;
+        volatile uint32_t data_toggle_3 = 0;
+        if (data_toggle_2 == 1)
+                data_toggle_3 = 0;
+        else if (data_toggle_2 == 0)
+                data_toggle_3 = 1;
 
 
-	    pointr = qtd30->buffer_ptr1;
-	    print("\n\nTrying to read the cbw data:\n");
-	    for (uint16_t read = 0;read < 32;read++) {
-		        if((read % 22) == 0)
-			            print("\n");
-		        print(" ");
-		        print_hex_byte((uint8_t)*(pointr + read));
+        struct cbw_read_10* cbw_1 = cbw_data_10;
+        pointr = (volatile uint8_t*) cbw_1;
+
+        qtd30->buffer_ptr1 = pointr;
+
+        qtd30->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
+        pointr2 = qtd30->buffer_ptr0;
+
+        qtd31->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
+        pointr3 = qtd31->buffer_ptr0;
+        qtd32->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
+        pointr4 = qtd32->buffer_ptr0;
+
+        qtd31->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
+        qtd32->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
+        qtd30->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
+
+        qtd30->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(data_toggle_1) | EHCI_QTD_BYTES_TTRANSFER(31) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(1) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_OUT_TOKEN | EHCI_QTD_SET_ACTIVE));
+        qtd31->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(data_toggle_2) | EHCI_QTD_BYTES_TTRANSFER(512) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(2) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_IN_TOKEN | EHCI_QTD_SET_ACTIVE)); 
+        qtd32->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(data_toggle_3) | EHCI_QTD_BYTES_TTRANSFER(13) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(3) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_IN_TOKEN | EHCI_QTD_SET_ACTIVE));
+
+        QHhead22->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd31;
+        QHhead21->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd30;
+
+        timer_ticks = 0;
+        while(timer_ticks < 3);
+
+        if ((qtd30->transfer_info & (volatile uint32_t)0x000000ff) == 0)
+                addr_success++;
+        if ((qtd31->transfer_info & (volatile uint32_t)0x000000ff) == 0)
+                addr_success++;
+
+        print("\nReading qtd32 transfer info: ");
+        print_hex((uint32_t)qtd30->transfer_info);
+
+        print("\nReading qtd32 transfer info: ");
+        print_hex((uint32_t)qtd31->transfer_info);
+
+        QHhead22->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd32;
+
+        timer_ticks = 0;
+        while(timer_ticks < 2);
+
+        if ((qtd32->transfer_info & (volatile uint32_t)0x000000ff) == 0)
+		        addr_success++;
+
+        print("\nReading qtd32 transfer info: ");
+        print_hex((uint32_t)qtd32->transfer_info);
+
+
+        pointr = qtd30->buffer_ptr1;
+        print("\n\nTrying to read the cbw data:\n");
+        for (uint16_t read = 0;read < 32;read++) {
+                if((read % 22) == 0)
+                        print("\n");
+                print(" ");
+                print_hex_byte((uint8_t)*(pointr + read));
+        }
+
+        pointr = qtd31->buffer_ptr2;
+        print("\n\nTrying to read the returned data:\n");
+        for (uint16_t read = 0;read < 512;read++) {
+                if((read % 24) == 0)
+                        print("\n");
+                print(" ");
+               print_hex_byte((uint8_t)*(pointr + read));
 	    }
 
-	    pointr = qtd31->buffer_ptr2;
-	    print("\n\nTrying to read the returned data:\n");
-	    for (uint16_t read = 0;read < 512;read++) {
-		        if((read % 24) == 0)
-			            print("\n");
-		        print(" ");
-		        print_hex_byte((uint8_t)*(pointr + read));
-	    }
-
-	    pointr = qtd32->buffer_ptr3;
-	    print("\n\nTrying to read the csw data:\n");
-	    for (uint16_t read = 0;read < 13;read++) {
-		        if((read % 24) == 0)
-			            print("\n");
-		        print(" ");
-		        print_hex_byte((uint8_t)*(pointr + read));
-	    }
+        pointr = qtd32->buffer_ptr3;
+        print("\n\nTrying to read the csw data:\n");
+        for (uint16_t read = 0;read < 13;read++) {
+                if((read % 24) == 0)
+                        print("\n");
+                print(" ");
+                print_hex_byte((uint8_t)*(pointr + read));
+        }
 
 
-	    temp1 = 0x00000000;
-	    temp1 = (uint32_t)pointr2;
-	    free_mem_uint(temp1);
+        temp1 = 0x00000000;
+        temp1 = (uint32_t)pointr2;
+        free_mem_uint(temp1);
 
-	    temp1 = 0x00000000;
-	    temp1 = (uint32_t)pointr3;
-	    free_mem_uint(temp1);
+        temp1 = 0x00000000;
+        temp1 = (uint32_t)pointr3;
+        free_mem_uint(temp1);
 
-	    temp1 = 0x00000000;
-	    temp1 = (uint32_t)pointr4;
-	    free_mem_uint(temp1);
-	    irq_uninstall_handler(0);
-	    asm("cli");
-	    return addr_success;
-
+        temp1 = 0x00000000;
+        temp1 = (uint32_t)pointr4;
+        free_mem_uint(temp1);
+        irq_uninstall_handler(0);
+        asm("cli");
+        return addr_success;
 }
 
 /* Attempts to do a write 10 operation using the EHC. */
 uint8_t transfer_data_10_w(struct cbw_write_10* cbw_data_w_10, volatile uint32_t data_toggle_1, volatile uint32_t data_toggle_2, volatile uint8_t* transfer_buffer)
 {
 
-	    timer_install();
-	    asm("sti");
-	    volatile uint8_t* pointr;
-	    volatile uint8_t* transfer_pointr;
-	    volatile uint8_t* pointr2;
-	    volatile uint8_t* pointr3;
-	    volatile uint8_t* pointr4;
+        timer_install();
+        asm("sti");
+        volatile uint8_t* pointr;
+        volatile uint8_t* transfer_pointr;
+        volatile uint8_t* pointr2;
+        volatile uint8_t* pointr3;
+        volatile uint8_t* pointr4;
 
 
-	    uint32_t temp1;
-	    volatile uint32_t addr_success = 0;
-	    volatile uint32_t data_toggle_3 = 0;
-	    if (data_toggle_1 == 1)
-		        data_toggle_3 = 0;
-	    else if (data_toggle_1 == 0)
-		        data_toggle_3 = 1;
+        uint32_t temp1;
+        volatile uint32_t addr_success = 0;
+        volatile uint32_t data_toggle_3 = 0;
+        if (data_toggle_1 == 1)
+                data_toggle_3 = 0;
+        else if (data_toggle_1 == 0)
+                data_toggle_3 = 1;
+        struct cbw_write_10* cbw_1 = cbw_data_w_10;
+        pointr = (volatile uint8_t*) cbw_1;
 
-	    struct cbw_write_10* cbw_1 = cbw_data_w_10;
-	    pointr = (volatile uint8_t*) cbw_1;
+        transfer_pointr = transfer_buffer;
+        qtd30->buffer_ptr1 = pointr;
+        qtd31->buffer_ptr2 = transfer_pointr;
+        qtd30->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
+        pointr2 = qtd30->buffer_ptr0;
 
-	    transfer_pointr = transfer_buffer;
+        qtd31->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
+        pointr3 = qtd31->buffer_ptr0;
+        qtd32->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
+        pointr4 = qtd32->buffer_ptr0;
 
-	    qtd30->buffer_ptr1 = pointr;
-
-	    qtd31->buffer_ptr2 = transfer_pointr;
-
-	    qtd30->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
-	    pointr2 = qtd30->buffer_ptr0;
-
-	    qtd31->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
-	    pointr3 = qtd31->buffer_ptr0;
-
-	    qtd32->buffer_ptr0 = (volatile uint8_t*)kmem_4k_allocate();
-	    pointr4 = qtd32->buffer_ptr0;
-
-	    qtd32->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
-	    qtd31->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
-	    qtd30->next_qtd_ptr = (struct queue_transfer_descriptor*)qtd31;
-	    qtd30->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(data_toggle_1) | EHCI_QTD_BYTES_TTRANSFER(31) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(1) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_OUT_TOKEN | EHCI_QTD_SET_ACTIVE));
-	    qtd31->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(data_toggle_2) | EHCI_QTD_BYTES_TTRANSFER(512) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(2) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_OUT_TOKEN | EHCI_QTD_SET_ACTIVE)); 
+        qtd32->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
+        qtd31->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
+        qtd30->next_qtd_ptr = (struct queue_transfer_descriptor*)qtd31;
+        qtd30->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(data_toggle_1) | EHCI_QTD_BYTES_TTRANSFER(31) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(1) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_OUT_TOKEN | EHCI_QTD_SET_ACTIVE));
+        qtd31->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(data_toggle_2) | EHCI_QTD_BYTES_TTRANSFER(512) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(2) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_OUT_TOKEN | EHCI_QTD_SET_ACTIVE));
 
 
-	    QHhead21->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd30;
+        QHhead21->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd30;
+        timer_ticks = 0;
+        while(timer_ticks < 3);
 
-	    timer_ticks = 0;
-	    while(timer_ticks < 3);
+        print("\nReading qtd32 transfer info: ");
+        print_hex((uint32_t)qtd30->transfer_info);
 
-	    print("\nReading qtd32 transfer info: ");
-	    print_hex((uint32_t)qtd30->transfer_info);
+        print("\nReading qtd31 transfer info: ");
+        print_hex((uint32_t)qtd31->transfer_info);
 
-	    print("\nReading qtd31 transfer info: ");
-	    print_hex((uint32_t)qtd31->transfer_info);
-
-	    if ((qtd30->transfer_info & (volatile uint32_t)0x000000ff) == 0)
-			    addr_success++;
+        if ((qtd30->transfer_info & (volatile uint32_t)0x000000ff) == 0)
+                addr_success++;
 
 
-	    if ((qtd31->transfer_info & (volatile uint32_t)0x000000ff) == 0)
-			    addr_success++;
+        if ((qtd31->transfer_info & (volatile uint32_t)0x000000ff) == 0)
+                addr_success++;
 
-	    qtd32->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(data_toggle_3) | EHCI_QTD_BYTES_TTRANSFER(13) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(3) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_IN_TOKEN | EHCI_QTD_SET_ACTIVE));
-	    QHhead22->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd32;
+        qtd32->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(data_toggle_3) | EHCI_QTD_BYTES_TTRANSFER(13) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(3) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_IN_TOKEN | EHCI_QTD_SET_ACTIVE));
+        QHhead22->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd32;
 
-	    timer_ticks = 0;
-	    while(timer_ticks < 2);
+        timer_ticks = 0;
+        while(timer_ticks < 2);
 
-	    if ((qtd32->transfer_info & (volatile uint32_t)0x000000ff) == 0)
-			    addr_success++;
+        if ((qtd32->transfer_info & (volatile uint32_t)0x000000ff) == 0)
+                addr_success++;
 
-	    print("\nReading qtd32 transfer info: ");
-	    print_hex((uint32_t)qtd32->transfer_info);
+        print("\nReading qtd32 transfer info: ");
+        print_hex((uint32_t)qtd32->transfer_info);
 
-	    pointr = qtd32->buffer_ptr3;
-	    print("\n\nTrying to read the csw data:\n");
-	    for (uint16_t read = 0;read < 13;read++) {
-		        if((read % 24) == 0)
-			            print("\n");
-		        print(" ");
-		        print_hex_byte((uint8_t)*(pointr + read));
-	    }
+        pointr = qtd32->buffer_ptr3;
+        print("\n\nTrying to read the csw data:\n");
+        for (uint16_t read = 0;read < 13;read++) {
+                if((read % 24) == 0)
+                print("\n");
+                print(" ");
+                print_hex_byte((uint8_t)*(pointr + read));
+        }
 
-	    temp1 = 0x00000000;
-	    temp1 = (uint32_t)pointr2;
-	    free_mem_uint(temp1);
+        temp1 = 0x00000000;
+        temp1 = (uint32_t)pointr2;
+        free_mem_uint(temp1);
 
-	    temp1 = 0x00000000;
-	    temp1 = (uint32_t)pointr3;
-	    free_mem_uint(temp1);
+        temp1 = 0x00000000;
+        temp1 = (uint32_t)pointr3;
+        free_mem_uint(temp1);
 
-	    temp1 = 0x00000000;
-	    temp1 = (uint32_t)pointr4;
-	    free_mem_uint(temp1);
+        temp1 = 0x00000000;
+        temp1 = (uint32_t)pointr4;
+        free_mem_uint(temp1);
 
-	    irq_uninstall_handler(0);
-	    asm("cli");
-	    return addr_success;
+        irq_uninstall_handler(0);
+        asm("cli");
+        return addr_success;
 
 }
 
@@ -1575,47 +1567,47 @@ uint8_t transfer_data_10_w(struct cbw_write_10* cbw_data_w_10, volatile uint32_t
 uint8_t test_unit_ready(struct test_unit_ready* t_unit_r, uint32_t data_toggle_1, uint32_t data_toggle_2)
 {
 
-	    timer_install();
-	    asm("sti");
-	    volatile uint8_t* pointr;
-	    uint8_t addr_success = 0;
+        timer_install();
+        asm("sti");
+        volatile uint8_t* pointr;
+        uint8_t addr_success = 0;
 
 
-	    struct test_unit_ready* cbw_1 = t_unit_r;
-	    pointr = (volatile uint8_t*)cbw_1;
+        struct test_unit_ready* cbw_1 = t_unit_r;
+        pointr = (volatile uint8_t*)cbw_1;
 
-	    zero_usbms_mem_4(qtd30->buffer_ptr0);
-	    zero_usbms_mem_4(qtd31->buffer_ptr0);
-	    zero_usbms_mem_4(qtd30->buffer_ptr1);
-	    zero_usbms_mem_4(qtd31->buffer_ptr2);
-	    qtd30->buffer_ptr1 = pointr;
-
-
-	    qtd30->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
-	    qtd31->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
-	    qtd30->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(data_toggle_1) | EHCI_QTD_BYTES_TTRANSFER(31) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(1) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_OUT_TOKEN | EHCI_QTD_SET_ACTIVE));
-	    qtd31->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(data_toggle_2) | EHCI_QTD_BYTES_TTRANSFER(13) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(2) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_IN_TOKEN | EHCI_QTD_SET_ACTIVE)); 
-
-	    QHhead22->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd31;
-	    QHhead21->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd30;
-
-	    timer_ticks = 0;
-	    while(timer_ticks < 1);
+        zero_usbms_mem_4(qtd30->buffer_ptr0);
+        zero_usbms_mem_4(qtd31->buffer_ptr0);
+        zero_usbms_mem_4(qtd30->buffer_ptr1);
+        zero_usbms_mem_4(qtd31->buffer_ptr2);
+        qtd30->buffer_ptr1 = pointr;
 
 
-	    if ((qtd30->transfer_info & 0x000000ff) == 0)
-			    addr_success++;
-	    if ((qtd31->transfer_info & 0x000000ff) == 0)
-			    addr_success++;
+        qtd30->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
+        qtd31->next_qtd_ptr = (struct queue_transfer_descriptor*)1;
+        qtd30->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(data_toggle_1) | EHCI_QTD_BYTES_TTRANSFER(31) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(1) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_OUT_TOKEN | EHCI_QTD_SET_ACTIVE));
+        qtd31->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(data_toggle_2) | EHCI_QTD_BYTES_TTRANSFER(13) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(2) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_IN_TOKEN | EHCI_QTD_SET_ACTIVE));
 
-	    if (get_reclamation_bit())
-		        print("\n\nWarning: Reclamation bit still set.");
-	    QHhead22->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)1;
-	    qtd31->next_qtd_ptr = (struct queue_transfer_descriptor*)qtd32;
-	    
-	    irq_uninstall_handler(0);
-	    asm("cli");
-	    return addr_success;
+        QHhead22->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd31;
+        QHhead21->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd30;
+
+        timer_ticks = 0;
+        while(timer_ticks < 2);
+
+
+        if ((qtd30->transfer_info & 0x000000ff) == 0)
+                addr_success++;
+        if ((qtd31->transfer_info & 0x000000ff) == 0)
+                addr_success++;
+
+        if (get_reclamation_bit())
+                print("\n\nWarning: Reclamation bit still set.");
+        QHhead22->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)1;
+        qtd31->next_qtd_ptr = (struct queue_transfer_descriptor*)qtd32;
+
+        irq_uninstall_handler(0);
+        asm("cli");
+        return addr_success;
 
 }
 
@@ -1628,114 +1620,113 @@ uint8_t sequence_1()
         /* suggestion: pointer to functions as arguments would be very nice.
          * and control statements regarding how long it should last. 
          */
-	    asm("sti");
-	    volatile uint8_t* init_success_3;
-	    // Commented code: uint8_t init_success_6;
-	    uint32_t ktemp = 0;
-	    uint8_t kreset_error = 0;
-	    asm("cli");
+        asm("sti");
+        volatile uint8_t* init_success_3;
+        // Commented code: uint8_t init_success_6;
+        uint32_t ktemp = 0;
+        uint8_t kreset_error = 0;
+        asm("cli");
         /* set address and configure the device */
         print("\nSetting the address and the configuration\nof the USB device..");
-	    init_success_1 = set_addr();
-	    asm("sti");
-	    if (init_success_1 == 2) {
-			    asm("cli");
-			    /* confirm data */
-			    init_success_2 = set_config();
-			    asm("sti");
-				    
-					    if (init_success_2 != 2) {
-							    print_mr_error();
-							    ktemp = 1;
-							    stop_ehci();
-							    reset_ehci();
-					    } 
+        init_success_1 = set_addr();
+        asm("sti");
+        if (init_success_1 == 2) {
+                asm("cli");
+                /* confirm data */
+                init_success_2 = set_config();
+                asm("sti");
+
+                if (init_success_2 != 2) {
+                        print_mr_error();
+                        ktemp = 1;
+                        stop_ehci();
+                        reset_ehci();
+                } 
+                else {
+                        /* inqury */
+                        asm("cli");
+                        usbms_extra_data[0] = USB_BULKSTORAGE_SCSI_CTL;
+                        init_success_3 = prepare_usb_storage_bulk_transfer(USB_BULKSTORAGE_SCSI_INQURY, USB_DEVICE_TO_HOST, 0, 0x24, usbms_extra_data);
+                        asm("sti");
+                        if (init_success_3 == (volatile uint8_t*)0x600000) {
+                                print("\ninqury did not succeed\n");
+                                print_mr_error();
+                                ktemp = 1;
+                                stop_ehci();
+                                reset_ehci();
+                        }
 					    else {
-							    /* inqury */
-							    asm("cli");
-							    usbms_extra_data[0] = USB_BULKSTORAGE_SCSI_CTL;
-                                init_success_3 = prepare_usb_storage_bulk_transfer(USB_BULKSTORAGE_SCSI_INQURY, USB_DEVICE_TO_HOST, 0, 0x24, usbms_extra_data);
-							    asm("sti");
-							    if (init_success_3 == (volatile uint8_t*)0x600000) {
-                                        print("\ninqury did not succeed\n");
-									    print_mr_error();
-									    ktemp = 1;
-									    stop_ehci();
-									    reset_ehci();
-							    }
-							    else {
-									    /* request sense */
-									    asm("cli");
-    							        usbms_extra_data[0] = USB_BULKSTORAGE_SCSI_CTL;
-                                        init_success_3 = prepare_usb_storage_bulk_transfer(USB_BULKSTORAGE_SCSI_REQUEST_SENSE, USB_DEVICE_TO_HOST, 0, 0x12, usbms_extra_data);
-									    asm("sti");
-									    if (init_success_3 == (volatile uint8_t*)0x600000) {
-											    print_mr_error();
-											    ktemp = 1;
-											    stop_ehci();
-											    reset_ehci();
-									    }
-									    else {
+                                /* request sense */
+                                asm("cli");
+                                usbms_extra_data[0] = USB_BULKSTORAGE_SCSI_CTL;
+                                init_success_3 = prepare_usb_storage_bulk_transfer(USB_BULKSTORAGE_SCSI_REQUEST_SENSE, USB_DEVICE_TO_HOST, 0, 0x12, usbms_extra_data);
+                                asm("sti");
+                                if (init_success_3 == (volatile uint8_t*)0x600000) {
+                                        print_mr_error();
+                                        ktemp = 1;
+                                        stop_ehci();
+                                        reset_ehci();
+                                }
+                                else {
 
-											    /* read capacity 10 */
-											    asm("cli");
-											    usbms_extra_data[0] = USB_BULKSTORAGE_SCSI_CTL;
-                                                init_success_3 = prepare_usb_storage_bulk_transfer(USB_BULKSTORAGE_SCSI_READ_CAPACITY10, USB_DEVICE_TO_HOST, 0, 0x08, usbms_extra_data);
-											    asm("sti");
-											    if (init_success_3 == (volatile uint8_t*)0x600000) {
-													    print_mr_error();
-													    ktemp = 1;
-													    stop_ehci();
-													    reset_ehci();
-											    }
-											    else {
-													    /* request sense */
-													    asm("cli");
-													    usbms_extra_data[0] = USB_BULKSTORAGE_SCSI_CTL;
-                                                        init_success_3 = prepare_usb_storage_bulk_transfer(USB_BULKSTORAGE_SCSI_REQUEST_SENSE, USB_DEVICE_TO_HOST, 0, 0x12, usbms_extra_data);
-													    asm("sti");
-													    if (init_success_3 == (volatile uint8_t*)0x600000) {
-															    print_mr_error();
-															    ktemp = 1;
-															    stop_ehci();
-															    reset_ehci();
-													    }
-												    
+                                        /* read capacity 10 */
+                                        asm("cli");
+                                        usbms_extra_data[0] = USB_BULKSTORAGE_SCSI_CTL;
+                                        init_success_3 = prepare_usb_storage_bulk_transfer(USB_BULKSTORAGE_SCSI_READ_CAPACITY10, USB_DEVICE_TO_HOST, 0, 0x08, usbms_extra_data);
+                                        asm("sti");
+                                        if (init_success_3 == (volatile uint8_t*)0x600000) {
+                                                print_mr_error();
+                                                ktemp = 1;
+                                                stop_ehci();
+                                                reset_ehci();
+                                        }
+                                        else {
+                                                /* request sense */
+                                                asm("cli");
+                                                usbms_extra_data[0] = USB_BULKSTORAGE_SCSI_CTL;
+                                                init_success_3 = prepare_usb_storage_bulk_transfer(USB_BULKSTORAGE_SCSI_REQUEST_SENSE, USB_DEVICE_TO_HOST, 0, 0x12, usbms_extra_data);
+                                                asm("sti");
+                                                if (init_success_3 == (volatile uint8_t*)0x600000) {
+                                                        print_mr_error();
+                                                        ktemp = 1;
+                                                        stop_ehci();
+                                                        reset_ehci();
+                                                }
 
 
-											    }
-									    }
-							    }
-					    }
-	    }
+                                        }
+                                }
+                        }
+                }
+        }
 
-	    else {
+        else {
 
-		        print_mr_error();
-		        ktemp = 1;
-		        stop_ehci();
-		        timer_ticks = 0;
-	            while(timer_ticks < 1);
-	            kreset_error = reset_ehci();
-	            timer_ticks = 0;
-	            while(timer_ticks < 1); 
-       
-	    }
+                print_mr_error();
+                ktemp = 1;
+                stop_ehci();
+                timer_ticks = 0;
+                while(timer_ticks < 1);
+                kreset_error = reset_ehci();
+                timer_ticks = 0;
+                while(timer_ticks < 1); 
+
+        }
 
 
-	    if (ktemp == 0) {
-			    asm("cli");
-			    return 1;
+        if (ktemp == 0) {
+                asm("cli");
+                return 1;
 
-	    }
-	    else if (kreset_error == 1) {
+        }
+        else if (kreset_error == 1) {
 
-			    print("\n\nSecond try with resetting the ehc.");
-			    reset_ehci();
-		        timer_ticks = 0;
-	            while(timer_ticks < 1);
+                print("\n\nSecond try with resetting the ehc.");
+                reset_ehci();
+                timer_ticks = 0;
+                while(timer_ticks < 1);
 
-	    }
+        }
 
         asm("cli");
         return 0;
@@ -1745,10 +1736,9 @@ uint8_t sequence_1()
 /* Prints error messages. */
 void print_mr_error()
 {
-	    print("\n\nAn error occured during USB device configuration.");
-	    print("\nPlease try to type ra (reset address) or pr (port reset).");
-	    print("\nAnd then type init to try to get it to configure, again.");
-	    print("\nOr just type init.");
-	    print("\nAutomatic error correction to be added later (i hope).");
+        print("\n\nAn error occured during USB device configuration.");
+        print("\nPlease try to type ra (reset address) or pr (port reset).");
+        print("\nAnd then type init to try to get it to configure, again.");
+        print("\nOr just type init.");
+        print("\nAutomatic error correction to be added later (i hope).");
 }
-
