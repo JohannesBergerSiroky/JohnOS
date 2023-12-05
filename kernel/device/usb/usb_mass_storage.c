@@ -15,16 +15,16 @@
 /* Initializes some structure pointers and an array. */
 void init_scsi_structs()
 {
-	    cbw_16_1 = (struct cbw_read_16*)kmem_4k_allocate();
-	    inq = (struct inquiry*)kmem_4k_allocate();
-	    r_s = (struct request_sense*)kmem_4k_allocate();
-	    read_capacity = (struct read_capacity_10*)kmem_4k_allocate();
-	    r_capacity_16 = (struct read_capacity_16*)kmem_4k_allocate();
-	    cbw_6_1 = (struct cbw_read_6*)kmem_4k_allocate();	
-	    cbw_10_1 = (struct cbw_read_10*)kmem_4k_allocate();
-	    cbw_12_1 = (struct cbw_read_12*)kmem_4k_allocate();
-	    tur = (struct test_unit_ready*)kmem_4k_allocate();
-	    cbw_w_10_1 = (struct cbw_write_10*)kmem_4k_allocate();
+        cbw_16_1 = (struct cbw_read_16*)kmem_4k_allocate();
+        inq = (struct inquiry*)kmem_4k_allocate();
+        r_s = (struct request_sense*)kmem_4k_allocate();
+        read_capacity = (struct read_capacity_10*)kmem_4k_allocate();
+        r_capacity_16 = (struct read_capacity_16*)kmem_4k_allocate();
+        cbw_6_1 = (struct cbw_read_6*)kmem_4k_allocate();	
+        cbw_10_1 = (struct cbw_read_10*)kmem_4k_allocate();
+        cbw_12_1 = (struct cbw_read_12*)kmem_4k_allocate();
+        tur = (struct test_unit_ready*)kmem_4k_allocate();
+        cbw_w_10_1 = (struct cbw_write_10*)kmem_4k_allocate();
         idtf = (struct identify*)kmem_4k_allocate();
         usbms_extra_data[0] = 0x00000000;
         usbms_extra_data[1] = 0x00000000;
@@ -35,42 +35,42 @@ void init_scsi_structs()
  */
 struct cbw_read_16* set_cbw_16_data(uint8_t lba_low1, uint8_t lba_low2)
 {
-    struct cbw_read_16* cbw_16_2 = cbw_16_1;
-    uint8_t* pointr = (uint8_t*)cbw_16_2;
-		    for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
-				    *(pointr + counter2) = 0x00;
-	    cbw_16_1->signature_low = 0x55;
-	    cbw_16_1->signature_low2 = 0x53;
-	    cbw_16_1->signature_low3 = 0x42;
-	    cbw_16_1->signature_high = 0x43;
-	    cbw_16_1->tag_low = 0x0f;
-	    cbw_16_1->tag_low2 = 0x0b;
-	    cbw_16_1->tag_low3 = 0x0a;
-	    cbw_16_1->tag_high = 0x0a;
-	    cbw_16_1->data_transfer_length_low = 0x00;
-	    cbw_16_1->data_transfer_length_low2 = 0x02;
-	    cbw_16_1->data_transfer_length_low3 = 0x00;
-	    cbw_16_1->data_transfer_length_high = 0x00;
-	    cbw_16_1->flags = 0x80;
-	    cbw_16_1->lun = 0x00;
-	    cbw_16_1->cbwcw_length = 0x10;
-	    cbw_16_1->operation_code = 0x88;
-	    cbw_16_1->meta_data = 0x00; 
-	    cbw_16_1->lba_high_dword_low = 0x00;
-	    cbw_16_1->lba_high_dword_low2 = 0x00;
-	    cbw_16_1->lba_high_dword_low3 = 0x00;
-	    cbw_16_1->lba_high_dword_high = 0x00;
-	    cbw_16_1->lba_low_dword_low = 0x00;
-	    cbw_16_1->lba_low_dword_low2 = 0x00;
-	    cbw_16_1->lba_low_dword_low3 = 0x00;
-	    cbw_16_1->lba_low_dword_high = 0x00;
-	    cbw_16_1->group_number = 0x00;
-	    cbw_16_1->transfer_length_high_word_low = 0x00;
-	    cbw_16_1->transfer_length_high_word_high = 0x00;
-	    cbw_16_1->transfer_length_low_word_low = 0x00;
-	    cbw_16_1->transfer_length_low_word_high = 0x01; 
-	    cbw_16_1->control_byte = 0x00;
-	    return cbw_16_1;
+        struct cbw_read_16* cbw_16_2 = cbw_16_1;
+        uint8_t* pointr = (uint8_t*)cbw_16_2;
+        for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
+                *(pointr + counter2) = 0x00;
+        cbw_16_1->signature_low = 0x55;
+        cbw_16_1->signature_low2 = 0x53;
+        cbw_16_1->signature_low3 = 0x42;
+        cbw_16_1->signature_high = 0x43;
+        cbw_16_1->tag_low = 0x0f;
+        cbw_16_1->tag_low2 = 0x0b;
+        cbw_16_1->tag_low3 = 0x0a;
+        cbw_16_1->tag_high = 0x0a;
+        cbw_16_1->data_transfer_length_low = 0x00;
+        cbw_16_1->data_transfer_length_low2 = 0x02;
+        cbw_16_1->data_transfer_length_low3 = 0x00;
+        cbw_16_1->data_transfer_length_high = 0x00;
+        cbw_16_1->flags = 0x80;
+        cbw_16_1->lun = 0x00;
+        cbw_16_1->cbwcw_length = 0x10;
+        cbw_16_1->operation_code = 0x88;
+        cbw_16_1->meta_data = 0x00; 
+        cbw_16_1->lba_high_dword_low = 0x00;
+        cbw_16_1->lba_high_dword_low2 = 0x00;
+        cbw_16_1->lba_high_dword_low3 = 0x00;
+        cbw_16_1->lba_high_dword_high = 0x00;
+        cbw_16_1->lba_low_dword_low = 0x00;
+        cbw_16_1->lba_low_dword_low2 = 0x00;
+        cbw_16_1->lba_low_dword_low3 = 0x00;
+        cbw_16_1->lba_low_dword_high = 0x00;
+        cbw_16_1->group_number = 0x00;
+        cbw_16_1->transfer_length_high_word_low = 0x00;
+        cbw_16_1->transfer_length_high_word_high = 0x00;
+        cbw_16_1->transfer_length_low_word_low = 0x00;
+        cbw_16_1->transfer_length_low_word_high = 0x01; 
+        cbw_16_1->control_byte = 0x00;
+        return cbw_16_1;
 }
 
 /* Sets the values correctly in a structure so that it later can
@@ -78,44 +78,43 @@ struct cbw_read_16* set_cbw_16_data(uint8_t lba_low1, uint8_t lba_low2)
  */
 struct inquiry* set_inquiry()
 {
-	    struct inquiry* inq2 = inq;
-	    struct inquiry* inq3 = inq;
-	    uint8_t* pointr = (uint8_t*)inq3;
-			    for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
-					    *(pointr + counter2) = 0x00;
-	    inq2->signature_low = (volatile uint8_t)0x55;
-	    inq2->signature_mid_low = (volatile uint8_t)0x53;
-	    inq2->signature_low_high = (volatile uint8_t)0x42;
-	    inq2->signature_mid_high = (volatile uint8_t)0x43;
+        struct inquiry* inq2 = inq;
+        struct inquiry* inq3 = inq;
+        uint8_t* pointr = (uint8_t*)inq3;
+                for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
+                        *(pointr + counter2) = 0x00;
+        inq2->signature_low = (volatile uint8_t)0x55;
+        inq2->signature_mid_low = (volatile uint8_t)0x53;
+        inq2->signature_low_high = (volatile uint8_t)0x42;
+        inq2->signature_mid_high = (volatile uint8_t)0x43;
 
-	    inq2->tag_low = (volatile uint8_t)0xbb;
-	    inq2->tag_low1 = (volatile uint8_t)0xbb;
-	    inq2->tag_low2 = (volatile uint8_t)0xcc;
-	    inq2->tag_high = (volatile uint8_t)0xdd;
-	    inq2->data_transfer_length_low = (volatile uint8_t)0x24;
-	    inq2->data_transfer_length_low1 = (volatile uint8_t)0x00;
-	    inq2->data_transfer_length_low2 = (volatile uint8_t)0x00;
-	    inq2->data_transfer_length_high = (volatile uint8_t)0x00;
-	    inq2->flags = (volatile uint8_t)0x80;
-	    inq2->lun = (volatile uint8_t)0x00;
-	    inq2->cbwcw_length = (volatile uint8_t)0x06;
-	    inq2->operation_code = (volatile uint8_t)0x12;
-	    inq2->meta_data = (volatile uint8_t)0x00;
-	    inq2->page_code = (volatile uint8_t)0x00;
-	    inq2->allocation_length_low = (volatile uint8_t)0x00;
-	    inq2->allocation_length_high = (volatile uint8_t)0x24;
-	    inq2->control = (volatile uint8_t)0x00;
-	    inq2->zero_1 = (volatile uint8_t)0x00;
-	    inq2->zero_2 = (volatile uint8_t)0x00;
-	    inq2->zero_3 = (volatile uint8_t)0x00;
-	    inq2->zero_4 = (volatile uint8_t)0x00;
-	    inq2->zero_5 = (volatile uint8_t)0x00;
-	    inq2->zero_6 = (volatile uint8_t)0x00;
-	    inq2->zero_7 = (volatile uint8_t)0x00;
-	    inq2->zero_8 = (volatile uint8_t)0x00;
-	    inq2->zero_9 = (volatile uint8_t)0x00;
-	    inq2->zero_10 = (volatile uint8_t)0x00;
-	    
+        inq2->tag_low = (volatile uint8_t)0xbb;
+        inq2->tag_low1 = (volatile uint8_t)0xbb;
+        inq2->tag_low2 = (volatile uint8_t)0xcc;
+        inq2->tag_high = (volatile uint8_t)0xdd;
+        inq2->data_transfer_length_low = (volatile uint8_t)0x24;
+        inq2->data_transfer_length_low1 = (volatile uint8_t)0x00;
+        inq2->data_transfer_length_low2 = (volatile uint8_t)0x00;
+        inq2->data_transfer_length_high = (volatile uint8_t)0x00;
+        inq2->flags = (volatile uint8_t)0x80;
+        inq2->lun = (volatile uint8_t)0x00;
+        inq2->cbwcw_length = (volatile uint8_t)0x06;
+        inq2->operation_code = (volatile uint8_t)0x12;
+        inq2->meta_data = (volatile uint8_t)0x00;
+        inq2->page_code = (volatile uint8_t)0x00;
+        inq2->allocation_length_low = (volatile uint8_t)0x00;
+        inq2->allocation_length_high = (volatile uint8_t)0x24;
+        inq2->control = (volatile uint8_t)0x00;
+        inq2->zero_1 = (volatile uint8_t)0x00;
+        inq2->zero_2 = (volatile uint8_t)0x00;
+        inq2->zero_3 = (volatile uint8_t)0x00;
+        inq2->zero_4 = (volatile uint8_t)0x00;
+        inq2->zero_5 = (volatile uint8_t)0x00;
+        inq2->zero_6 = (volatile uint8_t)0x00;
+        inq2->zero_7 = (volatile uint8_t)0x00;
+        inq2->zero_8 = (volatile uint8_t)0x00;
+        inq2->zero_9 = (volatile uint8_t)0x00;
+        inq2->zero_10 = (volatile uint8_t)0x00;
 	    return inq2;
 }
 
@@ -124,44 +123,44 @@ struct inquiry* set_inquiry()
  */
 struct request_sense* set_rs()
 {
-	    struct request_sense* rs2 = r_s;
-	    uint8_t* pointr = (uint8_t*)rs2;
-			    for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
-					    *(pointr + counter2) = 0x00;
-	    r_s->signature_low = 0x55;
-	    r_s->signature_low2 = 0x53;
-	    r_s->signature_low3 = 0x42;
-	    r_s->signature_high = 0x43;
+        struct request_sense* rs2 = r_s;
+        uint8_t* pointr = (uint8_t*)rs2;
+                for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
+                        *(pointr + counter2) = 0x00;
+        r_s->signature_low = 0x55;
+        r_s->signature_low2 = 0x53;
+        r_s->signature_low3 = 0x42;
+        r_s->signature_high = 0x43;
 
-	    r_s->tag_low = 0xcc;
-	    r_s->tag_low2 = 0xbb;
-	    r_s->tag_low3 = 0xcc;
-	    r_s->tag_high = 0xdd;
-	    r_s->data_transfer_length_low = 0x12;
-	    r_s->data_transfer_length_low2 = 0x00;
-	    r_s->data_transfer_length_low3 = 0x00;
-	    r_s->data_transfer_length_high = 0x00;
-	    r_s->flags = 0x80;
-	    r_s->lun = 0x00;
-	    r_s->cbwcw_length = 0x06;
-	    r_s->operation_code = 0x03;
-	    r_s->desc = 0x00;
-	    r_s->reserved1 = 0x00;
-	    r_s->reserved2 = 0x00;
-	    r_s->allocation_length = 0x12;
-	    r_s->control = 0x00;
-	    r_s->zero_1 = 0x00;
-	    r_s->zero_2 = 0x00;
-	    r_s->zero_3 = 0x00;
-	    r_s->zero_4 = 0x00;
-	    r_s->zero_5 = 0x00;
-	    r_s->zero_6 = 0x00;
-	    r_s->zero_7 = 0x00;
-	    r_s->zero_8 = 0x00;
-	    r_s->zero_9 = 0x00;
-	    r_s->zero_10 = 0x00;
-	    
-	    return r_s;
+        r_s->tag_low = 0xcc;
+        r_s->tag_low2 = 0xbb;
+        r_s->tag_low3 = 0xcc;
+        r_s->tag_high = 0xdd;
+        r_s->data_transfer_length_low = 0x12;
+        r_s->data_transfer_length_low2 = 0x00;
+        r_s->data_transfer_length_low3 = 0x00;
+        r_s->data_transfer_length_high = 0x00;
+        r_s->flags = 0x80;
+        r_s->lun = 0x00;
+        r_s->cbwcw_length = 0x06;
+        r_s->operation_code = 0x03;
+        r_s->desc = 0x00;
+        r_s->reserved1 = 0x00;
+        r_s->reserved2 = 0x00;
+        r_s->allocation_length = 0x12;
+        r_s->control = 0x00;
+        r_s->zero_1 = 0x00;
+        r_s->zero_2 = 0x00;
+        r_s->zero_3 = 0x00;
+        r_s->zero_4 = 0x00;
+        r_s->zero_5 = 0x00;
+        r_s->zero_6 = 0x00;
+        r_s->zero_7 = 0x00;
+        r_s->zero_8 = 0x00;
+        r_s->zero_9 = 0x00;
+        r_s->zero_10 = 0x00;
+
+        return r_s;
 }
 
 /* Sets the values correctly in a structure so that it later can
@@ -169,43 +168,42 @@ struct request_sense* set_rs()
  */
 struct read_capacity_10* set_read_capacity()
 {
-	    struct read_capacity_10* read_capacity2 = read_capacity;
-	    uint8_t* pointr = (uint8_t*)read_capacity2;
-			    for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
-			            *(pointr + counter2) = 0x00;
-	    read_capacity->signature_low = 0x55;
-	    read_capacity->signature_low2 = 0x53;
-	    read_capacity->signature_low3 = 0x42;
-	    read_capacity->signature_high = 0x43;
+        struct read_capacity_10* read_capacity2 = read_capacity;
+        uint8_t* pointr = (uint8_t*)read_capacity2;
+                for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
+                        *(pointr + counter2) = 0x00;
+        read_capacity->signature_low = 0x55;
+        read_capacity->signature_low2 = 0x53;
+        read_capacity->signature_low3 = 0x42;
+        read_capacity->signature_high = 0x43;
 
-	    read_capacity->tag_low = 0xdd;
-	    read_capacity->tag_low2 = 0xbb;
-	    read_capacity->tag_low3 = 0xcc;
-	    read_capacity->tag_high = 0xdd;
-	    read_capacity->data_transfer_length_low = 0x08;
-	    read_capacity->data_transfer_length_low2 = 0x00;
-	    read_capacity->data_transfer_length_low3 = 0x00;
-	    read_capacity->data_transfer_length_high = 0x00;
-	    read_capacity->flags = 0x80;
-	    read_capacity->lun = 0x00;
-	    read_capacity->cbwcw_length = 0x0a;
-	    read_capacity->operation_code = 0x25;
-	    read_capacity->reserved = 0x00; 
-	    read_capacity->lba_low = 0x00;
-	    read_capacity->lba_low_1 = 0x00;
-	    read_capacity->lba_low_2 = 0x00;
-	    read_capacity->lba_high = 0x00;
-	    read_capacity->reserved2 = 0x00;
-	    read_capacity->reserved3 = 0x00;
-	    read_capacity->pmi = 0x00;
-	    read_capacity->control = 0x00;
-	    read_capacity->zero_1 = 0x00;
-	    read_capacity->zero_2 = 0x00;
-	    read_capacity->zero_3 = 0x00;
-	    read_capacity->zero_4 = 0x00;
-	    read_capacity->zero_5 = 0x00;
-	    read_capacity->zero_6 = 0x00;
-	    
+        read_capacity->tag_low = 0xdd;
+        read_capacity->tag_low2 = 0xbb;
+        read_capacity->tag_low3 = 0xcc;
+        read_capacity->tag_high = 0xdd;
+        read_capacity->data_transfer_length_low = 0x08;
+        read_capacity->data_transfer_length_low2 = 0x00;
+        read_capacity->data_transfer_length_low3 = 0x00;
+        read_capacity->data_transfer_length_high = 0x00;
+        read_capacity->flags = 0x80;
+        read_capacity->lun = 0x00;
+        read_capacity->cbwcw_length = 0x0a;
+        read_capacity->operation_code = 0x25;
+        read_capacity->reserved = 0x00; 
+        read_capacity->lba_low = 0x00;
+        read_capacity->lba_low_1 = 0x00;
+        read_capacity->lba_low_2 = 0x00;
+        read_capacity->lba_high = 0x00;
+        read_capacity->reserved2 = 0x00;
+        read_capacity->reserved3 = 0x00;
+        read_capacity->pmi = 0x00;
+        read_capacity->control = 0x00;
+        read_capacity->zero_1 = 0x00;
+        read_capacity->zero_2 = 0x00;
+        read_capacity->zero_3 = 0x00;
+        read_capacity->zero_4 = 0x00;
+        read_capacity->zero_5 = 0x00;
+        read_capacity->zero_6 = 0x00;
 	    return read_capacity;
 }
 
@@ -214,41 +212,40 @@ struct read_capacity_10* set_read_capacity()
  */
 struct read_capacity_16* set_read_capacity_16()
 {
-	    struct read_capacity_16* read_capacity2 = r_capacity_16;
-	    uint8_t* pointr = (uint8_t*)read_capacity2;
-			    for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
-					    *(pointr + counter2) = 0x00;
-	    r_capacity_16->signature_low = 0x55;
-	    r_capacity_16->signature_low2 = 0x53;
-	    r_capacity_16->signature_low3 = 0x42;
-	    r_capacity_16->signature_high = 0x43;
-	    r_capacity_16->tag_low = 0xdd;
-	    r_capacity_16->tag_low2 = 0xbb;
-	    r_capacity_16->tag_low3 = 0xcc;
-	    r_capacity_16->tag_high = 0xdd;
-	    r_capacity_16->data_transfer_length_low = 0x08;
-	    r_capacity_16->data_transfer_length_low2 = 0x00;
-	    r_capacity_16->data_transfer_length_low3 = 0x00;
-	    r_capacity_16->data_transfer_length_high = 0x00;
-	    r_capacity_16->flags = 0x80;
-	    r_capacity_16->lun = 0x00;
-	    r_capacity_16->cbwcw_length = 0x10;
-	    r_capacity_16->operation_code = 0x9e;
-	    r_capacity_16->service_action = 0x10;
-	    r_capacity_16->lba_low = 0x00;
-	    r_capacity_16->lba_low_1 = 0x00;
-	    r_capacity_16->lba_low_2 = 0x00;
-	    r_capacity_16->lba_low_3 = 0x00;
-	    r_capacity_16->lba_low_4 = 0x00;
-	    r_capacity_16->lba_low_5 = 0x00;
-	    r_capacity_16->lba_low_6 = 0x00;
-	    r_capacity_16->lba_high = 0x00;
-	    r_capacity_16->allocation_length_low = 0x00;
-	    r_capacity_16->allocation_length_low1 = 0x00;
-	    r_capacity_16->allocation_length_low2 = 0x00;
-	    r_capacity_16->allocation_length_high = 0x08;
-	    r_capacity_16->pmi = 0x00;
-
+        struct read_capacity_16* read_capacity2 = r_capacity_16;
+        uint8_t* pointr = (uint8_t*)read_capacity2;
+                for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
+                        *(pointr + counter2) = 0x00;
+        r_capacity_16->signature_low = 0x55;
+        r_capacity_16->signature_low2 = 0x53;
+        r_capacity_16->signature_low3 = 0x42;
+        r_capacity_16->signature_high = 0x43;
+        r_capacity_16->tag_low = 0xdd;
+        r_capacity_16->tag_low2 = 0xbb;
+        r_capacity_16->tag_low3 = 0xcc;
+        r_capacity_16->tag_high = 0xdd;
+        r_capacity_16->data_transfer_length_low = 0x08;
+        r_capacity_16->data_transfer_length_low2 = 0x00;
+        r_capacity_16->data_transfer_length_low3 = 0x00;
+        r_capacity_16->data_transfer_length_high = 0x00;
+        r_capacity_16->flags = 0x80;
+        r_capacity_16->lun = 0x00;
+        r_capacity_16->cbwcw_length = 0x10;
+        r_capacity_16->operation_code = 0x9e;
+        r_capacity_16->service_action = 0x10;
+        r_capacity_16->lba_low = 0x00;
+        r_capacity_16->lba_low_1 = 0x00;
+        r_capacity_16->lba_low_2 = 0x00;
+        r_capacity_16->lba_low_3 = 0x00;
+        r_capacity_16->lba_low_4 = 0x00;
+        r_capacity_16->lba_low_5 = 0x00;
+        r_capacity_16->lba_low_6 = 0x00;
+        r_capacity_16->lba_high = 0x00;
+        r_capacity_16->allocation_length_low = 0x00;
+        r_capacity_16->allocation_length_low1 = 0x00;
+        r_capacity_16->allocation_length_low2 = 0x00;
+        r_capacity_16->allocation_length_high = 0x08;
+        r_capacity_16->pmi = 0x00;
 	    return r_capacity_16;
 }
 
@@ -259,40 +256,40 @@ struct cbw_read_6* set_cbw_6_data(volatile uint8_t lba_low_low, volatile uint8_t
 {
         struct cbw_read_6* cbw_6_2 = cbw_6_1;
         uint8_t* pointr = (uint8_t*)cbw_6_2;
-		        for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
-				        *(pointr + counter2) = 0x00;
-	    cbw_6_1->signature_low = 0x55;
-	    cbw_6_1->signature_low2 = 0x53;
-	    cbw_6_1->signature_low3 = 0x42;
-	    cbw_6_1->signature_high = 0x43;
-	    cbw_6_1->tag_low = 0x0a;
-	    cbw_6_1->tag_low2 = 0x01;
-	    cbw_6_1->tag_low3 = 0x02;
-	    cbw_6_1->tag_high = 0x0d;
-	    cbw_6_1->data_transfer_length_low = 0x00;
-	    cbw_6_1->data_transfer_length_low2 = 0x02;
-	    cbw_6_1->data_transfer_length_low3 = 0x00;
-	    cbw_6_1->data_transfer_length_high = 0x00;
-	    cbw_6_1->flags = 0x80;
-	    cbw_6_1->lun = 0x00;
-	    cbw_6_1->cbwcw_length = 0x06;
-	    cbw_6_1->operation_code = 0x08;
-	    cbw_6_1->reserved = 0x00; 
-	    cbw_6_1->lba_high = lba_low_high;
-	    cbw_6_1->lba_low = lba_low_low;
-	    cbw_6_1->transfer_length = 0x01;
-	    cbw_6_1->control_byte = 0x00;
-	    cbw_6_1->zero_1 = 0x00;
-	    cbw_6_1->zero_2 = 0x00;
-	    cbw_6_1->zero_3 = 0x00;
-	    cbw_6_1->zero_4 = 0x00;
-	    cbw_6_1->zero_5 = 0x00;
-	    cbw_6_1->zero_6 = 0x00;
-	    cbw_6_1->zero_7 = 0x00;
-	    cbw_6_1->zero_8 = 0x00;
-	    cbw_6_1->zero_9 = 0x00;
-	    cbw_6_1->zero_10 = 0x00;
-	    return cbw_6_1;	
+                for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
+                        *(pointr + counter2) = 0x00;
+        cbw_6_1->signature_low = 0x55;
+        cbw_6_1->signature_low2 = 0x53;
+        cbw_6_1->signature_low3 = 0x42;
+        cbw_6_1->signature_high = 0x43;
+        cbw_6_1->tag_low = 0x0a;
+        cbw_6_1->tag_low2 = 0x01;
+        cbw_6_1->tag_low3 = 0x02;
+        cbw_6_1->tag_high = 0x0d;
+        cbw_6_1->data_transfer_length_low = 0x00;
+        cbw_6_1->data_transfer_length_low2 = 0x02;
+        cbw_6_1->data_transfer_length_low3 = 0x00;
+        cbw_6_1->data_transfer_length_high = 0x00;
+        cbw_6_1->flags = 0x80;
+        cbw_6_1->lun = 0x00;
+        cbw_6_1->cbwcw_length = 0x06;
+        cbw_6_1->operation_code = 0x08;
+        cbw_6_1->reserved = 0x00; 
+        cbw_6_1->lba_high = lba_low_high;
+        cbw_6_1->lba_low = lba_low_low;
+        cbw_6_1->transfer_length = 0x01;
+        cbw_6_1->control_byte = 0x00;
+        cbw_6_1->zero_1 = 0x00;
+        cbw_6_1->zero_2 = 0x00;
+        cbw_6_1->zero_3 = 0x00;
+        cbw_6_1->zero_4 = 0x00;
+        cbw_6_1->zero_5 = 0x00;
+        cbw_6_1->zero_6 = 0x00;
+        cbw_6_1->zero_7 = 0x00;
+        cbw_6_1->zero_8 = 0x00;
+        cbw_6_1->zero_9 = 0x00;
+        cbw_6_1->zero_10 = 0x00;
+        return cbw_6_1;	
 }
 
 /* Sets the values correctly in a structure so that it later can
@@ -310,40 +307,40 @@ struct cbw_read_10* set_cbw_10_data(volatile uint8_t lba_low_low, volatile uint8
         volatile uint8_t cbw_length_low1 = (volatile uint8_t)(length/((volatile uint32_t)255));
         struct cbw_read_10* cbw_10_2 = cbw_10_1;
         uint8_t* pointr = (uint8_t*)cbw_10_2;
-		        for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
-				        *(pointr + counter2) = 0x00;
-	    cbw_10_1->signature_low = 0x55;
-	    cbw_10_1->signature_low2 = 0x53;
-	    cbw_10_1->signature_low3 = 0x42;
-	    cbw_10_1->signature_high = 0x43;
-	    cbw_10_1->tag_low = 0xbb;
-	    cbw_10_1->tag_low2 = 0xcc;
-	    cbw_10_1->tag_low3 = 0xbb;
-	    cbw_10_1->tag_high = 0xdd;
-	    cbw_10_1->data_transfer_length_low = 0x00;
-	    cbw_10_1->data_transfer_length_low2 = cbw_length_low1;
-	    cbw_10_1->data_transfer_length_low3 = 0x00;
-	    cbw_10_1->data_transfer_length_high = 0x00;
-	    cbw_10_1->flags = 0x80;
-	    cbw_10_1->lun = 0x00;
-	    cbw_10_1->cbwcw_length = 0x0a;
-	    cbw_10_1->operation_code = 0x28;
-	    cbw_10_1->meta_data = 0x00; 
-	    cbw_10_1->lba_high_word_low = 0x00;
-	    cbw_10_1->lba_high_word_high = 0x00;
-	    cbw_10_1->lba_low_word_low = lba_low_high; 
-	    cbw_10_1->lba_low_word_high = lba_low_low; 
-	    cbw_10_1->group_number = 0x00;
-	    cbw_10_1->transfer_length_low_byte= 0x00;
-	    cbw_10_1->transfer_length_high_byte = cbwcw_length_read10;
-	    cbw_10_1->control_byte = 0x00;
-	    cbw_10_1->zero_1 = 0x00;
-	    cbw_10_1->zero_2 = 0x00;
-	    cbw_10_1->zero_3 = 0x00;
-	    cbw_10_1->zero_4 = 0x00;
-	    cbw_10_1->zero_5 = 0x00;
-	    cbw_10_1->zero_6 = 0x00;
-	    return cbw_10_1;	
+                for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
+                        *(pointr + counter2) = 0x00;
+        cbw_10_1->signature_low = 0x55;
+        cbw_10_1->signature_low2 = 0x53;
+        cbw_10_1->signature_low3 = 0x42;
+        cbw_10_1->signature_high = 0x43;
+        cbw_10_1->tag_low = 0xbb;
+        cbw_10_1->tag_low2 = 0xcc;
+        cbw_10_1->tag_low3 = 0xbb;
+        cbw_10_1->tag_high = 0xdd;
+        cbw_10_1->data_transfer_length_low = 0x00;
+        cbw_10_1->data_transfer_length_low2 = cbw_length_low1;
+        cbw_10_1->data_transfer_length_low3 = 0x00;
+        cbw_10_1->data_transfer_length_high = 0x00;
+        cbw_10_1->flags = 0x80;
+        cbw_10_1->lun = 0x00;
+        cbw_10_1->cbwcw_length = 0x0a;
+        cbw_10_1->operation_code = 0x28;
+        cbw_10_1->meta_data = 0x00; 
+        cbw_10_1->lba_high_word_low = 0x00;
+        cbw_10_1->lba_high_word_high = 0x00;
+        cbw_10_1->lba_low_word_low = lba_low_high; 
+        cbw_10_1->lba_low_word_high = lba_low_low; 
+        cbw_10_1->group_number = 0x00;
+        cbw_10_1->transfer_length_low_byte= 0x00;
+        cbw_10_1->transfer_length_high_byte = cbwcw_length_read10;
+        cbw_10_1->control_byte = 0x00;
+        cbw_10_1->zero_1 = 0x00;
+        cbw_10_1->zero_2 = 0x00;
+        cbw_10_1->zero_3 = 0x00;
+        cbw_10_1->zero_4 = 0x00;
+        cbw_10_1->zero_5 = 0x00;
+        cbw_10_1->zero_6 = 0x00;
+        return cbw_10_1;	
 }
 
 /* Sets the values correctly in a structure so that it later can
@@ -351,43 +348,44 @@ struct cbw_read_10* set_cbw_10_data(volatile uint8_t lba_low_low, volatile uint8
  */
 struct cbw_write_10* set_cbw_w_10_data(volatile uint8_t lba_low_low, volatile uint8_t lba_low_high)
 {
-		struct cbw_write_10* cbw_w_10_2 = cbw_w_10_1;
-        uint8_t* pointr = (uint8_t*)cbw_w_10_2;
-		for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
-				*(pointr + counter2) = 0x00;
 
-	    cbw_w_10_1->signature_low = 0x55;
-	    cbw_w_10_1->signature_low2 = 0x53;
-	    cbw_w_10_1->signature_low3 = 0x42;
-	    cbw_w_10_1->signature_high = 0x43;
-	    cbw_w_10_1->tag_low = 0x01;
-	    cbw_w_10_1->tag_low2 = 0x02;
-	    cbw_w_10_1->tag_low3 = 0x03;
-	    cbw_w_10_1->tag_high = 0x06;
-	    cbw_w_10_1->data_transfer_length_low = 0x00;
-	    cbw_w_10_1->data_transfer_length_low2 = 0x02;
-	    cbw_w_10_1->data_transfer_length_low3 = 0x00;
-	    cbw_w_10_1->data_transfer_length_high = 0x00;
-	    cbw_w_10_1->flags = 0x00;
-	    cbw_w_10_1->lun = 0x00;
-	    cbw_w_10_1->cbwcw_length = 0x0a;
-	    cbw_w_10_1->operation_code = 0x2a;
-	    cbw_w_10_1->meta_data = 0x00; 
-	    cbw_w_10_1->lba_high_word_low = 0x00;
-	    cbw_w_10_1->lba_high_word_high = 0x00;
-	    cbw_w_10_1->lba_low_word_low = lba_low_high; 
-	    cbw_w_10_1->lba_low_word_high = lba_low_low; 
-	    cbw_w_10_1->group_number = 0x00;
-	    cbw_w_10_1->transfer_length_low_byte= 0x00;
-	    cbw_w_10_1->transfer_length_high_byte = 0x01;
-	    cbw_w_10_1->control_byte = 0x00;
-	    cbw_w_10_1->zero_1 = 0x00;
-	    cbw_w_10_1->zero_2 = 0x00;
-	    cbw_w_10_1->zero_3 = 0x00;
-	    cbw_w_10_1->zero_4 = 0x00;
-	    cbw_w_10_1->zero_5 = 0x00;
-	    cbw_w_10_1->zero_6 = 0x00;
-	    return cbw_w_10_1;
+        struct cbw_write_10* cbw_w_10_2 = cbw_w_10_1;
+        uint8_t* pointr = (uint8_t*)cbw_w_10_2;
+        for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
+                *(pointr + counter2) = 0x00;
+
+        cbw_w_10_1->signature_low = 0x55;
+        cbw_w_10_1->signature_low2 = 0x53;
+        cbw_w_10_1->signature_low3 = 0x42;
+        cbw_w_10_1->signature_high = 0x43;
+        cbw_w_10_1->tag_low = 0x01;
+        cbw_w_10_1->tag_low2 = 0x02;
+        cbw_w_10_1->tag_low3 = 0x03;
+        cbw_w_10_1->tag_high = 0x06;
+        cbw_w_10_1->data_transfer_length_low = 0x00;
+        cbw_w_10_1->data_transfer_length_low2 = 0x02;
+        cbw_w_10_1->data_transfer_length_low3 = 0x00;
+        cbw_w_10_1->data_transfer_length_high = 0x00;
+        cbw_w_10_1->flags = 0x00;
+        cbw_w_10_1->lun = 0x00;
+        cbw_w_10_1->cbwcw_length = 0x0a;
+        cbw_w_10_1->operation_code = 0x2a;
+        cbw_w_10_1->meta_data = 0x00; 
+        cbw_w_10_1->lba_high_word_low = 0x00;
+        cbw_w_10_1->lba_high_word_high = 0x00;
+        cbw_w_10_1->lba_low_word_low = lba_low_high; 
+        cbw_w_10_1->lba_low_word_high = lba_low_low; 
+        cbw_w_10_1->group_number = 0x00;
+        cbw_w_10_1->transfer_length_low_byte= 0x00;
+        cbw_w_10_1->transfer_length_high_byte = 0x01;
+        cbw_w_10_1->control_byte = 0x00;
+        cbw_w_10_1->zero_1 = 0x00;
+        cbw_w_10_1->zero_2 = 0x00;
+        cbw_w_10_1->zero_3 = 0x00;
+        cbw_w_10_1->zero_4 = 0x00;
+        cbw_w_10_1->zero_5 = 0x00;
+        cbw_w_10_1->zero_6 = 0x00;
+        return cbw_w_10_1;
 }
 
 /* Sets the values correctly in a structure so that it later can
@@ -397,40 +395,40 @@ struct cbw_read_12* set_cbw_12_data(volatile uint8_t lba_low_low, volatile uint8
 {
         struct cbw_read_12* cbw_12_2 = cbw_12_1;
         uint8_t* pointr = (uint8_t*)cbw_12_2;
-		for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
-				*(pointr + counter2) = 0x00;
-	    cbw_12_1->signature_low = 0x55;
-	    cbw_12_1->signature_low2 = 0x53;
-	    cbw_12_1->signature_low3 = 0x42;
-	    cbw_12_1->signature_high = 0x43;
-	    cbw_12_1->tag_low = 0x04;
-	    cbw_12_1->tag_low2 = 0x03;
-	    cbw_12_1->tag_low3 = 0x02;
-	    cbw_12_1->tag_high = 0x01;
-	    cbw_12_1->data_transfer_length_low = 0x00;
-	    cbw_12_1->data_transfer_length_low2 = 0x02;
-	    cbw_12_1->data_transfer_length_low3 = 0x00;
-	    cbw_12_1->data_transfer_length_high = 0x00;
-	    cbw_12_1->flags = 0x80;
-	    cbw_12_1->lun = 0x00;
-	    cbw_12_1->cbwcw_length = 0xc;
-	    cbw_12_1->operation_code = 0xa8;
-	    cbw_12_1->meta_data = 0x00; 
-	    cbw_12_1->lba_high_word_low = 0x00;
-	    cbw_12_1->lba_high_word_high = 0x00;
-	    cbw_12_1->lba_low_word_low = lba_low_high; 
-	    cbw_12_1->lba_low_word_high = lba_low_low;
-	    cbw_12_1->transfer_length_high_high = 0x00;
-	    cbw_12_1->transfer_length_high_low = 0x00;
-	    cbw_12_1->transfer_length_low_high = 0x00;
-	    cbw_12_1->transfer_length_low_low = 0x01;
-	    cbw_12_1->group_number = 0x00;
-	    cbw_12_1->control_byte = 0x00;
-	    cbw_12_1->zero_1 = 0x00;
-	    cbw_12_1->zero_2 = 0x00;
-	    cbw_12_1->zero_3 = 0x00;
-	    cbw_12_1->zero_4 = 0x00;
-	    return cbw_12_1;	
+        for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
+                *(pointr + counter2) = 0x00;
+        cbw_12_1->signature_low = 0x55;
+        cbw_12_1->signature_low2 = 0x53;
+        cbw_12_1->signature_low3 = 0x42;
+        cbw_12_1->signature_high = 0x43;
+        cbw_12_1->tag_low = 0x04;
+        cbw_12_1->tag_low2 = 0x03;
+        cbw_12_1->tag_low3 = 0x02;
+        cbw_12_1->tag_high = 0x01;
+        cbw_12_1->data_transfer_length_low = 0x00;
+        cbw_12_1->data_transfer_length_low2 = 0x02;
+        cbw_12_1->data_transfer_length_low3 = 0x00;
+        cbw_12_1->data_transfer_length_high = 0x00;
+        cbw_12_1->flags = 0x80;
+        cbw_12_1->lun = 0x00;
+        cbw_12_1->cbwcw_length = 0xc;
+        cbw_12_1->operation_code = 0xa8;
+        cbw_12_1->meta_data = 0x00; 
+        cbw_12_1->lba_high_word_low = 0x00;
+        cbw_12_1->lba_high_word_high = 0x00;
+        cbw_12_1->lba_low_word_low = lba_low_high; 
+        cbw_12_1->lba_low_word_high = lba_low_low;
+        cbw_12_1->transfer_length_high_high = 0x00;
+        cbw_12_1->transfer_length_high_low = 0x00;
+        cbw_12_1->transfer_length_low_high = 0x00;
+        cbw_12_1->transfer_length_low_low = 0x01;
+        cbw_12_1->group_number = 0x00;
+        cbw_12_1->control_byte = 0x00;
+        cbw_12_1->zero_1 = 0x00;
+        cbw_12_1->zero_2 = 0x00;
+        cbw_12_1->zero_3 = 0x00;
+        cbw_12_1->zero_4 = 0x00;
+        return cbw_12_1;	
 }
 
 /* Sets the values correctly in a structure so that it later can
@@ -438,43 +436,42 @@ struct cbw_read_12* set_cbw_12_data(volatile uint8_t lba_low_low, volatile uint8
  */
 struct test_unit_ready* set_tur()
 {
-	    struct test_unit_ready* tur2 = tur;
-	    uint8_t* pointr = (uint8_t*)tur2;
-			    for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
-					    *(pointr + counter2) = 0x00;
-	    tur->signature_low = 0x55;
-	    tur->signature_low2 = 0x53;
-	    tur->signature_low3 = 0x42;
-	    tur->signature_high = 0x43;
+        struct test_unit_ready* tur2 = tur;
+        uint8_t* pointr = (uint8_t*)tur2;
+                for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
+                        *(pointr + counter2) = 0x00;
+        tur->signature_low = 0x55;
+        tur->signature_low2 = 0x53;
+        tur->signature_low3 = 0x42;
+        tur->signature_high = 0x43;
 
-	    tur->tag_low = 0xdd;
-	    tur->tag_low2 = 0xcc;
-	    tur->tag_low3 = 0xbb;
-	    tur->tag_high = 0xaa;
-	    tur->data_transfer_length_low = 0x00;
-	    tur->data_transfer_length_low2 = 0x00;
-	    tur->data_transfer_length_low3 = 0x00;
-	    tur->data_transfer_length_high = 0x00;
-	    tur->flags = 0x80;
-	    tur->lun = 0x00;
-	    tur->cbwcw_length = 0x06;
-	    tur->operation_code = 0x00;
-	    tur->reserved1 = 0x00;
-	    tur->reserved2 = 0x00;
-	    tur->reserved3 = 0x00;
-	    tur->reserved4 = 0x00;
-	    tur->control = 0x00;
-	    tur->zero_1 = 0x00;
-	    tur->zero_2 = 0x00;
-	    tur->zero_3 = 0x00;
-	    tur->zero_4 = 0x00;
-	    tur->zero_5 = 0x00;
-	    tur->zero_6 = 0x00;
-	    tur->zero_7 = 0x00;
-	    tur->zero_8 = 0x00;
-	    tur->zero_9 = 0x00;
-	    tur->zero_10 = 0x00;
-    
+        tur->tag_low = 0xdd;
+        tur->tag_low2 = 0xcc;
+        tur->tag_low3 = 0xbb;
+        tur->tag_high = 0xaa;
+        tur->data_transfer_length_low = 0x00;
+        tur->data_transfer_length_low2 = 0x00;
+        tur->data_transfer_length_low3 = 0x00;
+        tur->data_transfer_length_high = 0x00;
+        tur->flags = 0x80;
+        tur->lun = 0x00;
+        tur->cbwcw_length = 0x06;
+        tur->operation_code = 0x00;
+        tur->reserved1 = 0x00;
+        tur->reserved2 = 0x00;
+        tur->reserved3 = 0x00;
+        tur->reserved4 = 0x00;
+        tur->control = 0x00;
+        tur->zero_1 = 0x00;
+        tur->zero_2 = 0x00;
+        tur->zero_3 = 0x00;
+        tur->zero_4 = 0x00;
+        tur->zero_5 = 0x00;
+        tur->zero_6 = 0x00;
+        tur->zero_7 = 0x00;
+        tur->zero_8 = 0x00;
+        tur->zero_9 = 0x00;
+        tur->zero_10 = 0x00;
 	    return tur;
 }
 
@@ -483,43 +480,42 @@ struct test_unit_ready* set_tur()
  */
 struct identify* set_identify()
 {
-	    struct identify* idtf2 = idtf;
-	    uint8_t* pointr = (uint8_t*)idtf2;
-			    for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
-					    *(pointr + counter2) = 0x00;
-	    idtf->signature_low = 0x55;
-	    idtf->signature_low2 = 0x53;
-	    idtf->signature_low3 = 0x42;
-	    idtf->signature_high = 0x43;
+        struct identify* idtf2 = idtf;
+        uint8_t* pointr = (uint8_t*)idtf2;
+                for(uint32_t counter2 = 0; counter2 < 4096; counter2++)
+                        *(pointr + counter2) = 0x00;
+        idtf->signature_low = 0x55;
+        idtf->signature_low2 = 0x53;
+        idtf->signature_low3 = 0x42;
+        idtf->signature_high = 0x43;
 
-	    idtf->tag_low = 0xdd;
-	    idtf->tag_low2 = 0xcc;
-	    idtf->tag_low3 = 0xbb;
-	    idtf->tag_high = 0xaa;
-	    idtf->data_transfer_length_low = 0x00;
-	    idtf->data_transfer_length_low2 = 0x00;
-	    idtf->data_transfer_length_low3 = 0x00;
-	    idtf->data_transfer_length_high = 0x00;
-	    idtf->flags = 0x80;
-	    idtf->lun = 0x00;
-	    idtf->cbwcw_length = 0x01;
-	    idtf->idtf_message = 0x80;
-	    idtf->zero_pad1 = 0x00;
-	    idtf->zero_pad2 = 0x00;
-	    idtf->zero_pad3 = 0x00;
-	    idtf->zero_pad4 = 0x00;
-	    idtf->zero_pad5 = 0x00;
-	    idtf->zero_1 = 0x00;
-	    idtf->zero_2 = 0x00;
-	    idtf->zero_3 = 0x00;
-	    idtf->zero_4 = 0x00;
-	    idtf->zero_5 = 0x00;
-	    idtf->zero_6 = 0x00;
-	    idtf->zero_7 = 0x00;
-	    idtf->zero_8 = 0x00;
-	    idtf->zero_9 = 0x00;
-	    idtf->zero_10 = 0x00;
-	    
+        idtf->tag_low = 0xdd;
+        idtf->tag_low2 = 0xcc;
+        idtf->tag_low3 = 0xbb;
+        idtf->tag_high = 0xaa;
+        idtf->data_transfer_length_low = 0x00;
+        idtf->data_transfer_length_low2 = 0x00;
+        idtf->data_transfer_length_low3 = 0x00;
+        idtf->data_transfer_length_high = 0x00;
+        idtf->flags = 0x80;
+        idtf->lun = 0x00;
+        idtf->cbwcw_length = 0x01;
+        idtf->idtf_message = 0x80;
+        idtf->zero_pad1 = 0x00;
+        idtf->zero_pad2 = 0x00;
+        idtf->zero_pad3 = 0x00;
+        idtf->zero_pad4 = 0x00;
+        idtf->zero_pad5 = 0x00;
+        idtf->zero_1 = 0x00;
+        idtf->zero_2 = 0x00;
+        idtf->zero_3 = 0x00;
+        idtf->zero_4 = 0x00;
+        idtf->zero_5 = 0x00;
+        idtf->zero_6 = 0x00;
+        idtf->zero_7 = 0x00;
+        idtf->zero_8 = 0x00;
+        idtf->zero_9 = 0x00;
+        idtf->zero_10 = 0x00;
 	    return idtf;
 }
 
