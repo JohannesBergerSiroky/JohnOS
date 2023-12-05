@@ -58,7 +58,7 @@ void print_xhci_port_hardwarelpm(uint32_t port_offset)
 
 void store_xhci_maxports()
 {
-       uint32_t xbaddr5 = read_dword((const uint32_t)xhci_mem_address_attr_doorb,(const uint32_t)0x00000004);
+        uint32_t xbaddr5 = read_dword((const uint32_t)xhci_mem_address_attr_doorb,(const uint32_t)0x00000004);
         xbaddr5 >>= 24;
         xhci_max_ports = xbaddr5;     
 }
@@ -136,7 +136,7 @@ void xhci_portx_enumeration(uint32_t x_usb_topology)
         uint32_t temp = 0;
 
         print("\nchecking port power");
-        
+
         uint32_t xbaddr5 = read_dword((const uint32_t)xhci_mem_address_attr_doorb,(const uint32_t)0x00000010);
         if(xbaddr5 & (1 << 3)) {
                 print("\nports have their own port power switches. can apply port power,\nthe ppflag reports correctly");
@@ -208,7 +208,7 @@ void xhci_portx_enumeration(uint32_t x_usb_topology)
                         print("\n Port ");
                         printi((uint32_t)i+1);
                         print(" has no device connected to it");
-                    }
+                }
 
         }
 
@@ -231,50 +231,50 @@ void init_port_variables()
 /* the functions below should not be there because how many ports there are depends on the host controller */
 uint32_t get_ehci_port1()
 {
-	    const uint32_t get_port_status = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000064);
-	    return get_port_status;
+        const uint32_t get_port_status = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000064);
+        return get_port_status;
 }
 uint32_t get_ehci_port2()
 {
-	    const uint32_t get_port_status = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000068);
-	    return get_port_status;
+        const uint32_t get_port_status = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000068);
+        return get_port_status;
 }
 uint32_t get_ehci_port3()
 {
-	    const uint32_t get_port_status = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x0000006c);
-	    return get_port_status;
+        const uint32_t get_port_status = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x0000006c);
+        return get_port_status;
 }
 uint32_t get_ehci_port4()
 {
-	    const uint32_t get_port_status = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000070);
-	    return get_port_status;
+        const uint32_t get_port_status = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000070);
+        return get_port_status;
 }
 uint32_t get_ehci_port5()
 {
-	    const uint32_t get_port_status = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000074);
-	    return get_port_status;
+        const uint32_t get_port_status = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000074);
+        return get_port_status;
 }
 uint32_t get_ehci_port6()
 {
-	    const uint32_t get_port_status = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000078);
-	    return get_port_status;
+        const uint32_t get_port_status = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000078);
+        return get_port_status;
 }
 uint32_t get_ehci_port7()
 {
-	    const uint32_t get_port_status = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x0000007c);
-	    return get_port_status;
+        const uint32_t get_port_status = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x0000007c);
+        return get_port_status;
 }
 uint32_t get_ehci_port8()
 {
-	    const uint32_t get_port_status = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000080);
-	    return get_port_status;
+        const uint32_t get_port_status = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000080);
+        return get_port_status;
 }
 
 
 uint32_t get_ehci_usbsts()
 {
-	    uint32_t get_status = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000024);
-	    return get_status;
+        uint32_t get_status = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)0x00000024);
+        return get_status;
 }
 
 
@@ -282,14 +282,14 @@ uint32_t get_ehci_usbsts()
 
 void GetUsbPortStatus()
 {
-	    uint32_t usb_status = get_ehci_usbsts(); // read from the usb status register
-	    if ((usb_status & (1 << 2))) {
-			    Get_Port_Status();
-	    }
+        uint32_t usb_status = get_ehci_usbsts(); // read from the usb status register
+        if ((usb_status & (1 << 2))) {
+                Get_Port_Status();
+        }
 }
 void port_enum()
 {
-	    print("hi");
+        print("hi");
 }
 
 void Get_Port_Status()
@@ -305,12 +305,11 @@ void Get_Port_Status()
                 ehci_int_unhandled = 1; // make an array with a queue instead
                 return;
         }
-        
-            
-		uint32_t temp = 0;
-		uint32_t temp3 = 0;
+
+        uint32_t temp = 0;
+        uint32_t temp3 = 0;
         uint32_t check_ports_flag = 0;
-		uint32_t usb_port = 0x00000060;
+        uint32_t usb_port = 0x00000060;
 
 
         temp = ehci_port_num; // check this one
@@ -318,7 +317,7 @@ void Get_Port_Status()
                 usb_port += 4;
                 temp3 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port);
                 if (temp3 & (1 << 4))
-                    check_ports_flag = 1; 
+                        check_ports_flag = 1; 
         }
 
         /* overcurrent */
@@ -327,324 +326,324 @@ void Get_Port_Status()
                 timer_install();
                 asm("sti");
 
-			    print("over current on port ");
+                print("over current on port ");
                 printi((usb_port - 60) / 4);
                 print("!\n\n");
-				if (temp3 & (1 << 5)) {
+                if (temp3 & (1 << 5)) {
 
-					    temp3 |= (1 << 5);
+                        temp3 |= (1 << 5);
                         /* clear port overcurrent change */
-					    write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port, (const uint32_t)temp3);
-			    }
+                        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port, (const uint32_t)temp3);
+                }
 
-			    temp3 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port);
-			    /* if change port enable = 1 */
-			    if((temp3 & (1 << 3)))  {
-				        temp3 |= (1 << 3);
-				        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port, (const uint32_t)temp3);
-		        }
+                temp3 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port);
+                /* if change port enable = 1 */
+                if((temp3 & (1 << 3)))  {
+                        temp3 |= (1 << 3);
+                        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port, (const uint32_t)temp3);
+                }
 
-		        temp3 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port);
+                temp3 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port);
                 /* if overcurrent active and port enabled */
-		        if((((temp3 & (1 << 4)))) && ((temp3 & (1 << 2))))  {
-			            /* enable port suspend */
-				        temp3 |= (1 << 7); 
+                if((((temp3 & (1 << 4)))) && ((temp3 & (1 << 2))))  {
+                        /* enable port suspend */
+                        temp3 |= (1 << 7); 
                         /* suspend */
-				        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port, (const uint32_t)temp3);
-		        }
+                        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port, (const uint32_t)temp3);
+                }
 
-		        print("\nPlease wait a little..");
-		        timer_ticks = 0;
-		        while(timer_ticks < 4);
+                print("\nPlease wait a little..");
+                timer_ticks = 0;
+                while(timer_ticks < 4);
 
 
-		        temp3 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port);
+                temp3 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port);
 
                 /* if overcurrent stopped */
-		        if ((temp3 & (1 << 4)) == 0) {
+                if ((temp3 & (1 << 4)) == 0) {
                         /* check if over-current changed */
-				        if ((temp3 & (1 << 5)))  {
-						        temp3 |= (1 << 5);
+                        if ((temp3 & (1 << 5)))  {
+                                temp3 |= (1 << 5);
                                 /* clear overcurrent change */
-						        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port, (const uint32_t)temp3); 
-					            /* force resume */
-						        temp3 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port);
+                                write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port, (const uint32_t)temp3); 
+                                /* force resume */
+                                temp3 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port);
                                 /* if port reports itself suspended and is not resumed, is enabled and overcurrent stopped */
-						        if(((temp3 & (1 << 7))) && (((temp3 & (1 << 6)) == 0)) && (((temp3 & (1 << 2)))) && (((temp3 & (1 << 4)) == 0)))  {
+                                if(((temp3 & (1 << 7))) && (((temp3 & (1 << 6)) == 0)) && (((temp3 & (1 << 2)))) && (((temp3 & (1 << 4)) == 0)))  {
                                         /* force port resume */
-								        temp3 |= (1 << 6); 
-								        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port, (const uint32_t)temp3);
-								        timer_ticks = 0;
-								        while(timer_ticks < 2);
-						        }
-				        }
-		        }					
+                                        temp3 |= (1 << 6); 
+                                        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port, (const uint32_t)temp3);
+                                        timer_ticks = 0;
+                                        while(timer_ticks < 2);
+                                }
+                        }
+                }
 
-		        temp3 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port);
+                temp3 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port);
                 /* if overcurrent stopped */
-		        if (((((temp3 & (1 << 4)) == 0))) && ((temp3 & (1 << 5)))) {
-				        gps_flag = 1;
-				        temp3 |= (1 << 5);
-				        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port, (const uint32_t)temp3); // clear port overcurrent change
-		        }
+                if (((((temp3 & (1 << 4)) == 0))) && ((temp3 & (1 << 5)))) {
+                        gps_flag = 1;
+                        temp3 |= (1 << 5);
+                        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port, (const uint32_t)temp3); // clear port overcurrent change
+                }
                 asm("cli");
                 irq_uninstall_handler(0);
-		}
+        }
 
 
-	    temp3 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port);
+       temp3 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port);
 
 
-	    if (temp3 & (1 << 1)) {
+        if (temp3 & (1 << 1)) {
 
-			    if(temp3 & 0x00000001) {
-				        print("\nDevice connected to port ");
+                if(temp3 & 0x00000001) {
+                        print("\nDevice connected to port ");
                         printi((usb_port - 60) / 4);
                         print("\n\n");
 
                 }
-			    else if ((temp3 & 0x00000001) == 0) {
-				        print("Device removed from port ");
+                else if ((temp3 & 0x00000001) == 0) {
+                        print("Device removed from port ");
                         printi((usb_port - 60) / 4);
                         print("\n\n");
 
                 }
-	    }
-	    temp3 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port);
-	    if(temp3 & 0x00000002) {								
-			    temp3 |= 0x2;
-			    write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port, (const uint32_t)temp3); // clear port connect change
-	    }
+        }
+        temp3 = (uint32_t)read_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port);
+        if(temp3 & 0x00000002) {								
+                temp3 |= 0x2;
+                write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port, (const uint32_t)temp3); // clear port connect change
+        }
 
 
         set_kbvariables_zero();
 
-} 
+}
 
 
 void Get_Ohci_Port_Status()
 {
 
-	    uint32_t temp1 = get_ohci_port1();
+        uint32_t temp1 = get_ohci_port1();
 
         /* port connect change */
         /* csc = connect status change */
-	    if((((temp1 >> 16) & 0x00000001) == 1)) 
-		    reset_port1_csc();
+        if((((temp1 >> 16) & 0x00000001) == 1)) 
+                reset_port1_csc();
 
         /* port enabled change */
         /* pesc = port enable status change */
-	    if((((temp1 >> 17) & 0x00000001) == 1)) 
-		    reset_port1_pesc();
+        if((((temp1 >> 17) & 0x00000001) == 1)) 
+                reset_port1_pesc();
 
         /* port suspend status change */
         /* pssc = port suspend status change */
-	    if((((temp1 >> 18) & 0x00000001) == 1)) 
-		    reset_port1_pssc();
+        if((((temp1 >> 18) & 0x00000001) == 1)) 
+                reset_port1_pssc();
 
         /* port over current indicator change */
         /* ocic = overcurrent indicator change */
-	    if((((temp1 >> 19) & 0x00000001) == 1)) 
-		    reset_port1_ocic();
+        if((((temp1 >> 19) & 0x00000001) == 1)) 
+                reset_port1_ocic();
 
         /* port reset status change */
         /* prsc = port reset status change */
-	    if((((temp1 >> 20) & 0x00000001) == 1)) 
-		    reset_port1_prsc();
-     
-	    temp1 = get_ohci_port2();
-	    if((((temp1 >> 16) & 0x00000001) == 1))
-		    reset_port2_csc();
+        if((((temp1 >> 20) & 0x00000001) == 1)) 
+                reset_port1_prsc();
 
-	    if((((temp1 >> 17) & 0x00000001) == 1))
-		    reset_port2_pesc();
+        temp1 = get_ohci_port2();
+        if((((temp1 >> 16) & 0x00000001) == 1))
+                reset_port2_csc();
 
-	    if((((temp1 >> 18) & 0x00000001) == 1))
-		    reset_port2_pssc();
+        if((((temp1 >> 17) & 0x00000001) == 1))
+                reset_port2_pesc();
 
-	    if((((temp1 >> 19) & 0x00000001) == 1))
-		    reset_port2_ocic();
+        if((((temp1 >> 18) & 0x00000001) == 1))
+                reset_port2_pssc();
 
-	    if((((temp1 >> 20) & 0x00000001) == 1))
-		    reset_port2_prsc();
+        if((((temp1 >> 19) & 0x00000001) == 1))
+                reset_port2_ocic();
+
+        if((((temp1 >> 20) & 0x00000001) == 1))
+                reset_port2_prsc();
 
 }
 
 /* clear connect status change */
 void reset_port1_csc() 
 {
-	    uint32_t temp2 = get_ohci_port1();
-	    temp2 |= (1 << 16);
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000054, (const uint32_t)temp2);
+        uint32_t temp2 = get_ohci_port1();
+        temp2 |= (1 << 16);
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000054, (const uint32_t)temp2);
 }
 /* port enable status change */
 void reset_port1_pesc() 
 {
-	    uint32_t temp2 = get_ohci_port1();
-	    temp2 |= (1 << 17);
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000054, (const uint32_t)temp2);
+        uint32_t temp2 = get_ohci_port1();
+        temp2 |= (1 << 17);
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000054, (const uint32_t)temp2);
 }
 /* port suspend status change */
 void reset_port1_pssc() 
 {
-	    uint32_t temp2 = get_ohci_port1();
-	    temp2 |= (1 << 18);
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000054, (const uint32_t)temp2);
+        uint32_t temp2 = get_ohci_port1();
+        temp2 |= (1 << 18);
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000054, (const uint32_t)temp2);
 }
 /* over current indicator change */
 void reset_port1_ocic() 
 {
-	    uint32_t temp2 = get_ohci_port1();
-	    temp2 |= (1 << 19);
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000054, (const uint32_t)temp2);
+        uint32_t temp2 = get_ohci_port1();
+        temp2 |= (1 << 19);
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000054, (const uint32_t)temp2);
 }
 /* port reset status change */
 void reset_port1_prsc() 
 {
-	    uint32_t temp2 = get_ohci_port1();
-	    temp2 |= (1 << 20);
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000054, (const uint32_t)temp2);
+        uint32_t temp2 = get_ohci_port1();
+        temp2 |= (1 << 20);
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000054, (const uint32_t)temp2);
 }
 /* clear connect status change */
 void reset_port2_csc() 
 {
-	    uint32_t temp2 = get_ohci_port2();
-	    temp2 |= (1 << 16);
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000058, (const uint32_t)temp2);
+        uint32_t temp2 = get_ohci_port2();
+        temp2 |= (1 << 16);
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000058, (const uint32_t)temp2);
 }
 /* port enable status change */
 void reset_port2_pesc() 
 {
-	    uint32_t temp2 = get_ohci_port2();
-	    temp2 |= (1 << 17);
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000058, (const uint32_t)temp2);
+        uint32_t temp2 = get_ohci_port2();
+        temp2 |= (1 << 17);
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000058, (const uint32_t)temp2);
 }
 /* port suspend status change */
 void reset_port2_pssc() 
 {
-	    uint32_t temp2 = get_ohci_port2();
-	    temp2 |= (1 << 18);
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000058, (const uint32_t)temp2);
+        uint32_t temp2 = get_ohci_port2();
+        temp2 |= (1 << 18);
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000058, (const uint32_t)temp2);
 }
 /* over current indicator change */
 void reset_port2_ocic() 
 {
-	    uint32_t temp2 = get_ohci_port2();
-	    temp2 |= (1 << 19);
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000058, (const uint32_t)temp2);
+        uint32_t temp2 = get_ohci_port2();
+        temp2 |= (1 << 19);
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000058, (const uint32_t)temp2);
 }
 /* port reset status change */
 void reset_port2_prsc() 
 {
-	    uint32_t temp2 = get_ohci_port2();
-	    temp2 |= (1 << 20);
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000058, (const uint32_t)temp2);
+        uint32_t temp2 = get_ohci_port2();
+        temp2 |= (1 << 20);
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000058, (const uint32_t)temp2);
 }
 
 
 void reset_ohci_port1()
 {
-	    ohci_ports_busy = 1;
-	    uint32_t temp2 = get_ohci_port1();
-	    temp2 |= (1 << 4);
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000054, (const uint32_t)temp2);
-	    ohci_ports_busy = 0;
+        ohci_ports_busy = 1;
+        uint32_t temp2 = get_ohci_port1();
+        temp2 |= (1 << 4);
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000054, (const uint32_t)temp2);
+        ohci_ports_busy = 0;
 }
 
 void reset_ohci_port2()
 {
-	    ohci_ports_busy = 1;
-	    uint32_t temp2 = get_ohci_port2();
-	    temp2 |= (1 << 4);
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000058, (const uint32_t)temp2);
-	    ohci_ports_busy = 0;
+        ohci_ports_busy = 1;
+        uint32_t temp2 = get_ohci_port2();
+        temp2 |= (1 << 4);
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000058, (const uint32_t)temp2);
+        ohci_ports_busy = 0;
 }
 
 
 
 void setenable_ohci_port1()
 {
-	    uint32_t temp = get_ohci_port1();
-	    temp |= (1 << 1);
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000054, (const uint32_t)temp);
-	    ohci_ports_busy = 0;
+        uint32_t temp = get_ohci_port1();
+        temp |= (1 << 1);
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000054, (const uint32_t)temp);
+        ohci_ports_busy = 0;
 }
 
 void setenable_ohci_port2()
 {
-	    uint32_t temp = get_ohci_port2();
-	    temp |= (1 << 1);
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000058, (const uint32_t)temp);
+        uint32_t temp = get_ohci_port2();
+        temp |= (1 << 1);
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000058, (const uint32_t)temp);
 }
 
 
 void uhci_port_reset()
 {
 
-	    print("\n\nport1 after hc reset:");
-	    read_uhci_usbport1();
+        print("\n\nport1 after hc reset:");
+        read_uhci_usbport1();
 
-	    uint16_t temp1 = get_uhci_port1();
-	    if ((temp1 & (1 << 1))) {
-			    temp1 |= (1 << 1);
-			    write_word2((const uint16_t)uhci_mem_address, (const uint16_t)0x0010, (const uint16_t)temp1);
-	    }
-	    if ((temp1 & (1 << 3))) {
-			    temp1 |= (1 << 3);
-			    write_word2((const uint16_t)uhci_mem_address, (const uint16_t)0x0010, (const uint16_t)temp1);
-	    }
-	    print("\n\nport1 after clearing the bits:");
-	    read_uhci_usbport1();
+        uint16_t temp1 = get_uhci_port1();
+        if ((temp1 & (1 << 1))) {
+                temp1 |= (1 << 1);
+                write_word2((const uint16_t)uhci_mem_address, (const uint16_t)0x0010, (const uint16_t)temp1);
+        }
+        if ((temp1 & (1 << 3))) {
+                temp1 |= (1 << 3);
+                write_word2((const uint16_t)uhci_mem_address, (const uint16_t)0x0010, (const uint16_t)temp1);
+        }
+        print("\n\nport1 after clearing the bits:");
+        read_uhci_usbport1();
 
-	    /* reset port 1 */
-	    temp1 = get_uhci_port1();
-	    if ((temp1 & (1 << 9)) != (1 << 9)) {
-			    temp1 |= (1 << 9);
-			    timer_phase(1000);
-			    asm("sti");
-			    timer_ticks = 0;
-			    while(timer_ticks < 58);
-			    asm("cli");
-			    print("\n1");
-			    temp1 = get_uhci_port1();
+        /* reset port 1 */
+        temp1 = get_uhci_port1();
+        if ((temp1 & (1 << 9)) != (1 << 9)) {
+                temp1 |= (1 << 9);
+                timer_phase(1000);
+                asm("sti");
+                timer_ticks = 0;
+                while(timer_ticks < 58);
+                asm("cli");
+                print("\n1");
+                temp1 = get_uhci_port1();
                 /* reset */
-			    if ((temp1 & (1 << 9))) {
-					    temp1 &= (~(1 << 9));
-					    write_word2((const uint16_t)uhci_mem_address, (const uint16_t)0x0010, (const uint16_t)temp1);
+                if ((temp1 & (1 << 9))) {
+                        temp1 &= (~(1 << 9));
+                        write_word2((const uint16_t)uhci_mem_address, (const uint16_t)0x0010, (const uint16_t)temp1);
 
-			    }	
+                }
 
-			    temp1 = get_uhci_port1();
-			    print("\n3");
+                temp1 = get_uhci_port1();
+                print("\n3");
                 /* port enable change */
-			    if((temp1 & (1 << 3)))  {
-					    temp1 |=(1 << 3);
-					    write_word2((const uint16_t)uhci_mem_address, (const uint16_t)0x0010, (const uint16_t)temp1);
-			    }
+                if((temp1 & (1 << 3)))  {
+                        temp1 |=(1 << 3);
+                        write_word2((const uint16_t)uhci_mem_address, (const uint16_t)0x0010, (const uint16_t)temp1);
+                }
                 /* port enable. in this case disabled */
-			    if((temp1 & (1 << 2)) == 0)  {
-					    temp1 |= (1 << 2);
-					    write_word2((const uint16_t)uhci_mem_address, (const uint16_t)0x0010, (const uint16_t)temp1);
+                if((temp1 & (1 << 2)) == 0)  {
+                        temp1 |= (1 << 2);
+                        write_word2((const uint16_t)uhci_mem_address, (const uint16_t)0x0010, (const uint16_t)temp1);
 
-			    }
-			    print("\n6 finished");
+                }
+                print("\n6 finished");
 
-			    asm("sti");
-			    timer_ticks = 0;
-			    while(timer_ticks < 24);
-			    asm("cli");
-			    timer_phase(18);
-			    temp1 = get_uhci_port1();
-                /* port not enabled */
-			    if((temp1 & (1 << 2)) != (1 << 2)) {
-					    print("\n\nError: port1 not enabled after reset. Resetting hc.");
-					    uhci_hcreset();
-			    }
-				    
-	    }
-	    print("\nuhci port1 after trying to reset and enable:");
-	    read_uhci_usbport1();
-	
+                asm("sti");
+                timer_ticks = 0;
+                while(timer_ticks < 24);
+                asm("cli");
+                timer_phase(18);
+                temp1 = get_uhci_port1();
+                /* port not enabled */ 
+                if((temp1 & (1 << 2)) != (1 << 2)) {
+                        print("\n\nError: port1 not enabled after reset. Resetting hc.");
+                        uhci_hcreset();
+                }
+
+        }
+        print("\nuhci port1 after trying to reset and enable:");
+        read_uhci_usbport1();
+
 }
 
 
@@ -652,24 +651,20 @@ void uhci_port_reset()
 void treat_connection_change(volatile uint32_t temp3, uint32_t a, uint32_t usb_port)
 {
         if (((temp3 & (1 << 1)))) {
-		        if((temp3 & 0x00000001)) {
-				        print("\nDevice Connected to port ");
-				        printi(a);
+                if((temp3 & 0x00000001)) {
+                        print("\nDevice Connected to port ");
+                        printi(a);
 
-		        }
-		        if((temp3 & 0x00000001) == 0) {
-			            print("\nDevice removed from port ");
-				        printi(a);
+                }
+                if((temp3 & 0x00000001) == 0) {
+                        print("\nDevice removed from port ");
+                        printi(a);
 
-		        }
-		        if(((temp3 & (1 << 1)))) {								
-				        temp3 |= (1 << 1);
+                }
+                if(((temp3 & (1 << 1)))) {								
+                        temp3 |= (1 << 1);
                         /* clear port connect change */
-				        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port, (const uint32_t)temp3); 
-		        }
-        }				
+                        write_dword((const uint32_t)ehci_mem_address, (const uint32_t)usb_port, (const uint32_t)temp3); 
+                }
+        }
 }
-
-
-
-
