@@ -155,38 +155,38 @@ struct inquiry {
         volatile uint8_t signature_mid_low;
         volatile uint8_t signature_low_high;
         volatile uint8_t signature_mid_high;
-	    volatile uint8_t tag_low;
-	    volatile uint8_t tag_low1;
-	    volatile uint8_t tag_low2;
-	    volatile uint8_t tag_high;
-	    volatile uint8_t data_transfer_length_low;
-	    volatile uint8_t data_transfer_length_low1; 
-	    volatile uint8_t data_transfer_length_low2; 
-	    volatile uint8_t data_transfer_length_high; 
+        volatile uint8_t tag_low;
+        volatile uint8_t tag_low1;
+        volatile uint8_t tag_low2;
+        volatile uint8_t tag_high;
+        volatile uint8_t data_transfer_length_low;
+        volatile uint8_t data_transfer_length_low1; 
+        volatile uint8_t data_transfer_length_low2; 
+        volatile uint8_t data_transfer_length_high; 
 
-	    volatile uint8_t flags; 
+        volatile uint8_t flags; 
         /* 0 */
-	    volatile uint8_t lun; 
-	    volatile uint8_t cbwcw_length; 
+        volatile uint8_t lun; 
+        volatile uint8_t cbwcw_length; 
         /*12h */
-	    volatile uint8_t operation_code;
+        volatile uint8_t operation_code;
         /* zero */ 
-	    volatile uint8_t meta_data; 
+        volatile uint8_t meta_data; 
         /* 0 */
-	    volatile uint8_t page_code; 
-	    volatile uint8_t allocation_length_low; 
-	    volatile uint8_t allocation_length_high;
-	    volatile uint8_t control;
-	    volatile uint8_t zero_1;
-	    volatile uint8_t zero_2;
-	    volatile uint8_t zero_3;
-	    volatile uint8_t zero_4;
-	    volatile uint8_t zero_5;
-	    volatile uint8_t zero_6;
-	    volatile uint8_t zero_7;
-	    volatile uint8_t zero_8;
-	    volatile uint8_t zero_9;
-	    volatile uint8_t zero_10;
+        volatile uint8_t page_code; 
+        volatile uint8_t allocation_length_low; 
+        volatile uint8_t allocation_length_high;
+        volatile uint8_t control;
+        volatile uint8_t zero_1;
+        volatile uint8_t zero_2;
+        volatile uint8_t zero_3;
+        volatile uint8_t zero_4;
+        volatile uint8_t zero_5;
+        volatile uint8_t zero_6;
+        volatile uint8_t zero_7;
+        volatile uint8_t zero_8;
+        volatile uint8_t zero_9;
+        volatile uint8_t zero_10;
 
 
 } __attribute__((packed));
