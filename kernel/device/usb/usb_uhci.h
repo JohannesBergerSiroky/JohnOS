@@ -115,16 +115,16 @@ void get_uhci_descriptor();
 struct uhci_transfer_descriptor {
 
 
-	    volatile uint32_t link_pointer;
-	    volatile uint32_t td_ctrl_sts;
-	    volatile uint32_t td_token;
+        volatile uint32_t link_pointer;
+        volatile uint32_t td_ctrl_sts;
+        volatile uint32_t td_token;
         /* u stands for uhci. mem addr 31:0 */
-	    volatile uint32_t u_td_buffer; 
+        volatile uint32_t u_td_buffer; 
         /* 128 bytes for software usage */
-	    volatile uint32_t sw_dword1; 
-	    volatile uint32_t sw_dword2; 
-	    volatile uint32_t sw_dword3; 
-	    volatile uint32_t sw_dword4;
+        volatile uint32_t sw_dword1; 
+        volatile uint32_t sw_dword2; 
+        volatile uint32_t sw_dword3; 
+        volatile uint32_t sw_dword4;
 
 
 } __attribute__((packed)); 
@@ -147,10 +147,10 @@ struct uhci_transfer_descriptor* td_8;
 struct uhci_queue_head {
 
 
-	    volatile uint32_t qh_head_next;
-	    volatile uint32_t qh_emnt_next;
-	    volatile uint32_t zero_1; 
-	    volatile uint32_t zero_2;
+        volatile uint32_t qh_head_next;
+        volatile uint32_t qh_emnt_next;
+        volatile uint32_t zero_1; 
+        volatile uint32_t zero_2;
 
 
 } __attribute__((packed));
