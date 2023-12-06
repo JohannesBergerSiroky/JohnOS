@@ -14,15 +14,14 @@
  */
 void print_xhci_commandreg()
 {
-		uint16_t temp_cmd = PCI_Config_RW(found_xhci_bus,found_xhci_device,found_xhci_function,4);
-		uint32_t xhci_pci_cmd = (uint32_t)temp_cmd;
-		print("\n\n xhci pci commandreg low word");
-		print_ehc_info_2((uint32_t)xhci_pci_cmd);
-		
-		print("\n\n xhci pci commandreg high word");
-		temp_cmd = PCI_Config_RW(found_xhci_bus,found_xhci_device,found_xhci_function,6);
-		xhci_pci_cmd = (uint32_t)temp_cmd;
-		print_ehc_info_2((uint32_t)xhci_pci_cmd);
+        uint16_t temp_cmd = PCI_Config_RW(found_xhci_bus,found_xhci_device,found_xhci_function,4);
+        uint32_t xhci_pci_cmd = (uint32_t)temp_cmd;
+        print("\n\n xhci pci commandreg low word");
+        print_ehc_info_2((uint32_t)xhci_pci_cmd);
+        print("\n\n xhci pci commandreg high word");
+        temp_cmd = PCI_Config_RW(found_xhci_bus,found_xhci_device,found_xhci_function,6);
+        xhci_pci_cmd = (uint32_t)temp_cmd;
+        print_ehc_info_2((uint32_t)xhci_pci_cmd);
 }
 
 /* Prints the control and status register, for the XHC, on the
@@ -38,43 +37,43 @@ void print_xhci_pci_control_status()
 /* Prints the caplength and the version of the XHC. */
 void print_xhci_capl_version()
 {
-	    uint32_t xbaddr5 = read_dword((const uint32_t)xhci_mem_address_attr_doorb,(const uint32_t)0x00000000);
-	    print_ehc_info_2((uint32_t)xbaddr5);
+        uint32_t xbaddr5 = read_dword((const uint32_t)xhci_mem_address_attr_doorb,(const uint32_t)0x00000000);
+        print_ehc_info_2((uint32_t)xbaddr5);
 }
 
 /* Prints the HCSPARAMS1 register. */
 void print_xhci_hciparams1()
 {
-	    uint32_t xbaddr5 = read_dword((const uint32_t)xhci_mem_address_attr_doorb,(const uint32_t)0x00000004);
-	    print_ehc_info_2((uint32_t)xbaddr5);
+        uint32_t xbaddr5 = read_dword((const uint32_t)xhci_mem_address_attr_doorb,(const uint32_t)0x00000004);
+        print_ehc_info_2((uint32_t)xbaddr5);
 }
 
 /* Prints the HCSPARAMS2 register. */
 void print_xhci_hciparams2()
 {
-	    uint32_t xbaddr5 = read_dword((const uint32_t)xhci_mem_address_attr_doorb,(const uint32_t)0x00000008);
-	    print_ehc_info_2((uint32_t)xbaddr5);
+        uint32_t xbaddr5 = read_dword((const uint32_t)xhci_mem_address_attr_doorb,(const uint32_t)0x00000008);
+        print_ehc_info_2((uint32_t)xbaddr5);
 }
 
 /* Prints the HCSPARAMS3 register. */
 void print_xhci_hciparams3()
 {
-	    uint32_t xbaddr5 = read_dword((const uint32_t)xhci_mem_address_attr_doorb,(const uint32_t)0x0000000c);
-	    print_ehc_info_2((uint32_t)xbaddr5);
+        uint32_t xbaddr5 = read_dword((const uint32_t)xhci_mem_address_attr_doorb,(const uint32_t)0x0000000c);
+        print_ehc_info_2((uint32_t)xbaddr5);
 }
 
 /* Prints the HCCPARAMS1 register. */
 void print_xhci_hccparams1()
 {
-	    uint32_t xbaddr5 = read_dword((const uint32_t)xhci_mem_address_attr_doorb,(const uint32_t)0x00000010);
-	    print_ehc_info_2((uint32_t)xbaddr5);
+        uint32_t xbaddr5 = read_dword((const uint32_t)xhci_mem_address_attr_doorb,(const uint32_t)0x00000010);
+        print_ehc_info_2((uint32_t)xbaddr5);
 }
 
 /* Prints the doorbell offset. */
 void print_xhci_doorbelloffset()
 {
-	    uint32_t xbaddr5 = read_dword((const uint32_t)xhci_mem_address_attr_doorb,(const uint32_t)0x00000014);
-	    print_ehc_info_2((uint32_t)xbaddr5);
+        uint32_t xbaddr5 = read_dword((const uint32_t)xhci_mem_address_attr_doorb,(const uint32_t)0x00000014);
+        print_ehc_info_2((uint32_t)xbaddr5);
 
 }
 
@@ -84,43 +83,43 @@ void print_xhci_doorbelloffset()
  */
 void print_xhci_rtsoffset()
 {
-	    uint32_t xbaddr5 = read_dword((const uint32_t)xhci_mem_address_attr_doorb,(const uint32_t)0x00000018); 
-	    print_ehc_info_2((uint32_t)xbaddr5);
+        uint32_t xbaddr5 = read_dword((const uint32_t)xhci_mem_address_attr_doorb,(const uint32_t)0x00000018); 
+        print_ehc_info_2((uint32_t)xbaddr5);
 }
 
 /* Prints the HCCPARAMS2 register. */
 void print_xhci_hccparams2()
 {
-	    uint32_t xbaddr5 = read_dword((const uint32_t)xhci_mem_address_attr_doorb,(const uint32_t)0x0000001c);
-	    print_ehc_info_2((uint32_t)xbaddr5);
+        uint32_t xbaddr5 = read_dword((const uint32_t)xhci_mem_address_attr_doorb,(const uint32_t)0x0000001c);
+        print_ehc_info_2((uint32_t)xbaddr5);
 }
 
 /* Prints the XHC's USB cmd register. */
 void print_xhci_usbcmd()
 {
-	    uint32_t xbaddr5 = read_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000000);
-	    print_ehc_info_2((uint32_t)xbaddr5);
+        uint32_t xbaddr5 = read_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000000);
+        print_ehc_info_2((uint32_t)xbaddr5);
 }
 
 /* Prints the page size register. */
 void print_xhci_pagesize()
 {
-	    uint32_t xbaddr5 = read_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000008);
-	    print_ehc_info_2((uint32_t)xbaddr5);
+        uint32_t xbaddr5 = read_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000008);
+        print_ehc_info_2((uint32_t)xbaddr5);
 }
 
 /* Prints the device notification control register. */
 void print_xhci_dvcnctrl()
 {
-	    uint32_t xbaddr5 = read_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000014);
-	    print_ehc_info_2((uint32_t)xbaddr5);
+        uint32_t xbaddr5 = read_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000014);
+        print_ehc_info_2((uint32_t)xbaddr5);
 }
 
 /* Prints the command ring control register. */
 void print_xhci_crctrl()
 {
-	    uint32_t xbaddr5 = read_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000018);
-	    print_ehc_info_2((uint32_t)xbaddr5);
+        uint32_t xbaddr5 = read_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000018);
+        print_ehc_info_2((uint32_t)xbaddr5);
 }
 
 /* Prints the command ring pointer. */
@@ -136,15 +135,15 @@ void print_command_ring_control_address()
  */
 void print_xhci_dcbaap()
 {
-	    uint32_t xbaddr5 = read_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000030);
-	    print_ehc_info_2((uint32_t)xbaddr5);
+        uint32_t xbaddr5 = read_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000030);
+        print_ehc_info_2((uint32_t)xbaddr5);
 }
 
 /* Prints the configure register. */
 void print_xhci_configure()
 {
-	    uint32_t xbaddr5 = read_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000038);
-	    print_ehc_info_2((uint32_t)xbaddr5);
+        uint32_t xbaddr5 = read_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000038);
+        print_ehc_info_2((uint32_t)xbaddr5);
 }
 
 /* Prints the doorbell offset and attempts to 
@@ -223,7 +222,6 @@ void print_command_ring()
         print("\ncommand ring address according to usage: ");
         print_hex((uint32_t)xhci_commandring_base);
         volatile uint32_t* cmdring_address_ptr = xhci_commandring_base;
-        
 
         print("\ncommand ring:");
         dec_to_bin((uint32_t)(*cmdring_address_ptr));
@@ -252,4 +250,3 @@ void print_first_hci_ext_cap_reg()
         dec_to_bin((uint32_t)xbaddr5);
         print("\n\n");
 }
-
