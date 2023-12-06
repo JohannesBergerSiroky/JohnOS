@@ -93,8 +93,8 @@ uint32_t get_xhci_cnr()
 /* Reads a byte from a memory address. */
 uint8_t read_byte(const uint32_t base_addr, const uint32_t offset)
 {
-	    volatile uint8_t byte = *((uint8_t *) (base_addr + offset));
-	    return byte;
+        volatile uint8_t byte = *((uint8_t *) (base_addr + offset));
+        return byte;
 }
 
 /* Stores the address of the XHC's operational base.
@@ -343,7 +343,7 @@ void store_hci_dcaba()
 
                 for(uint32_t k = 1; k < temp59;k++) {
                                 
-                             page_size_calc *= 2;                 
+                        page_size_calc *= 2;                 
                 }
                 temp95 = hci_scratchpad_size*2;
                 for(uint32_t i = 0; i < temp95; i+=2) {
@@ -700,10 +700,10 @@ uint32_t* init_and_send_input_context(uint32_t device_context_index, uint32_t po
 /* Puts the contents of a structure into the correct address space. */
 void xhci_trb_to_address(volatile uint32_t* address_field, struct trb * trb_to_transfer)
 {
-    *(address_field) = trb_to_transfer->field_0;
-    *(address_field + 1) = trb_to_transfer->field_1;
-    *(address_field + 2) = trb_to_transfer->field_2;
-    *(address_field + 3) = trb_to_transfer->field_3;
+        *(address_field) = trb_to_transfer->field_0;
+        *(address_field + 1) = trb_to_transfer->field_1;
+        *(address_field + 2) = trb_to_transfer->field_2;
+        *(address_field + 3) = trb_to_transfer->field_3;
 } 
 
 /* Prints a buffer. */
@@ -1690,7 +1690,7 @@ void hci_reset_sequence(uint32_t d_slot_index)
 
         uint32_t configure_error = hci_configure_slot(d_slot_index, (1 << 16), (volatile uint32_t)ica_list->ica_address);
 
-            kernel_delay_100(50);
+        kernel_delay_100(50);
 
         if(configure_error) {
 
@@ -1710,7 +1710,7 @@ void hci_reset_sequence(uint32_t d_slot_index)
                 kernel_delay_100(50);
                 actual_xdevice_slot = 0;
                 if(slot_error == 0)
-                     hci_enable_slot();
+                         hci_enable_slot();
                 slot_error = 1;
                 if(actual_xdevice_slot) {
 
@@ -1725,8 +1725,9 @@ void hci_reset_sequence(uint32_t d_slot_index)
 
                         slot_error = hci_disable_slot(actual_xdevice_slot);
 
-                        if(slot_error)
-                        {print("\ncould not disable slot");} 
+                        if(slot_error) {
+                                print("\ncould not disable slot");
+                        } 
                 }
                 kernel_delay_100(50);
 
@@ -1769,8 +1770,8 @@ void enable_interrupts_and_interrupter()
         volatile uint32_t xbaddr9 = (volatile uint32_t)read_dword((const uint32_t)xhci_runtime_base, (const uint32_t)0x00000020);
         if((xbaddr9 & 0x00000002)) {
 
-            xbaddr9 |= 0x00000002;
-            write_dword((const uint32_t)xhci_runtime_base,(const uint32_t)0x00000020, (const uint32_t)xbaddr9);
+                xbaddr9 |= 0x00000002;
+                write_dword((const uint32_t)xhci_runtime_base,(const uint32_t)0x00000020, (const uint32_t)xbaddr9);
 
         } 
         /* Allows general interrupts on the host system. Msi 
@@ -1779,8 +1780,8 @@ void enable_interrupts_and_interrupter()
         xbaddr9 = (volatile uint32_t)read_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000000);
         if((xbaddr9 & 0x00000004)) {
 
-            xbaddr9 |= 0x00000004;
-            write_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000000, (const uint32_t)xbaddr9);
+                xbaddr9 |= 0x00000004;
+                write_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000000, (const uint32_t)xbaddr9);
 
         }
 }
@@ -1802,8 +1803,8 @@ void hci_clear_interrupts()
         volatile uint32_t xbaddr9 = (volatile uint32_t)read_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000004);
         if((xbaddr9 & 0x00000004)) {
 
-            xbaddr9 |= 0x00000004;
-            write_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000004, (const uint32_t)xbaddr9);
+                xbaddr9 |= 0x00000004;
+                write_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000004, (const uint32_t)xbaddr9);
 
         }
         /* Checks and eventually clears the port change detect bit
@@ -1811,8 +1812,8 @@ void hci_clear_interrupts()
         */
        if((xbaddr9 & 0x00000010)) {
 
-            xbaddr9 |= 0x00000010;
-            write_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000004, (const uint32_t)xbaddr9);
+                xbaddr9 |= 0x00000010;
+                write_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000004, (const uint32_t)xbaddr9);
 
         }
         /* Checks and eventually clears the controller not ready bit
@@ -1820,8 +1821,8 @@ void hci_clear_interrupts()
         */
         if((xbaddr9 & 0x00000800)) {
 
-            xbaddr9 |= 0x00000800;
-            write_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000004, (const uint32_t)xbaddr9);
+                xbaddr9 |= 0x00000800;
+                write_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000004, (const uint32_t)xbaddr9);
 
         }
 }
@@ -1837,16 +1838,16 @@ void handle_ev_non_dq(uint8_t interrupt_handl)
 
                 if((xbaddr9 & 8)) {   
 
-                    xbaddr9 |= 0x00000008;
-                    write_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000004, (const uint32_t)xbaddr9);
+                        xbaddr9 |= 0x00000008;
+                        write_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000004, (const uint32_t)xbaddr9);
 
                 }
 
                 xbaddr9 = (volatile uint32_t)read_dword((const uint32_t)xhci_runtime_base,(const uint32_t)0x00000020);
                 if((xbaddr9 & 1)) {
 
-                    xbaddr9 |= 1;
-                    write_dword((const uint32_t)xhci_runtime_base,(const uint32_t)0x00000020, (const uint32_t)xbaddr9);
+                        xbaddr9 |= 1;
+                        write_dword((const uint32_t)xhci_runtime_base,(const uint32_t)0x00000020, (const uint32_t)xbaddr9);
 
                 }
         }
@@ -1858,29 +1859,29 @@ uint32_t handle_event(uint8_t interrupt_handling)
         uint32_t event_error = 1;
         if(xhci_interrupt_status == 0) {
 
-            volatile uint32_t xbaddr9 = (volatile uint32_t)read_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000004);
+                volatile uint32_t xbaddr9 = (volatile uint32_t)read_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000004);
 
-            /* Checks for an event interrupt. */
-            if((xbaddr9 & 8)) {   
+                /* Checks for an event interrupt. */
+                if((xbaddr9 & 8)) {   
 
-                xbaddr9 |= 0x00000008;
-                write_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000004, (const uint32_t)xbaddr9);
-            }
+                        xbaddr9 |= 0x00000008;
+                        write_dword((const uint32_t)hci_operational_base,(const uint32_t)0x00000004, (const uint32_t)xbaddr9);
+                }
 
-            kernel_delay_100(50);
+                kernel_delay_100(50);
 
-            xbaddr9 = (volatile uint32_t)read_dword((const uint32_t)xhci_runtime_base,(const uint32_t)0x00000020);
-            /* Checks if an interrupt is pending. */
-            if((xbaddr9 & 1)) {
+                xbaddr9 = (volatile uint32_t)read_dword((const uint32_t)xhci_runtime_base,(const uint32_t)0x00000020);
+                /* Checks if an interrupt is pending. */
+                if((xbaddr9 & 1)) {
 
-                    xbaddr9 |= 1;
-                    write_dword((const uint32_t)xhci_runtime_base,(const uint32_t)0x00000020, (const uint32_t)xbaddr9);
+                        xbaddr9 |= 1;
+                        write_dword((const uint32_t)xhci_runtime_base,(const uint32_t)0x00000020, (const uint32_t)xbaddr9);
 
-            }
+                }
 
-            kernel_delay_100(50);
-            /* Writes on the dequeue pointer register. */
-            event_error = write_event_dequeue_pointer(hci_er_dq_ptr);
+                kernel_delay_100(50);
+                /* Writes on the dequeue pointer register. */
+                event_error = write_event_dequeue_pointer(hci_er_dq_ptr);
 
         }
 
