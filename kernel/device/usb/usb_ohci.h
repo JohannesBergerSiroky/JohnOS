@@ -155,10 +155,10 @@ void print_done_queue_td();
 struct general_transfer_descriptor {
 
 
-	    volatile uint32_t descriptor_info;
-	    volatile uint8_t* cbp;
-	    volatile uint32_t next_td;
-	    volatile uint32_t buffer_end;
+        volatile uint32_t descriptor_info;
+        volatile uint8_t* cbp;
+        volatile uint32_t next_td;
+        volatile uint32_t buffer_end;
 
 
 } __attribute__((packed));
@@ -166,14 +166,14 @@ struct general_transfer_descriptor {
 struct isochronous_transfer_descriptor {
 
 
-	    volatile uint32_t descriptor_info;
-	    volatile uint8_t* buffer_page0;
-	    struct isochronous_transfer_descriptor* next_td;
-	    volatile uint8_t* buffer_end;
-	    volatile uint32_t psw0_1;
-	    volatile uint32_t psw2_3;
-	    volatile uint32_t psw4_5;
-	    volatile uint32_t psw6_7;
+        volatile uint32_t descriptor_info;
+        volatile uint8_t* buffer_page0;
+        struct isochronous_transfer_descriptor* next_td;
+        volatile uint8_t* buffer_end;
+        volatile uint32_t psw0_1;
+        volatile uint32_t psw2_3;
+        volatile uint32_t psw4_5;
+        volatile uint32_t psw6_7;
 
 
 } __attribute__((packed));
@@ -181,10 +181,10 @@ struct isochronous_transfer_descriptor {
 struct endpoint_descriptor {
 
 
-	    volatile uint32_t endpoint_info;
-	    volatile uint32_t tail_pointer;
-	    volatile uint32_t head_pointer;
-	    volatile uint32_t next_ed;
+        volatile uint32_t endpoint_info;
+        volatile uint32_t tail_pointer;
+        volatile uint32_t head_pointer;
+        volatile uint32_t next_ed;
 
 
 } __attribute__((packed));
@@ -192,10 +192,10 @@ struct endpoint_descriptor {
 struct endpoint_descriptor_isochronous {
 
 
-	    volatile uint32_t endpoint_info;
-	    struct isochronous_transfer_descriptor* tail_pointer;
-	    struct isochronous_transfer_descriptor* head_pointer;
-	    struct endpoint_descriptor_isochronous* next_ed;
+        volatile uint32_t endpoint_info;
+        struct isochronous_transfer_descriptor* tail_pointer;
+        struct isochronous_transfer_descriptor* head_pointer;
+        struct endpoint_descriptor_isochronous* next_ed;
 
 
 } __attribute__((packed));
