@@ -1,3 +1,5 @@
+/* This is the kernel's OHCI driver. */
+
 #include "../../types.h"
 #include "../pci.h"
 #include "../../system.h"
@@ -16,37 +18,37 @@
  */
 void set_ohci_commandreg()
 {
-		uint16_t temp_cmd = PCI_Config_RW(found_ohci_bus,found_ohci_device,found_ohci_function,4);
-		uint16_t temp_cmd2 = PCI_Config_RW(found_ohci_bus,found_ohci_device,found_ohci_function,6);
-		uint32_t temp_cmd3 = (uint32_t)(temp_cmd2*65536);
+        uint16_t temp_cmd = PCI_Config_RW(found_ohci_bus,found_ohci_device,found_ohci_function,4);
+        uint16_t temp_cmd2 = PCI_Config_RW(found_ohci_bus,found_ohci_device,found_ohci_function,6);
+        uint32_t temp_cmd3 = (uint32_t)(temp_cmd2*65536);
 
-		uint32_t temp_cmd4 = (uint32_t)temp_cmd;
-		uint32_t temp_cmd5 = temp_cmd3 + temp_cmd4;
-		temp_cmd5 &= (~(1));
-		temp_cmd5 |= 0x106;
+        uint32_t temp_cmd4 = (uint32_t)temp_cmd;
+        uint32_t temp_cmd5 = temp_cmd3 + temp_cmd4;
+        temp_cmd5 &= (~(1));
+        temp_cmd5 |= 0x106;
 
 
-		uint32_t address = (uint32_t)((found_ohci_bus << 16) | (found_ohci_device << 11) | (found_ohci_function << 8) | (4 & 0xfc) | ((uint32_t)0x80000000));
-		outportl(0xCF8, address);
-		outportl(0xCFC, temp_cmd5);
+        uint32_t address = (uint32_t)((found_ohci_bus << 16) | (found_ohci_device << 11) | (found_ohci_function << 8) | (4 & 0xfc) | ((uint32_t)0x80000000));
+        outportl(0xCF8, address);
+        outportl(0xCFC, temp_cmd5);
 }
 
 /* Wites a default value to the frame interval register. */
 void write_fm_interval()
 {
-	    const uint32_t temp = 0 | ((0 << 31) | (0x2778 << 16) | 11999); 
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000034, temp);
+        const uint32_t temp = 0 | ((0 << 31) | (0x2778 << 16) | 11999); 
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000034, temp);
 }
 
 void toggle_fm_interval()
 {
-	    uint32_t fmintervaltmp = read_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000034);
-	    if(((fmintervaltmp >> 31) & 0x00000001) == 1)
-		    fmintervaltmp &= (~(1 << 31));
-	    else
-		    fmintervaltmp |= 0x80000000;
+        uint32_t fmintervaltmp = read_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000034);
+        if(((fmintervaltmp >> 31) & 0x00000001) == 1)
+                fmintervaltmp &= (~(1 << 31));
+        else
+                fmintervaltmp |= 0x80000000;
 
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000034, (const uint32_t)fmintervaltmp);
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x00000034, (const uint32_t)fmintervaltmp);
 }
 
 /* for ohci's interrupt status register: */
@@ -54,65 +56,65 @@ void toggle_fm_interval()
 /* schedule overrun */
 void resetpc_ohci_so() 
 {
-	    uint32_t ohci_intsts = get_ohci_intstatus();
-	    ohci_intsts |= 1; // 1 << 0
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x0000000c, (const uint32_t)ohci_intsts);
+        uint32_t ohci_intsts = get_ohci_intstatus();
+        ohci_intsts |= 1; // 1 << 0
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x0000000c, (const uint32_t)ohci_intsts);
 }
 
 /* write back done head */
 void resetpc_ohci_wdh()  
 {
-	    uint32_t ohci_intsts = get_ohci_intstatus();
-	    ohci_intsts |= 2; // 1 << 0
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x0000000c, (const uint32_t)ohci_intsts);
+        uint32_t ohci_intsts = get_ohci_intstatus();
+        ohci_intsts |= 2; // 1 << 0
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x0000000c, (const uint32_t)ohci_intsts);
 }
 
 /* start of frame */
 void resetpc_ohci_sf() 
 {
-	    uint32_t ohci_intsts = get_ohci_intstatus();
-	    ohci_intsts |= 4; 
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x0000000c, (const uint32_t)ohci_intsts);
+        uint32_t ohci_intsts = get_ohci_intstatus();
+        ohci_intsts |= 4; 
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x0000000c, (const uint32_t)ohci_intsts);
 }
 
 /* resume detected */
 void resetpc_ohci_rd() 
 {
-	    uint32_t ohci_intsts = get_ohci_intstatus();
-	    ohci_intsts |= 8;
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x0000000c, (const uint32_t)ohci_intsts);
+        uint32_t ohci_intsts = get_ohci_intstatus();
+        ohci_intsts |= 8;
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x0000000c, (const uint32_t)ohci_intsts);
 }
 
 /* uncoverable error */
 void resetpc_ohci_ue() 
 {
-	    uint32_t ohci_intsts = get_ohci_intstatus();
-	    ohci_intsts |= 16;
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x0000000c, (const uint32_t)ohci_intsts);
+        uint32_t ohci_intsts = get_ohci_intstatus();
+        ohci_intsts |= 16;
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x0000000c, (const uint32_t)ohci_intsts);
 }
 
 /* frame number overflow */
 void resetpc_ohci_fno() 
 {
-	    uint32_t ohci_intsts = get_ohci_intstatus();
-	    ohci_intsts |= 32;
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x0000000c, (const uint32_t)ohci_intsts);
+        uint32_t ohci_intsts = get_ohci_intstatus();
+        ohci_intsts |= 32;
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x0000000c, (const uint32_t)ohci_intsts);
 }
 
 /* root hub status change */
 void resetpc_ohci_rhsc() 
 {
-	    uint32_t ohci_intsts = get_ohci_intstatus();
-	    ohci_intsts |= 64;
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x0000000c, (const uint32_t)ohci_intsts);
+        uint32_t ohci_intsts = get_ohci_intstatus();
+        ohci_intsts |= 64;
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x0000000c, (const uint32_t)ohci_intsts);
 }
 
 /* ownership change */
 void resetpc_ohci_oc() 
 {
-	    uint32_t ohci_intsts = get_ohci_intstatus();
-	    ohci_intsts |= 0x40000000;
-	    write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x0000000c, (const uint32_t)ohci_intsts);
+        uint32_t ohci_intsts = get_ohci_intstatus();
+        ohci_intsts |= 0x40000000;
+        write_dword((const uint32_t)ohci_mem_address, (const uint32_t)0x0000000c, (const uint32_t)ohci_intsts);
 }
 
 /* This function acts as the general OHCI 
@@ -120,45 +122,44 @@ void resetpc_ohci_oc()
  */
 void ohci_usb_handler()
 {
-	    uint32_t ohci_intstatus = get_ohci_intstatus();
-	    if(ohci_intstatus & 1) {
-			    resetpc_ohci_so();
-			    print("\n\nSchedule overrun.");
-	    }
-		    
-	    if(ohci_intstatus & 2) {
-			    copy_done_queue();
-			    print("\ntransfer descriptor to done queue.");
-			    resetpc_ohci_wdh();
-	    }
-	    if(ohci_intstatus & 4)
-		    resetpc_ohci_sf();
-	    if(ohci_intstatus & 8) {
-			    resetpc_ohci_rd();
-			    print("\n\nResume detected.");
-	    }
-	    if(ohci_intstatus & 16) {
-			    resetpc_ohci_ue();
-			    print("\n\nUncovered system error! Resetting the ohc.");
-			    print(csptr);
-	    }
-
-	    /* Frame number overflow */
-	    if(ohci_intstatus & 32) {
-			    resetpc_ohci_fno();
-
-	    }
-	    if(ohci_intstatus & 64) {
-		        resetpc_ohci_rhsc();
+        uint32_t ohci_intstatus = get_ohci_intstatus();
+        if(ohci_intstatus & 1) {
+                resetpc_ohci_so();
+                print("\n\nSchedule overrun.");
         }
-		    if(ohci_ports_busy == 0) {
-			        Get_Ohci_Port_Status();
-            }
 
-	    if(ohci_intstatus & 0x40000000) {
-			    resetpc_ohci_oc();
+        if(ohci_intstatus & 2) {
+                copy_done_queue();
+                print("\ntransfer descriptor to done queue.");
+                resetpc_ohci_wdh();
+        }
+        if(ohci_intstatus & 4)
+                resetpc_ohci_sf();
+        if(ohci_intstatus & 8) {
+                resetpc_ohci_rd();
+                print("\n\nResume detected.");
+        }
+        if(ohci_intstatus & 16) {
+                resetpc_ohci_ue();
+                print("\n\nUncovered system error! Resetting the ohc.");
+                print(csptr);
+        }
 
-	    }
+        /* Frame number overflow */
+        if(ohci_intstatus & 32) {
+                resetpc_ohci_fno();
+
+        }
+        if(ohci_intstatus & 64) {
+                resetpc_ohci_rhsc();
+        }
+        if(ohci_ports_busy == 0) {
+                Get_Ohci_Port_Status();
+        }
+        if(ohci_intstatus & 0x40000000) {
+                resetpc_ohci_oc();
+
+        }
 }
 
 /* Initializes som transfer descriptors 
@@ -170,65 +171,64 @@ void ohci_usb_handler()
 void init_ohci_descriptors() 
 {
 
-	    ohci_hcca = (uint32_t)kmem_4k_allocate();
-	    uint32_t* temp = (uint32_t*)ohci_hcca;
-	    zero_usbms_mem_6(temp);
+        ohci_hcca = (uint32_t)kmem_4k_allocate();
+        uint32_t* temp = (uint32_t*)ohci_hcca;
+        zero_usbms_mem_6(temp);
 
-	    done_queue_location = (uint8_t*)ohci_hcca;
-	    done_queue_location += 0x84; 
+        done_queue_location = (uint8_t*)ohci_hcca;
+        done_queue_location += 0x84; 
 
-	    done_queue_copy = (uint32_t)kmem_4k_allocate();
-	    temp = (uint32_t*)done_queue_copy;
-	    zero_usbms_mem_6(temp);
+        done_queue_copy = (uint32_t)kmem_4k_allocate();
+        temp = (uint32_t*)done_queue_copy;
+        zero_usbms_mem_6(temp);
 
-	    done_queue_index = 0;
-	    ohci_bulk_td1 = (struct general_transfer_descriptor*)kmem_4k_allocate();
-
-
-	    ohci_setup_ed = (struct endpoint_descriptor*)0x400000;
-	    zero_usbms_mem_6((uint32_t*)0x400000);
-	    ohci_setup_td1 = (struct general_transfer_descriptor*)0x400010;
-	    ohci_setup_td2 = (struct general_transfer_descriptor*)0x400020;
-	    ohci_setup_td3 = (struct general_transfer_descriptor*)0x400030;
-	    ohci_setup_td4 = (struct general_transfer_descriptor*)0x400040;
-	    ohci_setup_td5 = (struct general_transfer_descriptor*)0x400050;
-	    ohci_setup_td8 = (struct general_transfer_descriptor*)0x400060;//(struct general_transfer_descriptor*)td1_buffer;
-	    ohci_setup_td9 = (struct general_transfer_descriptor*)0x400070;
-	    td1_buffer = (volatile uint8_t*)0x400070;
-	    td2_buffer = (volatile uint8_t*)0x400080;
-	    td3_buffer = (volatile uint8_t*)0x400090;
-	    td4_buffer = (volatile uint8_t*)0x4000a0;
-	    td5_buffer = (volatile uint8_t*)0x4000b0;
-	    td8_buffer = (volatile uint8_t*)0x4000c0;
-	    ohci_setup_ed->endpoint_info = 0x00404000;
-	    ohci_setup_ed->tail_pointer = (volatile uint32_t)1;
-	    ohci_setup_ed->head_pointer = (volatile uint32_t)1;
-	    ohci_setup_ed->next_ed = 0;
+        done_queue_index = 0;
+        ohci_bulk_td1 = (struct general_transfer_descriptor*)kmem_4k_allocate();
 
 
-	    ohci_setup_td1->descriptor_info = 0;
-	    ohci_setup_td1->cbp = (volatile uint8_t*)td1_buffer;
-	    ohci_setup_td1->next_td = (volatile uint32_t)ohci_setup_td2;
-	    ohci_setup_td1->buffer_end = (volatile uint32_t)((volatile uint32_t)td1_buffer + (volatile uint32_t)7);
+        ohci_setup_ed = (struct endpoint_descriptor*)0x400000;
+        zero_usbms_mem_6((uint32_t*)0x400000);
+        ohci_setup_td1 = (struct general_transfer_descriptor*)0x400010;
+        ohci_setup_td2 = (struct general_transfer_descriptor*)0x400020;
+        ohci_setup_td3 = (struct general_transfer_descriptor*)0x400030;
+        ohci_setup_td4 = (struct general_transfer_descriptor*)0x400040;
+        ohci_setup_td5 = (struct general_transfer_descriptor*)0x400050;
+        ohci_setup_td8 = (struct general_transfer_descriptor*)0x400060;//(struct general_transfer_descriptor*)td1_buffer;
+        ohci_setup_td9 = (struct general_transfer_descriptor*)0x400070;
+        td1_buffer = (volatile uint8_t*)0x400070;
+        td2_buffer = (volatile uint8_t*)0x400080;
+        td3_buffer = (volatile uint8_t*)0x400090;
+        td4_buffer = (volatile uint8_t*)0x4000a0;
+        td5_buffer = (volatile uint8_t*)0x4000b0;
+        td8_buffer = (volatile uint8_t*)0x4000c0;
+        ohci_setup_ed->endpoint_info = 0x00404000;
+        ohci_setup_ed->tail_pointer = (volatile uint32_t)1;
+        ohci_setup_ed->head_pointer = (volatile uint32_t)1;
+        ohci_setup_ed->next_ed = 0;
 
+        ohci_setup_td1->descriptor_info = 0;
+        ohci_setup_td1->cbp = (volatile uint8_t*)td1_buffer;
+        ohci_setup_td1->next_td = (volatile uint32_t)ohci_setup_td2;
+        ohci_setup_td1->buffer_end = (volatile uint32_t)((volatile uint32_t)td1_buffer + (volatile uint32_t)7);
 
-	    ohci_setup_td2->descriptor_info = 0;
-	    ohci_setup_td2->cbp = (volatile uint8_t*)td2_buffer; // watch out for the buffers here. maybe they should point to td8 or td8+0x10 etc
-	    ohci_setup_td2->next_td = (volatile uint32_t)ohci_setup_td3;
-	    ohci_setup_td2->buffer_end = (volatile uint32_t)((volatile uint32_t)td2_buffer + (volatile uint32_t)7);
+        ohci_setup_td2->descriptor_info = 0;
+        ohci_setup_td2->cbp = (volatile uint8_t*)td2_buffer; // watch out for the buffers here. maybe they should point to td8 or td8+0x10 etc
+        ohci_setup_td2->next_td = (volatile uint32_t)ohci_setup_td3;
+        ohci_setup_td2->buffer_end = (volatile uint32_t)((volatile uint32_t)td2_buffer + (volatile uint32_t)7);
 
-	    /*ohci_setup_td2->descriptor_info = 0;
-	    ohci_setup_td2->cbp = 0;
-	    ohci_setup_td2->next_td = (struct general_transfer_descriptor*)ohci_setup_td3;
-	    ohci_setup_td2->buffer_end = 0; */
+        /* Commented code: ohci_setup_td2->descriptor_info = 0;
+         * ohci_setup_td2->cbp = 0;
+         * ohci_setup_td2->next_td = (struct general_transfer_descriptor*)ohci_setup_td3;
+         * ohci_setup_td2->buffer_end = 0; 
+         */
 
-	    ohci_setup_td3->descriptor_info = 0;
-	    ohci_setup_td3->cbp = (volatile uint8_t*)td3_buffer;
-	    ohci_setup_td3->next_td = (volatile uint32_t)ohci_setup_td4;
-	    ohci_setup_td3->buffer_end = (volatile uint32_t)((volatile uint32_t)td3_buffer + (volatile uint32_t)7);
+        ohci_setup_td3->descriptor_info = 0;
+        ohci_setup_td3->cbp = (volatile uint8_t*)td3_buffer;
+        ohci_setup_td3->next_td = (volatile uint32_t)ohci_setup_td4;
+        ohci_setup_td3->buffer_end = (volatile uint32_t)((volatile uint32_t)td3_buffer + (volatile uint32_t)7);
 
-	    ohci_setup_td4->descriptor_info = 0;
-	    ohci_setup_td4->cbp = (volatile uint8_t*)td4_buffer;
+        ohci_setup_td4->descriptor_info = 0;
+        ohci_setup_td4->cbp = (volatile uint8_t*)td4_buffer;
 	    ohci_setup_td4->next_td = (volatile uint32_t)ohci_setup_td5;
 	    ohci_setup_td4->buffer_end = (volatile uint32_t)((volatile uint32_t)td4_buffer + (volatile uint32_t)1);
 
