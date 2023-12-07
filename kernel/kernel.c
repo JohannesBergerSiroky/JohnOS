@@ -204,8 +204,9 @@ int main(multiboot_info_t *mbr, unsigned int magic)
         /* Print welcome message */
 
         asm("sti");
-        init_memallocarrays_nopaging();
-        test_kernel_heap_func();
+        /* Commented code: init_memallocarrays_nopaging();
+         * test_kernel_heap_func();
+         */
         print("\nFinished initializing\n");
         print("\n\nWelcome to this operating system!\nPlease enter a command or press 'help' for a list of commands.\n");
         print(csptr);
