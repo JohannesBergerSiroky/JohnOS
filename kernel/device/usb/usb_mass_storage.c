@@ -1226,7 +1226,7 @@ volatile uint8_t* ehci_transfer_bulkstorage_data(struct usb_storage_data* data)
 
         qtd30->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(ehci_data_toggle1) | EHCI_QTD_BYTES_TTRANSFER(31) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(0) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_OUT_TOKEN | EHCI_QTD_SET_ACTIVE));
         if (data->operation_code != 0) {
-	            qtd31->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(ehci_data_toggle2) | EHCI_QTD_BYTES_TTRANSFER(btt) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(1) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_IN_TOKEN | EHCI_QTD_SET_ACTIVE));
+                qtd31->transfer_info = (volatile uint32_t)(0x00000000 | (EHCI_QTD_DATA_TOGGLE(ehci_data_toggle2) | EHCI_QTD_BYTES_TTRANSFER(btt) | EHCI_QTD_SET_INTC | EHCI_QTD_CURRENT_PAGE(1) | EHCI_QTD_ERRORS_COUNT(3) | EHCI_QTD_SET_IN_TOKEN | EHCI_QTD_SET_ACTIVE));
                 // Commented code: QHhead22->qhnext_qtd_ptr = (struct queue_transfer_descriptor*)qtd31;
         } 
 
