@@ -1,5 +1,16 @@
 **Welcome to JohnOS**
 
+This is an operating system kernel which I worked on to and fro for some years. It has it's own
+USB drivers.
+
+![An example image](JohnOS_Images/20180510_001312_edited.jpg)
+
+![Another example image](JohnOS_Images/20180225_002517_edited.jpg)
+
+![The third example image](JohnOS_Images/Screenshot_at_2017-12-11_17_50_15_edited.png)
+
+
+**More technical infomation**
 This single task kernel will run an Enhanced Host Controller which often handles USB 2.0.
 It will also go through a FAT16 file system to look for files and folders. You can change the
 names and the contents of the files in the buildimage.sh file. Sometimes the USB stack
