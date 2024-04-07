@@ -1,7 +1,6 @@
 #include "types.h"
 #include "system.h" 
 
-
 /* Reads from a port and returns a byte value. */
 uint8_t inportb (uint16_t _port)
 {

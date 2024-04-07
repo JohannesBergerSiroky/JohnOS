@@ -17,6 +17,7 @@ uint16_t strlength(int8_t* ch)
 int32_t stringlength(int8_t* teststring)
 {
         int i = 0;
+
         while(teststring[i])
                 i += 1;
 
@@ -38,6 +39,7 @@ uint8_t strEql(int8_t* ch1, int8_t* ch2)
         uint8_t result = 1;
         uint8_t size = strlength(ch1);
         uint8_t size2 = strlength(ch2);
+
         if(size != size2) {
                 result = 0;
         }
@@ -50,6 +52,7 @@ uint8_t strEql(int8_t* ch1, int8_t* ch2)
                         }
                 }
         }
+
         return result; 
 }
 
@@ -61,12 +64,11 @@ uint8_t strEql2(int8_t* ch1,int8_t* ch2)
 {
         uint8_t result = 1;
         uint8_t size = 3;
-
         uint8_t f = 0;
+
         for(;f < size;f++) {
                 if(ch1[f] != ch2[f]) 
                         result = 0;		
-
         }
 
         return result; 
@@ -77,25 +79,23 @@ uint8_t strEql2(int8_t* ch1,int8_t* ch2)
  */
 uint8_t strEql3(int8_t* ch1,int8_t* ch2)                 
 {
-
         int8_t temp3[12] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'};
         uint32_t strcmp_count = 0;
         uint8_t result;
         result = 1;
-
         uint16_t size = strlength(ch1);
         uint16_t size2 = strlength(ch2);
+
         /* Makes sure the strings have the same length. */
         if(size != size2) {
                 result = 0;
                 return result;
 		}
 
-
         uint8_t f = 0;
 		print("\n");
-   		for(;f<=size;f++) {
 
+   		for(;f<=size;f++) {
                 int8_t temp1;
                 int8_t temp2;
 
@@ -104,25 +104,21 @@ uint8_t strEql3(int8_t* ch1,int8_t* ch2)
                         temp3[f] = temp1;
 
                 }
-
                 else {
                         temp1 = (int8_t)(*(ch1 + f));
                         temp3[f] = '\0';
                 }
 
-
                 temp2 = (int8_t)(*(ch2 + f));
+
                 if(temp1 != temp2) {
 
                         result = 0;	
                 }	
-
         }
 
 		if (result == 1) {
-
                 if(size < 8) {
-
                         for(strcmp_count = 0; strcmp_count <= size; strcmp_count++)
                                 get_file[strcmp_count] = temp3[strcmp_count];
                 }
@@ -133,9 +129,7 @@ uint8_t strEql3(int8_t* ch1,int8_t* ch2)
                         print("\nError during string comparison.");
                         return 0;
                 }
-
                 else {
-
                         if(size < 8) {
                                 for(;size < 8; size++)
                                         get_file[size] = (int8_t)0x20;
@@ -144,15 +138,10 @@ uint8_t strEql3(int8_t* ch1,int8_t* ch2)
                         get_file[8] = 'T';
                         get_file[9] = 'X';
                         get_file[10] = 'T';
-                        get_file[11] = '\0';
-                        
-
-
-                }
-
-			
+                        get_file[11] = '\0';                        
+                }			
         } 
 
-        return result; 
+        return result;
 }
 

@@ -1,8 +1,6 @@
 /* The kernel's handling of the PCI Configuration Space that x86 systems
  * have and which constitutes the foundation for making many drivers.
  */
-
-
 #include "../types.h"
 #include "../system.h"
 #include "pci.h"
@@ -20,7 +18,6 @@
  */
 void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif, uint32_t f)
 {
-
         if ((pci_type > 0xff) || (pci_func > 0xff) || (pci_progif > 0xff))
                 return;
 
@@ -37,10 +34,8 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                         else if (pci_func > 0) {
                                 print("pci_func = "); printi((uint32_t)pci_func); print("\n");
                                 print("          Type: VGA/Non-VGA\n           Function: VGA compatible device\n\n");
-
                         }
                         break;
-
                 case 1:
                         if (pci_func == 0) {
                                 print("          Type: Mass storage controller\n");
@@ -83,7 +78,6 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                         print("          Function: 	Serial ATA (AHCI 1.0)\n\n");
                                 }
                         }
-
                         else if (pci_func == 7) {
                                 print("          Type: Mass storage controller\n");
                                 print("          Function: Serial Attached SCSI (SAS)\n\n");
@@ -93,7 +87,6 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                 print("          Function: Other Mass Storage Controller\n\n");
                         }
                         break;
-
                 case 2:
                         if (pci_func == 0) {
                                 print("          Type: Network Controller\n");
@@ -128,7 +121,6 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                 print("          Function: Other Network Controller\n\n");
                         }
                 break;
-
                 case 3:
                         if (pci_func == 0) {
                                 if (pci_progif == 0) {
@@ -153,7 +145,6 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                 print("          Function: Other Display Controller\n\n");
                         }
                 break;
-
                 case 4:
                         if (pci_func == 0) {
                                 print("          Type: Multimedia Device\n");
@@ -172,7 +163,6 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                 print("          Function: Other Multimedia Device\n\n");
                         }
                 break;
-
                 case 5:
                         if (pci_func == 0) {
                                 print("          Type: Memory Controller\n");
@@ -187,7 +177,6 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                 print("          Function: Other Memory Controller\n\n");
                         }
                 break;
-
                 case 6:
                         if (pci_func == 0) {
                                 print("          Type: Bridge Device\n"); 
@@ -250,10 +239,8 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                 print("          Function: Other Bridge Device\n\n");
                         }
                 break;
-
                 case 7:
                         if (pci_func == 0) {
-                    
                                 if (pci_progif == 0) {
                                         print("          Type: 	Simple Communication Controllers\n");
                                         print("          Function: Generic XT-Compatible Serial Controller\n\n");
@@ -283,7 +270,6 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                         print("          Function: 16950-Compatible Serial Controller\n\n");
                                 }
                         }
-
                         else if (pci_func == 1) {
                                 if (pci_progif == 0) {
                                         print("          Type: Simple Communication Controllers\n");
@@ -345,9 +331,7 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                 print("          Type: Simple Communication Controllers\n");
                                 print("          Function: Other Communications Device\n\n");
                         }
-
                 break;
-
                 case 8:
                         if (pci_func == 0) {
                                 if (pci_progif == 0) {
@@ -370,7 +354,6 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                         print("          Type: 	Base System Peripherals\n");
                                         print("          Function: I/O(x) APIC Interrupt Controller\n\n");
                                 }
-
                         }
                         else if (pci_func == 1) {
                                 if (pci_progif == 0) {
@@ -400,7 +383,6 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                         print("          Type: Base System Peripherals\n");
                                         print("          Function: EISA System Timer\n\n");
                                 }
-
                         }
                         else if (pci_func == 3) {
                                 if (pci_progif == 0) {
@@ -411,8 +393,6 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                         print("          Type: Base System Peripherals\n");
                                         print("          Function: ISA RTC Controller\n\n");
                                 }
-
-
                         }
                         else if (pci_func == 4) {
                                 print("          Type: Base System Peripherals\n");
@@ -423,7 +403,6 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                 print("          Function: Other System Peripheral\n\n");
                         }
                 break;
-
                 case 9:
                         if (pci_func == 0) {
                                 print("          Type: Input Devices\n");
@@ -456,7 +435,6 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                 print("          Function: Other Input Controller\n\n");
                         }
                 break;
-
                 case 0xa:
                         if (pci_func == 0) {
                                 print("          Type: Docking Stations\n");
@@ -498,7 +476,6 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                 print("          Function: Co-Processor\n\n");
                         }
                 break;
-
                 case 0xc:
                         if (pci_func == 0) {
                                 if (pci_progif == 0x00) {
@@ -579,7 +556,6 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                 print("          Function: CANbus\n\n");
                         }
                 break;
-
                 case 0xd:
                         if (pci_func == 0) {
                                 print("          Type: Wireless Controllers\n");
@@ -614,7 +590,6 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                 print("          Function: Other Wireless Controller\n\n");
                         }
                 break;
-
                 case 0xe:
                         if (pci_func == 0) {
                                 if (pci_progif == 0) {
@@ -623,7 +598,6 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                 }
                         }
                 break;
-
                 case 0xf:
                         if (pci_func == 0) {
                                 print("          Type: Satellite Communication Controllers\n");
@@ -646,7 +620,6 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                 print("          Function: Broadband Controller\n\n");
                         }
                  break;
-
                 case 0x10:
                         if (pci_func == 0x00) {
                                 print("          Type: Encryption/Decryption Controllers\n");
@@ -661,7 +634,6 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                                 print("          Function: Other Encryption/Decryption\n\n");
                         }
                 break;
-
                 case 0x11:
                         if (pci_func == 0x00) {
                                 print("          Type: Data A/S Processing Controllers\n");
@@ -692,11 +664,8 @@ void list_pci_devices(uint16_t pci_type, uint16_t pci_func, uint16_t pci_progif,
                         if (pci_type > 0xff)
                                 return;
                 break;
-
         }
-
 }
-
 
 /***********************************************************************************
  * all PCI-devices have  256 bytes of config registers that enables software to    *
@@ -766,16 +735,11 @@ uint32_t PCI_Config_RW2(uint32_t p_bus, uint32_t p_device, uint32_t p_func, uint
 {
         uint32_t address;
         uint32_t preturn;
-
         address = (uint32_t)(PCI_BUS(p_bus) | (PCI_DEVICE(p_device)) | PCI_FUNCTION(p_func) | (p_offset & 0xfc) | ((uint32_t)PCI_ENABLE));
-
         outportl(PCI_CONFIG_ADDRESS, address);
         preturn = inportl(PCI_CONFIG_DATA);
-
         return preturn;
 }
-
-
 
 /* If the parameters will result in a valid space for a valid device
  * then preturn will return an offset within a part of the
@@ -787,13 +751,9 @@ uint16_t PCI_Config_RW(uint32_t p_bus, uint32_t p_device, uint32_t p_func, uint1
         uint32_t address;
         uint16_t temp;
         uint32_t preturn;
-
         address = (uint32_t)(PCI_BUS(p_bus) | (PCI_DEVICE(p_device)) | PCI_FUNCTION(p_func) | (p_offset & 0xfc) | ((uint32_t)PCI_ENABLE));
-
         outportl(PCI_CONFIG_ADDRESS, address);
         preturn = inportl(PCI_CONFIG_DATA);
-
-
         temp = (uint16_t)((preturn >> ((p_offset & 2) * 8)) & 0x0000ffff); 
         return temp;
 }
@@ -806,9 +766,7 @@ uint16_t PCI_Config_RW_Uhci(uint32_t p_bus, uint32_t p_device, uint32_t p_func, 
         uint32_t address;
         uint16_t temp;
         uint32_t preturn;
-
         address = (uint32_t)(PCI_BUS(p_bus) | (PCI_DEVICE(p_device)) | PCI_FUNCTION(p_func) | (p_offset & 0xfc) | ((uint32_t)PCI_ENABLE));
-
         outportl(PCI_CONFIG_ADDRESS, address);
         preturn = inportl(PCI_CONFIG_DATA);
 
@@ -819,9 +777,8 @@ uint16_t PCI_Config_RW_Uhci(uint32_t p_bus, uint32_t p_device, uint32_t p_func, 
                 else 
                         temp = (uint16_t)((preturn >> ((p_offset & 2) * 8)) & (uint16_t)0xffff);
         }
-
         else
-	        temp = (uint16_t)((preturn >> ((p_offset & 2) * 8)) & (uint16_t)0xffff);
+	            temp = (uint16_t)((preturn >> ((p_offset & 2) * 8)) & (uint16_t)0xffff);
         return temp;
 }
 
@@ -835,23 +792,18 @@ uint32_t PCI_Config_RW_Uhci2(uint32_t p_bus, uint32_t p_device, uint32_t p_func,
 {
         uint32_t address;
         uint32_t preturn;
-
         address = (uint32_t)(PCI_BUS(p_bus) | (PCI_DEVICE(p_device)) | PCI_FUNCTION(p_func) | (p_offset & 0xfc) | ((uint32_t)PCI_ENABLE));
-
         outportl(PCI_CONFIG_ADDRESS, address);
         preturn = inportl(PCI_CONFIG_DATA);
 
         if ((p_offset > 15) && (p_offset < 37)) {
                 if((preturn & 0x00000001) == 1) {
-
                         preturn &= (uint32_t)0xffffffe0;
                 }
         }
 
         return preturn;
 }
-
-
 
 /* Handles the data from preturn so that it will suit the memory
  * space for the ethernet e1000's sport in the configuration space.
@@ -861,7 +813,6 @@ void PCI_Config_RW_ethernetc_io(uint32_t p_bus, uint32_t p_device, uint32_t p_fu
         uint32_t address;
         uint32_t preturn;
         address = (uint32_t)(PCI_BUS(p_bus) | (PCI_DEVICE(p_device)) | PCI_FUNCTION(p_func) | (p_offset & 0xfc) | ((uint32_t)PCI_ENABLE));
-
         outportl(PCI_CONFIG_ADDRESS, address);
         preturn = inportl(PCI_CONFIG_DATA);
 
@@ -887,13 +838,11 @@ uint16_t get_pci_VD(uint32_t bus, uint32_t device, uint32_t funct)
 /* This function is not used, and it looks unfinished. */
 void check_pci_devices(uint8_t bus, uint8_t device)
 {
-
         uint16_t VendorID;
         uint16_t pci_header_type;
         uint16_t function;
         pci_header_type = get_pci_HeaderType(bus, device,0);
         if ((VendorID = PCI_Config_RW(bus,device,0,0)) != 0xFFFF && (pci_header_type == 0)) {
-
                 if( (pci_header_type & 0x80) != 0) {
                          /* It is a multi-function device, so check remaining functions */
                          for(function = 1; function < 8; function++) {
@@ -901,7 +850,6 @@ void check_pci_devices(uint8_t bus, uint8_t device)
                                         check_pci_function(bus, device,0);
                          }
                 }
-
         }
 }
 
@@ -915,6 +863,7 @@ uint16_t check_pci_function(uint32_t bus, uint32_t device, uint32_t funct)
                 func = (PCI_Config_RW(bus,device,funct,10) & 0x00ff);
         else
                 func = 512;
+
         return func;
 }
 
@@ -945,9 +894,7 @@ void pci_bscan_devices()
         uint32_t function = 0;
 
         for (uint32_t pbus = 0;pbus < 256; pbus++) {
-
                 for (uint32_t pdevice = 0;pdevice < 32; pdevice++) {
-
                         if ((vendor = PCI_Config_RW(pbus,pdevice,0,0)) != 0xFFFF) {
                                 headerType= get_pci_HeaderType(pbus, pdevice,0);
                                 if( (headerType & 0x80) != 0) {
@@ -963,12 +910,10 @@ void pci_bscan_devices()
                                         }
                                 function = 0;
                                 }
-
                                 else {
                                         print("\nBus: "); printi(pbus);
                                         print("\nDevice: "); printi(pdevice);
                                         print("\n");
-
                                         ptype = check_pci_type(pbus, pdevice, (uint32_t)0);
                                         pfunc = check_pci_function(pbus, pdevice, (uint32_t)0);
                                         pprogif = check_pci_progif(pbus, pdevice, (uint32_t)0);
@@ -990,7 +935,6 @@ void pci_bscan_devices()
  */
 uint32_t* find_device(uint16_t f_class, uint16_t f_subclass, uint16_t f_pprogif)
 {
-
         uint16_t vendor;
         uint16_t headerType;
         uint16_t ptype;
@@ -1002,14 +946,10 @@ uint32_t* find_device(uint16_t f_class, uint16_t f_subclass, uint16_t f_pprogif)
         uint32_t function = 0;
 
         for (uint32_t pbus = 0;pbus < 256; pbus++) {
-
                 for (uint32_t pdevice = 0;pdevice < 32; pdevice++) {
-
                         if ((vendor = PCI_Config_RW(pbus,pdevice,0,0)) != 0xFFFF) {
-
                                 headerType= get_pci_HeaderType(pbus, pdevice,0);
                                 if( (headerType & 0x80) != 0) {
-
                                         for(function = 1; function < 8; function++) {
                                                 ptype = check_pci_type(pbus, pdevice, function);
                                                 pprogif = check_pci_progif(pbus, pdevice, function);
@@ -1026,11 +966,10 @@ uint32_t* find_device(uint16_t f_class, uint16_t f_subclass, uint16_t f_pprogif)
                                                         return pci_device_array;
                                                 }
                                         }
+
                                         function = 0;
                                 }
                                 else {
-
-
                                         ptype = check_pci_type(pbus, pdevice, (uint32_t)0);
                                         pfunc = check_pci_function(pbus, pdevice, (uint32_t)0);
                                         pprogif = check_pci_progif(pbus, pdevice, (uint32_t)0);
@@ -1044,15 +983,14 @@ uint32_t* find_device(uint16_t f_class, uint16_t f_subclass, uint16_t f_pprogif)
                                                 set_device(pci_dvc_bus, pci_dvc_device, pci_dvc_function, ptype, pfunc, pprogif);
                                                 return pci_device_array;
                                         }
-
                                 }
                         }
                 }
         }
+
         print("\nError: No such pci device.");
         print("\n");
         return 0;
-
 }
 
 /* Gets some memory locations from specific devices. These locations
@@ -1062,9 +1000,9 @@ uint32_t* find_device(uint16_t f_class, uint16_t f_subclass, uint16_t f_pprogif)
  */
 void set_device(uint32_t deviceinfo_1, uint32_t deviceinfo_2, uint32_t deviceinfo_3, uint16_t pci_class, uint16_t pci_func, uint16_t pci_pprogif)
 {
-
         asm("sti");
         volatile uint32_t temp;
+
         /* uhci */
         if((pci_class == 0xc) && (pci_func == 0x3) && (pci_pprogif == 0)) {
                 found_uhci_bus = deviceinfo_1;
@@ -1082,7 +1020,6 @@ void set_device(uint32_t deviceinfo_1, uint32_t deviceinfo_2, uint32_t deviceinf
                 temp = PCI_Config_RW2(found_xhci_bus,found_xhci_device,found_xhci_function,0x10); 
                 temp &= 0xfffffff0;
                 xhci_mem_address_attr_doorb = temp;
-
         }
 
         /* ehci */
@@ -1108,25 +1045,23 @@ void set_device(uint32_t deviceinfo_1, uint32_t deviceinfo_2, uint32_t deviceinf
                 found_ethernetc_bus = deviceinfo_1;
                 found_ethernetc_device = deviceinfo_2;
                 found_ethernetc_function = deviceinfo_3;
-
                 temp = PCI_Config_RW2(found_ethernetc_bus,found_ethernetc_device,found_ethernetc_function,16);
                 ethernetc_mem_address = (volatile uint32_t)temp;
-
-
-
                 temp = PCI_Config_RW2(found_ethernetc_bus,found_ethernetc_device,found_ethernetc_function,20);
+
                 if ((temp & 0x00000001) == 1)
                         ethernetc_flash_address = (volatile uint32_t)(temp - 1);
                 else
                         ethernetc_flash_address = (volatile uint32_t)temp;
+
                 PCI_Config_RW_ethernetc_io(found_ethernetc_bus,found_ethernetc_device,found_ethernetc_function,24);
                 temp = PCI_Config_RW2(found_ethernetc_bus,found_ethernetc_device,found_ethernetc_function,0x30);
+
                 if ((temp & 0x00000001) == 1)
                         print("Ethernet: Expansion rom address enabled!\n\n");
                 else
                         print("Ethernet: Expansion rom address not enabled.\n\n");
         }
-
         /* ahci */
         else if((pci_class == 0x1) && (pci_func == 0x6) && (pci_pprogif == 0x1)) {
                 found_ahci_bus = deviceinfo_1;
@@ -1135,14 +1070,11 @@ void set_device(uint32_t deviceinfo_1, uint32_t deviceinfo_2, uint32_t deviceinf
                 temp = (volatile uint32_t)PCI_Config_RW2(found_ahci_bus,found_ahci_device,found_ahci_function,0x24);
                 temp &= (volatile uint32_t)0xfffffff0;
                 ahci_base_address = temp;
-
         }
-
         else
                 print("Error: could not find such a PCI device. \nMaybe some devices like USB will not work at this point.\n\n");
 
         asm("cli");
-
 }
 
 /* Checks the class of a device */
@@ -1150,10 +1082,12 @@ uint16_t check_pci_type(uint32_t bus, uint32_t device, uint32_t funct)
 {
         uint16_t vendor;
         uint16_t type;
+
         if ((vendor = PCI_Config_RW(bus,device,0,0)) != 0xFFFF) 
                 type = ((PCI_Config_RW(bus,device,funct,11) >> 8) & 0x00ff);
         else
                 type = 512;
+
         return type;
 }
 
@@ -1178,9 +1112,11 @@ int32_t read_device_intline(uint32_t bus, uint32_t device, uint32_t funct)
 {
         uint16_t vendor;
         uint16_t ebaddr;
+
         if ((vendor = PCI_Config_RW(bus,device,0,0)) != 0xFFFF) 
                 ebaddr = (PCI_Config_RW(bus,device,funct,0x3c) & 0x00ff);
         else
                 ebaddr = 512;
+
         return (int)ebaddr;
 }

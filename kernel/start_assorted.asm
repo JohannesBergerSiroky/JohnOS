@@ -492,17 +492,11 @@ task_switch:
         sub esp, 8
         ret
 
-
-
-
-
-
 gps_flag:
 dd 0
 
 intflag:
 dd 0
-
 
 
 SECTION .bss

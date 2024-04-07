@@ -91,11 +91,9 @@ void isr_install()
 void fault_handler(struct regs *r)
 {
     if (r->int_no < 32) {
-
         print(exception_messages[r->int_no]);
         print("Exception. System Halted! Please turn off your computer.");
         __asm__ __volatile__("hlt");
-
     }
 }
 

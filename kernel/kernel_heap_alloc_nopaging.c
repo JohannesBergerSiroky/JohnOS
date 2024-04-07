@@ -20,7 +20,6 @@
  */
 void init_memallocarrays_nopaging()
 {
-
         OS_memory_bit_pos = (KERNEL_HEAP_NO_PAGING_START - KERNEL_HEAP_START) / 4096;
         for(int i = 0; i < 262144;i++) {
                 Os_memmap_size_info[i] = (uint16_t)0x0000;                
@@ -45,7 +44,6 @@ uint32_t kmem_allocate(uint16_t bt_size)
          */
         mem_bt_temp = check_free_memory(OS_memory_bit_pos);
 
-
         if (mem_bt_temp >= 0x264) {
 	            print("\n\nWarning: reached the end of the Os memory map array.\nHalting.");
                 asm("hlt");
@@ -64,7 +62,6 @@ uint32_t kmem_allocate(uint16_t bt_size)
                        return successfully_scanned_addr;
                 }
         }
-
         return 0;
 }
 
@@ -105,32 +102,32 @@ int16_t scan_address(uint16_t size, uint32_t parent_pos)
                                 }
                                 else {
                                         i += (uint32_t)(*(sizeinfo_pos + i));
-                                        continue;
- 
+                                        continue; 
                                 }
-
                         }
                         /* If the requested size is equal to or less than 4096 and the spot is
                          * not taken the program execution goes in here.
                          */
                         else if((*(takeninfo_pos + i)) == 0) { 
-
                                 /* If the spot is not taken and the size info is zero and the requested
                                  * size is 4096 or spans the rest of the page or spans less than the size
                                  * of the page. 
                                  */ 
                                 if( ((*(sizeinfo_pos + i)) == 0) && (size <= (4096 - i))    ) {
                                         (*(takeninfo_pos + i)) = 1;
+
                                         if(size == 4096)
                                                 (*(sizeinfo_pos + i)) = 4097;
                                         else
                                                 (*(sizeinfo_pos + i)) = size;
+
                                         page_taken_check = check_if_page_taken((mem_bt_temp - (uint32_t)0x200));
+
                                         if(page_taken_check) {
                                                 set_bit(mem_bt_temp);
                                         }
-                                         return (uint16_t)i;
 
+                                         return (uint16_t)i;
                                 } 
                                 /* If the spot is not taken and the size info is zero and the requested
                                  * size is 4096 or spans the rest of the page or spans beyond the page. 
@@ -144,29 +141,28 @@ int16_t scan_address(uint16_t size, uint32_t parent_pos)
                                         if( ((*(takeninfo_pos )) == 1) || ( (*(sizeinfo_pos + i)) == 4097) || ( (*(sizeinfo_pos + i)) < next_page_size)) {
                                                 mem_bt_temp++;
                                                 return 4097;
-
                                         }
+
                                         (*(takeninfo_pos + i)) = 1;
                                         (*(sizeinfo_pos + i)) = next_page_size; 
                                         mem_bt_temp++;
                                         page_taken_check = check_if_page_taken((mem_bt_temp - (uint32_t)0x200));
-                                        if(page_taken_check) {
 
+                                        if(page_taken_check) {
                                                 set_bit(mem_bt_temp);
                                         } 
+
                                         i = temp;
                                         (*(takeninfo_pos + i)) = 1;
                                         (*(sizeinfo_pos + i)) = size;
                                         mem_bt_temp--;
                                         page_taken_check = check_if_page_taken((mem_bt_temp - (uint32_t)0x200));
                                         if(page_taken_check) {
-
                                                 set_bit(mem_bt_temp);
                                         } 
+
                                          return (uint16_t)i;
-
                                 } 
-
 
                                 /* If the spot is not taken and the requested size is 4096 or spans the rest of the page
                                  * and if the requested size is less or equal to the size info.
@@ -188,12 +184,11 @@ int16_t scan_address(uint16_t size, uint32_t parent_pos)
 
                                         page_taken_check = check_if_page_taken((mem_bt_temp - (uint32_t)0x200));
                                         if(page_taken_check) {
-
                                                 set_bit(mem_bt_temp);
                                         }
+
                                          (*(sizeinfo_pos + i)) = size;
                                          return (uint16_t)i;
-
                                 }
                                 /* If the spot is not taken and if the requested size is within the page. and if the
                                  * requested size is less or equal to the size info.
@@ -204,18 +199,14 @@ int16_t scan_address(uint16_t size, uint32_t parent_pos)
                                         (*(sizeinfo_pos + i)) = size;
                                         page_taken_check = check_if_page_taken(mem_bt_temp - (uint32_t)0x200);
                                         if(page_taken_check) {
-
                                                 set_bit(mem_bt_temp);
                                         }
-
                                         return (uint16_t)i;
                                 }
                                 /* If the size is equal to or less than 4096 and the spot is not taken
                                  * and if the requested size is and within the page and within the next page.
                                  */
                                 else if(size <= (*(sizeinfo_pos + i))) {
-
-
                                         /* check if the relevant area in the next page is free */
                                         temp = i;
                                         next_page_size = size - (4096 - i);
@@ -226,14 +217,13 @@ int16_t scan_address(uint16_t size, uint32_t parent_pos)
                                                 /* return an error and check the next page */
                                                 mem_bt_temp++;
                                                 return 4097;
-
                                         }
+
                                         if((*(takeninfo_pos + i)) == 1) {
                                                 /* return an error and check the next page */
                                                 mem_bt_temp++;
                                                 return 4097;
                                         }
- 
                                         /* We are at the next page. If there are no errors and the size is within or equal
                                          * to, or greater than the next pages.
                                          */
@@ -258,24 +248,15 @@ int16_t scan_address(uint16_t size, uint32_t parent_pos)
                                                 page_taken_check = check_if_page_taken(mem_bt_temp - (uint32_t)0x200);
                                                 if(page_taken_check)
                                                         set_bit(mem_bt_temp);
-                                        }
-
-
-                    
+                                        }                    
                                         return (uint16_t)i;
                                 }
-
                                 else {
-
                                             print("Kernel memory allocation: Unexpected value of size. Halting.");
                                             asm("hlt");
-
                                     }
-
                         }
-
-                }
- 
+                } 
                 else {
                         /* if size is bigger than 4096 then check if a spot is free.
                          * It is likely that some spot is free and will span the whole
@@ -295,15 +276,13 @@ int16_t scan_address(uint16_t size, uint32_t parent_pos)
                         }
                         /* If the size is bigger than 4096 and if the spot is not taken.*/
                         else if((*(takeninfo_pos + i)) == 0) {
-
                                 /* If the sizeinfo is less than the requested size, then jump forward. */
                                 if(((*(sizeinfo_pos + i)) != 0) &&  ((*(sizeinfo_pos + i))< size)) {
                                         i += (uint32_t)(*(sizeinfo_pos + i));
                                         continue;
                                 }
                                 /* If sizeinfo is bigger or equal to the requested size. */                            
-                                uint16_t a = size;
- 
+                                uint16_t a = size; 
                                 /* Store i in the temporary variable. */
                                 temp = i;
                                 /* Store the mem_bt_temp variable in temp4. */
@@ -335,7 +314,6 @@ int16_t scan_address(uint16_t size, uint32_t parent_pos)
                                  * other pages.
                                  */ 
                                 while (a > 0) {
-
                                         /* If the size spans across this page and goes beyond the page. */
                                         if(a > 4096) {
                                                 /* Checks if the page is taken. */
@@ -344,33 +322,23 @@ int16_t scan_address(uint16_t size, uint32_t parent_pos)
                                                  * set the marks, and move to the next page. 
                                                  */
                                                 if(!temp2) {
-                                                        a -= 4096;
-                                                        
-                                                        i+= 4096;
-                                                        
+                                                        a -= 4096;                                                        
+                                                        i+= 4096;                                                        
                                                         set_bit(mem_bt_temp);
-                                                        mem_bt_temp++;
-                                                                
+                                                        mem_bt_temp++;                                                                
                                                 }
                                                 /* The page is taken. */ 
                                                 else {
                                                         mem_bt_temp++;
                                                         return 4097;
-
                                                 }
-
-
                                         }
                                         /* If the size is equal to the size of a page. */ 
                                         else if (a == 4096) {
-
-
                                                 a -= 4096;
-
                                                 i+= 4096;
                                                 set_bit(mem_bt_temp);
                                                 mem_bt_temp++;
-
                                         }
                                         else {
                                                 print("\nKernel memory heap: unexpected value of a. Halting.");
@@ -382,13 +350,10 @@ int16_t scan_address(uint16_t size, uint32_t parent_pos)
                                                 if((*(takeninfo_pos + i)) == 1 && (a > 0)) {
                                                         mem_bt_temp++;
                                                         return 4097;
-
                                                 }
-                                                else if(((*(sizeinfo_pos + i)) < a) && ((*(sizeinfo_pos + i)) != 0)) {
-        
+                                                else if(((*(sizeinfo_pos + i)) < a) && ((*(sizeinfo_pos + i)) != 0)) {        
                                                         mem_bt_temp++;
                                                         return 4097;
-
                                                 }
                                                 else {
                                                         /* put it in the correct spots from here and back and to here again */
@@ -396,9 +361,11 @@ int16_t scan_address(uint16_t size, uint32_t parent_pos)
                                                                 (*(takeninfo_pos + i)) = 1;
                                                                 (*(sizeinfo_pos + i)) = a;
                                                         }
+
                                                         page_taken_check = check_if_page_taken(mem_bt_temp - (uint32_t)0x200);
                                                         if(page_taken_check)
                                                                 set_bit(mem_bt_temp);
+
                                                         /* Store the shrunk size in c. */
                                                         uint16_t c = a;
                                                         /* We go back to the first page. */
@@ -409,8 +376,10 @@ int16_t scan_address(uint16_t size, uint32_t parent_pos)
                                                         (*(sizeinfo_pos + i)) = size; 
                                                         mem_bt_temp = temp4;
                                                         page_taken_check = check_if_page_taken(mem_bt_temp - (uint32_t)0x200);
+
                                                         if(page_taken_check)
                                                                 set_bit(mem_bt_temp);
+
                                                         /* Go to the next page. */
                                                         i += (4096 - i);
                                                         /* Shrink the original requested size by the rest of the page. */
@@ -426,25 +395,16 @@ int16_t scan_address(uint16_t size, uint32_t parent_pos)
                                                         for(;b > 0;b--) {
                                                                (*(takeninfo_pos + i)) = 1;
                                                                 (*(sizeinfo_pos + i)) = 4097;
-                                                                i+=4096;
-                        
+                                                                i+=4096;                        
                                                         }
                                                         i = temp;
                                                         return (uint16_t)i;
-
                                                 }
-
                                         }
-
-
                                 }
-
                         }                                
- 
-                }
-               
+                }               
         }
-
         return (int16_t)i;
 }
 
@@ -467,55 +427,38 @@ uint8_t check_if_page_taken(uint32_t p_number) {
         }
   
         int32_t i = 0;
-        while(i < 4096) {
-                
+        while(i < 4096) {                
                 if(((*(taken_info + i)) == 1) && (4096 - i) > ((*(size_info + i)))) {
+
                         if((*(size_info + i)) == 0)
                                 flag_set = 1;
+
                         if(flag_set == 0) {
                                 i += ((*(size_info + i)));
                                 continue;
-                        }
-
-
-                        
+                        }                        
                 }
-
                 else if(((*(taken_info + i)) == 1) && (4096 - i) <= ((*(size_info + i)))) {
-
                         return (uint8_t)1;
-
                 }
                 else if( ( (*(taken_info + i)) == 1) && ((*(size_info + i)) == 4097)) {
-                        return (uint8_t)1;
-                        
+                        return (uint8_t)1;                        
                 }
-
                 else if(((*(taken_info + i)) == 1) && ((*(size_info + i)) > 4097)) {
-                        return (uint8_t)1;
-                        
+                        return (uint8_t)1;                        
                 }
                 else if (((*(taken_info + i)) == 0)) {
                         return (uint8_t)0;
-
                 }
-
                 else {
                         print("\nUnexpected value of taken_info. Halting.");
                         asm("hlt"); 
-
                 }
-
-
-
 
                 if(flag_set == 1) {
-
                         i+= 4;
                         flag_set = 0;
-
                 }
-
         }
  
         return (uint8_t)1;
@@ -523,8 +466,6 @@ uint8_t check_if_page_taken(uint32_t p_number) {
 
 /* Checks if a whole page is freed. */
 uint8_t check_if_page_freed(uint32_t page) {
-
-
         uint8_t* taken_info = &(Os_memmap_free_info[0]);
         taken_info += (4096*page);
         uint16_t* size_info = &(Os_memmap_size_info[0]);
@@ -535,7 +476,6 @@ uint8_t check_if_page_freed(uint32_t page) {
         print("\ncheck if page freed: mem address for size info: ");
         print_hex((uint32_t)size_info); 
 
-
         /* check if we have the reserved size of 4097 */
         if(((*(taken_info)) == 0) && ((*(size_info)) == 4097)) {
                 return (uint8_t)1;
@@ -545,61 +485,41 @@ uint8_t check_if_page_freed(uint32_t page) {
         }
   
         int32_t i = 0;
-        while(i < 4096) {
-                
+        while(i < 4096) {                
                 if(((*(taken_info + i)) == 0) && (4096 - i) > ((*(size_info + i)))) {
+
                         if((*(size_info + i)) == 0)
                                 flag_set = 1;
+
                         if(flag_set == 0) {
                                 i += ((*(size_info + i)));
                                 continue;
-                        }
-
-
-                        
+                        }                        
                 }
-
                 else if(((*(taken_info + i)) == 0) && (4096 - i) <= ((*(size_info + i)))) { 
-
                         return (uint8_t)1;
-
                 }
-                
-
                 else if(((*(taken_info + i)) == 0) && ((*(size_info + i)) == 4097)) {
-                        return (uint8_t)1;
-                        
+                        return (uint8_t)1;                        
                 }
-
                 else if(((*(taken_info + i)) == 0) && ((*(size_info + i)) > 4097)) {
-                        return (uint8_t)1;
-                        
+                        return (uint8_t)1;                        
                 }
-
-
                 else if (((*(taken_info + i)) == 1)) {
                         return (uint8_t)0;
-
-                }
-                
+                }                
                 else {
                         print("\nUnexpected value of taken_info. Halting.");
                         asm("hlt"); 
-
                 }
 
                 if(flag_set == 1) {
-
                         i+= 4;
                         flag_set = 0;
-
-                }
-
-               
+                }               
         }
 
         return (uint8_t)1;
-
 }
 
 /* Frees a spot within a page of within a set of pages. */
@@ -613,24 +533,21 @@ void kernel_free(void* to_be_freed)
         uint32_t current_page_offset = 0;
         uint8_t freed_check = 0;
 
-
         /* find the page first */
         current_page_spot = (uint32_t)to_be_freed;
-
         print("\nkernel free: current page spot: ");
         print_hex(current_page_spot);
         current_page_spot = current_page_spot - KERNEL_HEAP_NO_PAGING_START;
         /* Commented code: print("\nkernel free: current page spot is: ");
         print_hex(current_page_spot); */
         current_page_spot /= 4096;
+
         /* Commented code: print("\nkernel free: current page spot is: ");
         print_hex(current_page_spot); */ 
         mem_bt_temp = current_page_spot + 0x200;
-
         /* then find the offset */
         current_page_offset = (uint32_t)to_be_freed;
         current_page_offset %= 4096;
-
         /* now the function will pick the correct array spots.
          * After that it will check if the size spans another page or other pages.
          */ 
@@ -654,7 +571,6 @@ void kernel_free(void* to_be_freed)
         }
         /* Checks if the requested size spans to another page or other pages. */
         if((*(kfree_sizeinfo_pos)) > (4096 - current_page_offset)) {
-
                 /* check how many pages the size spans and make a loop */
                 int32_t kfree_span_pages = (int32_t)(((*(kfree_sizeinfo_pos))) / 4096);
                 (*(kfree_takeninfo_pos)) = 0;
@@ -677,7 +593,6 @@ void kernel_free(void* to_be_freed)
                                 kfree_sizeinfo_pos += 4096;
                                 /* If we are at the last page. */
                                 if(((*(kfree_sizeinfo_pos)) != 4097) && ((*(kfree_sizeinfo_pos)) != 0)){
-
                                         /* Commented code: (*(kfree_takeninfo_pos)) = 0;
                                         freed_check = check_if_page_freed(kfree_takeninfo_pos, kfree_sizeinfo_pos);
                                         if(freed_check)
@@ -696,33 +611,19 @@ void kernel_free(void* to_be_freed)
                                                 if(freed_check)
                                                         zero_bit(mem_bt_temp);
                                         }
-
-
-                                }
-
-                                                                      
+                                }                                                                      
                         }
-
                 }
-
                 else {
 
                         (*(kfree_takeninfo_pos)) = 0;
-
                 }
-
         }
-
-
-
         else {
                 print("\nkernel free memory: goes in here!");
                 (*(kfree_takeninfo_pos)) = 0;
                 freed_check = check_if_page_freed(current_page_spot);
                 if(freed_check)
                         zero_bit(mem_bt_temp);
-
-        }
-
-        
+        }        
 }

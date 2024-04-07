@@ -31,11 +31,7 @@
 int main(multiboot_info_t *mbr, unsigned int magic)
 {
         //Commented code: uint8_t temp2; 
-
-
         /* Some code for setting the cursor shape and setting the screen buffer */
-
-
         /* Register value 10 is for setting the cursor shape start position */
         /*
         Commented code: outportb(0x3d4, 10); 
@@ -44,8 +40,6 @@ int main(multiboot_info_t *mbr, unsigned int magic)
         temp2 |= 6;
         outportb(0x3d5, temp2);
         */
-
-
         /* Register value 11 is the register for cursor shape end position */
         /* Commented code: outportb(0x3d4, 11);
          * temp2 = inportb(0x3d5); 	
@@ -62,7 +56,6 @@ int main(multiboot_info_t *mbr, unsigned int magic)
         init_screenbuffers();
         clearScreen();
 
-
         /* Set up the GDT, ISR, IDT and the IRQ, ps/2 keyboard, 
          * and start the timer among other things 
          */
@@ -77,13 +70,10 @@ int main(multiboot_info_t *mbr, unsigned int magic)
         keyboard_install();
         timer_install();
 
-
         timer_phase(18);
         set_timer_variable(); 	
         irq_uninstall_handler(0); 
         asm("cli");
-
-
 
         /* Some code for initializing the memory handling
          * functions. The multiboot structure gives us some
@@ -107,7 +97,6 @@ int main(multiboot_info_t *mbr, unsigned int magic)
 
         memorymap_addr = mbr->mmap_addr;
 
-
         /* USB and FAT16 code. USB 2 is supported in this one.
          * This can be changed so that the kernel looks for USB 1.0 and 1.1 
          * and also USB 3. All USB code is for USB mass storage only.
@@ -121,10 +110,7 @@ int main(multiboot_info_t *mbr, unsigned int magic)
         hci_in_use = 0;
         init_temporary_device_as_usbms();
         uint32_t bpbsector_location = 0;
-
-
         /* this assumes that the computer has an Enhanced Host Controller for USB */
-
         find_device(0x0c,0x03,0x20); 
         irq_uninstall_handler(0); 
 
@@ -132,19 +118,15 @@ int main(multiboot_info_t *mbr, unsigned int magic)
 
         volatile int device_irq = (volatile int)read_device_intline(found_ehci_bus,found_ehci_device,found_ehci_function); 
         if (device_irq <= 15) {
-
                 /* install ehci interrupt */
                 irq_install_handler(device_irq, ehci_usb_handler); 
- 
                 /* EHCI */
                 hci_in_use = HCI_EHCI;
         }
-
         /* This OS only supports the old interrupt controller, that is the PIC */
         else {
                 print("\nError: Could not install usb ehci irq. Os supports the old pic, not apic."); 
         }
-
 
         /* Preparing shutdown code using ACPI  */
         find_rsdp();
@@ -180,29 +162,22 @@ int main(multiboot_info_t *mbr, unsigned int magic)
 
         uint8_t temp_seq = sequence_1(); 
         if (temp_seq == 1) {
-                
                 asm("sti"); 
                 print("\nUSB ready for transfers");
                 print("\nPlease wait..");
                 /* This initializes the FAT16. It assumes that it uses the MBR. */
                 bpbsector_location = get_bpb_sector();
                 get_bpb_struct(bpbsector_location);
-                scan_all_directories();
-                
+                scan_all_directories();                
         }
-
         else {
-
                 print("\n\nError: Could not initialize the Usb Flash Memory");
                 print("Usb mass storage device reset to be inplemented later (I hope).");
                 asm("cli");
                 asm("hlt");
-
         }
 
-
         /* Print welcome message */
-
         asm("sti");
         /* Commented code: init_memallocarrays_nopaging();
          * test_kernel_heap_func();
@@ -210,12 +185,9 @@ int main(multiboot_info_t *mbr, unsigned int magic)
         print("\nFinished initializing\n");
         print("\n\nWelcome to this operating system!\nPlease enter a command or press 'help' for a list of commands.\n");
         print(csptr);
-
         // Commented code: stop_ehci();
         // Commented code: reset_ehci();
-
         while (1);
-
 return 0xDEADBABA;
 }
         

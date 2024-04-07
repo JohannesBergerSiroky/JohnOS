@@ -92,8 +92,10 @@ void task_2()
 void trying_multitasking()
 {
         print("\nTask action commencing:\n");
+
         for(uint32_t i = 0; i < 25; i++) {
                 scheduler_task();
         }
+
         print("\nBack in main task again\n");
 }

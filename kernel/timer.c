@@ -9,18 +9,14 @@ void timer_phase(int hz)
 {
         /* Calculate the divisor */
         int divisor = 1193180 / hz;
-
         /* Set the command byte to 0x36 */
         outportb(0x43, 0x36); 
-
         /* Set low byte of divisor */
-        outportb(0x40, divisor & 0xFF);
-  
+        outportb(0x40, divisor & 0xFF);  
         /* Set high byte of divisor */
         outportb(0x40, divisor >> 8);  
   
 }
-
 
 /*  Handles the timer. In this case, it's very simple: We
  *  increment the 'timer_ticks' variable every time the
@@ -32,7 +28,6 @@ void timer_handler(struct regs* r)
         /* Increment our 'tick count' */
         timer_ticks++;
 }
-
 
 /* Sets up the system clock by installing the timer handler
  *  into IRQ0 
@@ -46,9 +41,7 @@ void timer_install()
 void set_timer_variable()
 {
         timer_ticks = 0;
-
 }
-
 
 /* Pauses execution of all other things in the process or thread.
  * The smallest amount of time to be paused is 1/100 seconds.
@@ -67,8 +60,4 @@ void kernel_delay_100(uint32_t k_time)
         asm("cli");
         irq_uninstall_handler(0);
         timer_phase(18);
-
 }
-
-
-
